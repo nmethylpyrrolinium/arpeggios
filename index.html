@@ -13,6 +13,8 @@
 --border:#E8E6E2;--border2:#D8D6D2;
 --ease:cubic-bezier(0.23,1,0.32,1);
 --warm:rgba(210,190,155,0.18);
+--space:clamp(2rem,6vw,6rem);
+--soft-shadow:0 24px 70px rgba(28,24,18,0.08);
 }
 html{scroll-behavior:auto;background:var(--bg)}
 body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg);overflow-x:hidden;cursor:none;}
@@ -22,13 +24,13 @@ body{font-family:'DM Sans',sans-serif;color:var(--ink);background:var(--bg);over
 #cur-ring{position:fixed;width:32px;height:32px;border-radius:50%;border:0.8px solid rgba(10,10,10,0.28);pointer-events:none;z-index:9998;transform:translate(-50%,-50%);transition:width 0.5s var(--ease),height 0.5s var(--ease),border-color 0.4s,opacity 0.3s;}
 
 /* GRAIN OVERLAY */
-#grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:0.032;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
+#grain{position:fixed;inset:0;z-index:9990;pointer-events:none;opacity:0.022;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");background-size:160px;}
 
 /* LIGHT LEAK */
 #light-leak{position:fixed;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent 0%,rgba(210,190,155,0.6) 40%,rgba(230,210,175,0.8) 55%,rgba(210,190,155,0.4) 70%,transparent 100%);z-index:9989;opacity:0;transition:opacity 3s ease;pointer-events:none;}
 
 /* AMBIENT PARTICLES CANVAS */
-#env-canvas{position:fixed;inset:0;z-index:9985;pointer-events:none;opacity:0.55;}
+#env-canvas{position:fixed;inset:0;z-index:9985;pointer-events:none;opacity:0.34;}
 
 /* LOADER */
 #loader{position:fixed;inset:0;background:var(--bg);z-index:9970;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:2rem;transition:opacity 1.6s var(--ease);}
@@ -113,26 +115,45 @@ nav{position:fixed;top:0;left:0;right:0;z-index:300;padding:1.8rem 3rem;display:
 .feat-note{margin-top:2.5rem;font-size:11px;color:var(--ink4);font-style:italic;padding-left:1.5rem;border-left:1px solid var(--border);}
 
 /* ── WORKS ── */
-#works{padding:7rem clamp(2rem,6vw,6rem);}
-.works-header{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4.5rem;}
-.works-title{font-family:'DM Serif Display',serif;font-size:clamp(1.6rem,3.5vw,2.8rem);color:var(--ink);font-weight:400;font-style:italic;}
-.works-meta{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;gap:1rem;}
-.works-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2.5rem 3rem;}
-.work-item{cursor:none;position:relative;}
-.work-img{overflow:hidden;background:var(--bg3);margin-bottom:1.2rem;position:relative;aspect-ratio:3/4;}
-.work-img::after{content:'';position:absolute;inset:0;box-shadow:inset 0 0 30px rgba(0,0,0,0.05);pointer-events:none;}
-.work-canvas{width:100%;height:100%;display:block;transition:transform 1.4s var(--ease);}
-.work-item:hover .work-canvas{transform:scale(1.04);}
-.work-meta-row{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:0.3rem;}
-.work-num{font-size:10px;color:var(--ink4);letter-spacing:0.12em;}
-.work-status{font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink4);border:0.8px solid var(--border);padding:0.2rem 0.5rem;}
-.work-name{font-size:15px;color:var(--ink);font-weight:400;margin-bottom:0.3rem;letter-spacing:0.01em;}
-.work-type{font-size:11px;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;}
-.work-arrow{display:inline-flex;align-items:center;gap:0.5rem;font-size:10px;color:var(--ink4);margin-top:0.7rem;transition:color 0.3s,gap 0.4s var(--ease);letter-spacing:0.1em;text-transform:uppercase;}
-.work-item:hover .work-arrow{color:var(--ink2);gap:0.9rem;}
-/* hover exhibit label */
-.work-exhibit{position:absolute;top:0.8rem;left:0.8rem;background:rgba(250,249,247,0.92);padding:0.3rem 0.6rem;font-size:9px;letter-spacing:0.14em;text-transform:uppercase;color:var(--ink3);opacity:0;transition:opacity 0.5s var(--ease);}
-.work-item:hover .work-exhibit{opacity:1;}
+#works{padding:8rem var(--space) 9rem;position:relative;}
+.works-header{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:5.5rem;gap:2rem;}
+.works-title{font-family:'DM Serif Display',serif;font-size:clamp(2rem,5vw,4.6rem);line-height:0.98;color:var(--ink);font-weight:400;font-style:italic;letter-spacing:-0.02em;}
+.works-kicker{display:block;font-family:'DM Sans',sans-serif;font-style:normal;font-size:10px;letter-spacing:0.24em;text-transform:uppercase;color:var(--ink4);margin-bottom:1.1rem;}
+.works-meta{font-size:10px;letter-spacing:0.15em;text-transform:uppercase;color:var(--ink4);display:flex;align-items:center;gap:1rem;white-space:nowrap;}
+.works-editorial{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(2rem,4.5vw,5.5rem) clamp(1.4rem,3vw,3.5rem);align-items:start;}
+.work-card{position:relative;display:block;text-decoration:none;color:inherit;cursor:none;}
+.work-card:nth-child(1){grid-column:1 / span 8;}
+.work-card:nth-child(2){grid-column:9 / span 4;margin-top:8rem;}
+.work-card:nth-child(3){grid-column:2 / span 5;margin-top:1rem;}
+.work-card:nth-child(4){grid-column:7 / span 6;margin-top:7rem;}
+.work-card:nth-child(5){grid-column:3 / span 8;margin-top:2rem;}
+.work-card.is-wide .work-visual{aspect-ratio:16/10;}
+.work-card.is-tall .work-visual{aspect-ratio:4/5.6;}
+.work-card.is-medium .work-visual{aspect-ratio:5/4;}
+.work-card.is-poster .work-visual{aspect-ratio:3/4.1;}
+.work-visual{position:relative;overflow:hidden;background:linear-gradient(135deg,#EEECEA 0%,#DCD6CC 52%,#F4F1EA 100%);box-shadow:var(--soft-shadow);isolation:isolate;}
+.work-visual::before{content:attr(data-project);position:absolute;left:1rem;top:1rem;z-index:2;font-size:9px;letter-spacing:0.18em;text-transform:uppercase;color:rgba(78,70,58,0.5);background:rgba(250,249,247,0.72);border:0.8px solid rgba(216,214,210,0.8);padding:0.35rem 0.55rem;backdrop-filter:blur(4px);}
+.work-visual::after{content:'';position:absolute;inset:0;background:radial-gradient(circle at 68% 28%,rgba(218,200,168,0.28),transparent 34%),linear-gradient(to top,rgba(10,10,10,0.34),rgba(10,10,10,0.02) 42%,transparent);box-shadow:inset 0 0 42px rgba(0,0,0,0.075);pointer-events:none;}
+.work-placeholder{position:absolute;inset:0;transition:transform 1.35s var(--ease),filter 1.35s var(--ease);}
+.work-placeholder::before{content:'';position:absolute;inset:12%;border:1px solid rgba(72,64,52,0.16);transform:rotate(-1deg);}
+.work-placeholder::after{content:'';position:absolute;left:18%;right:18%;top:48%;height:1px;background:rgba(60,54,44,0.15);box-shadow:0 34px 0 rgba(60,54,44,0.10),0 -34px 0 rgba(60,54,44,0.08);}
+.work-card[data-tone="dark"] .work-visual{background:linear-gradient(135deg,#1A1814,#343026 55%,#D7C7A3);}
+.work-card[data-tone="blue"] .work-visual{background:linear-gradient(135deg,#ECEAE3,#BFC6C6 46%,#6E7B84);}
+.work-card[data-tone="warm"] .work-visual{background:linear-gradient(135deg,#EFE7D7,#C8A46E 55%,#2C241C);}
+.work-card[data-tone="ink"] .work-visual{background:linear-gradient(135deg,#F2EFE9,#C9BCA6 50%,#181512);}
+.work-card[data-tone="paper"] .work-visual{background:linear-gradient(135deg,#FAF9F7,#DFDAD0 55%,#B9A982);}
+.work-card:hover .work-placeholder{transform:scale(1.045) translateY(-0.6%);filter:saturate(1.04);}
+.work-info{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:1.2rem;margin-top:1.35rem;align-items:start;}
+.work-index{font-size:10px;letter-spacing:0.18em;color:var(--ink4);}
+.work-title{font-family:'DM Serif Display',serif;font-size:clamp(1.45rem,2.3vw,2.5rem);line-height:1.05;font-weight:400;color:var(--ink);margin:.45rem 0 .6rem;}
+.work-type{font-size:10px;letter-spacing:0.16em;text-transform:uppercase;color:var(--ink4);}
+.work-year{font-size:10px;letter-spacing:0.18em;color:var(--ink4);margin-top:.5rem;text-align:right;}
+.work-hover-meta{position:absolute;left:1.2rem;right:1.2rem;bottom:1.2rem;z-index:3;color:#FAF9F7;opacity:0;transform:translateY(10px);transition:opacity .65s var(--ease),transform .65s var(--ease);display:flex;justify-content:space-between;gap:1.2rem;align-items:flex-end;}
+.work-card:hover .work-hover-meta,.work-card:focus-visible .work-hover-meta{opacity:1;transform:translateY(0);}
+.work-desc{max-width:420px;font-size:12px;line-height:1.65;color:rgba(250,249,247,0.82);}
+.work-links{display:flex;gap:.8rem;flex-wrap:wrap;justify-content:flex-end;}
+.work-links span{font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:rgba(250,249,247,0.82);border:1px solid rgba(250,249,247,0.24);padding:.38rem .55rem;background:rgba(10,10,10,0.16);}
+.work-card:focus-visible{outline:1px solid var(--ink2);outline-offset:8px;}
 
 /* ── FRAGMENTS ── */
 #fragments{padding:7rem clamp(2rem,6vw,6rem);background:var(--bg2);position:relative;overflow:hidden;}
@@ -190,21 +211,49 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
 .reveal-d3{transition-delay:0.42s;}
 
 /* VINYL WIDGET */
-#vinyl-widget{position:fixed;bottom:2.5rem;right:3rem;z-index:200;opacity:0;transition:opacity 0.8s var(--ease);display:flex;align-items:center;gap:1rem;}
-#vinyl-widget.vis{opacity:1;}
-.vinyl-disc{width:38px;height:38px;border-radius:50%;background:radial-gradient(circle at 48% 48%,#3a3830 0%,#1a1810 30%,#2a2820 50%,#1a1810 100%);position:relative;cursor:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.2);}
-.vinyl-disc::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:8px;height:8px;border-radius:50%;background:#C8B88A;box-shadow:0 0 0 1px rgba(0,0,0,0.3);}
-.vinyl-info{display:flex;flex-direction:column;gap:0.2rem;}
-.vinyl-track{font-size:10px;color:var(--ink2);letter-spacing:0.06em;}
-.vinyl-artist{font-size:9px;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;}
+#vinyl-widget{position:fixed;bottom:1.45rem;right:1.65rem;z-index:200;opacity:0;transition:opacity 0.8s var(--ease);display:flex;align-items:center;gap:.65rem;padding:.45rem .55rem;background:rgba(250,249,247,.62);border:0.8px solid rgba(216,214,210,.7);backdrop-filter:blur(10px);}
+#vinyl-widget.vis{opacity:.86;}
+.vinyl-disc{width:28px;height:28px;border-radius:50%;background:radial-gradient(circle at 48% 48%,#3a3830 0%,#1a1810 30%,#2a2820 50%,#1a1810 100%);position:relative;cursor:none;flex-shrink:0;box-shadow:0 2px 8px rgba(0,0,0,0.16);}
+.vinyl-disc::after{content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:6px;height:6px;border-radius:50%;background:#C8B88A;box-shadow:0 0 0 1px rgba(0,0,0,0.3);}
+.vinyl-info{display:flex;flex-direction:column;gap:0.12rem;}
+.vinyl-track{font-size:9px;color:var(--ink2);letter-spacing:0.06em;}
+.vinyl-artist{font-size:8px;color:var(--ink4);letter-spacing:0.08em;text-transform:uppercase;}
 
+/* ARCHIVE OPERATOR */
+#archive-operator{position:fixed;right:1.25rem;bottom:5.6rem;width:118px;height:86px;z-index:180;opacity:.72;pointer-events:none;filter:drop-shadow(0 18px 24px rgba(34,28,19,.12));}
+.operator-desk{position:absolute;left:12px;right:8px;bottom:16px;height:4px;background:rgba(38,32,25,.54);border-radius:999px;}
+.operator-person{position:absolute;left:30px;bottom:20px;width:22px;height:34px;background:#17130F;border-radius:12px 12px 5px 5px;}
+.operator-person::before{content:'';position:absolute;left:6px;top:-12px;width:12px;height:12px;border-radius:50%;background:#17130F;}
+.operator-laptop{position:absolute;left:52px;bottom:22px;width:30px;height:18px;background:linear-gradient(120deg,rgba(250,225,168,.95),rgba(182,135,72,.58));clip-path:polygon(8% 0,100% 0,88% 100%,0 100%);box-shadow:0 0 18px rgba(226,185,111,.45);}
+.operator-lamp{position:absolute;right:16px;bottom:24px;width:18px;height:18px;background:rgba(245,204,129,.82);clip-path:polygon(22% 0,78% 0,100% 100%,0 100%);box-shadow:0 0 24px rgba(230,184,102,.38);}
+.operator-lamp::after{content:'';position:absolute;left:7px;top:15px;width:2px;height:30px;background:rgba(38,32,25,.34);}
+.operator-cable{position:absolute;left:58px;bottom:34px;width:54px;height:32px;border-top:1px solid rgba(128,90,48,.5);border-right:1px solid rgba(128,90,48,.22);border-radius:50% 45% 0 0;transform-origin:left bottom;animation:operatorWhip 11s var(--ease) infinite;}
+.operator-cable::after{content:'';position:absolute;right:-3px;top:25px;width:4px;height:4px;border-radius:50%;background:rgba(226,185,111,.75);box-shadow:0 0 10px rgba(226,185,111,.6);}
+@keyframes operatorWhip{0%,100%{transform:rotate(-3deg) translateY(0)}45%{transform:rotate(5deg) translateY(-4px)}70%{transform:rotate(1deg) translateY(-2px)}}
+
+@media(max-width:900px){
+  .works-editorial{display:block;}
+  .work-card{margin:0 0 4rem!important;}
+  .work-card:nth-child(1){margin-bottom:5rem!important;}
+  .work-hover-meta{opacity:1;transform:none;position:relative;left:auto;right:auto;bottom:auto;color:var(--ink2);margin-top:1rem;display:block;}
+  .work-desc{color:var(--ink2);}
+  .work-links{justify-content:flex-start;margin-top:.8rem;}
+  .work-links span{color:var(--ink3);border-color:var(--border);background:transparent;}
+}
 @media(max-width:768px){
   .feat-grid{grid-template-columns:1fr;}
-  .works-grid{grid-template-columns:1fr 1fr;}
   nav{padding:1.4rem 1.5rem;}
+  .nav-right{gap:1rem;}
   #viewing,#vinyl-widget{display:none;}
+  #archive-operator{right:.8rem;bottom:1rem;transform:scale(.78);transform-origin:right bottom;opacity:.55;}
   .frag-strip{flex-wrap:wrap;}
   .hero-annotation{display:none;}
+  .works-header{display:block;}
+  .works-meta{margin-top:1.5rem;}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important;}
+  #env-canvas{display:none;}
 }
 </style>
 </head>
@@ -237,6 +286,15 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
     <span class="vinyl-track">Midnight Drive</span>
     <span class="vinyl-artist">Ambient · Now Playing</span>
   </div>
+</div>
+
+<!-- ARCHIVE OPERATOR -->
+<div id="archive-operator" aria-hidden="true">
+  <span class="operator-cable"></span>
+  <span class="operator-lamp"></span>
+  <span class="operator-person"></span>
+  <span class="operator-laptop"></span>
+  <span class="operator-desk"></span>
 </div>
 
 <nav>
@@ -311,72 +369,77 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
 <!-- WORKS -->
 <section id="works" data-section="Selected Works">
   <div class="works-header reveal">
-    <h3 class="works-title">Selected Works</h3>
-    <span class="works-meta">6 of 24 &nbsp;·&nbsp; View all
+    <h3 class="works-title"><span class="works-kicker">03 / Selected Works</span>Editorial archive<br>of built worlds</h3>
+    <span class="works-meta">5 current studies &nbsp;·&nbsp; Case files open
       <svg width="16" height="7" viewBox="0 0 16 7" fill="none"><path d="M0 3.5H14M11 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>
     </span>
   </div>
-  <div class="works-grid">
-    <div class="work-item reveal">
-      <div class="work-img">
-        <canvas class="work-canvas" id="w1" width="400" height="530"></canvas>
-        <span class="work-exhibit">Gallery A · 001</span>
+  <div class="works-editorial" aria-label="Selected portfolio projects">
+    <a class="work-card is-wide reveal" data-tone="dark" href="projects/echovault.html">
+      <div class="work-visual" data-project="Case file · 001" data-asset="assets/projects/echovault/hero.webp" role="img" aria-label="EchoVault project screenshot placeholder">
+        <span class="work-placeholder" aria-hidden="true"></span>
+        <div class="work-hover-meta">
+          <p class="work-desc">A private cinematic vault for echoes, memory, and carefully held digital artifacts.</p>
+          <div class="work-links"><span>Live site</span><span>GitHub</span></div>
+        </div>
       </div>
-      <div class="work-meta-row"><span class="work-num">001</span><span class="work-status">Exhibited</span></div>
-      <p class="work-name">Monolith</p>
-      <p class="work-type">Architectural Series</p>
-      <span class="work-arrow">Explore <svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M0 3.5H10M7 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg></span>
-    </div>
-    <div class="work-item reveal reveal-d1">
-      <div class="work-img">
-        <canvas class="work-canvas" id="w2" width="400" height="530"></canvas>
-        <span class="work-exhibit">Gallery A · 002</span>
+      <div class="work-info">
+        <div><span class="work-index">001</span><h4 class="work-title">EchoVault</h4><p class="work-type">Full-stack archive interface</p></div>
+        <span class="work-year">2026</span>
       </div>
-      <div class="work-meta-row"><span class="work-num">002</span><span class="work-status">In Collection</span></div>
-      <p class="work-name">Echoes</p>
-      <p class="work-type">Figure & Space</p>
-      <span class="work-arrow">Explore <svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M0 3.5H10M7 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg></span>
-    </div>
-    <div class="work-item reveal reveal-d2">
-      <div class="work-img">
-        <canvas class="work-canvas" id="w3" width="400" height="530"></canvas>
-        <span class="work-exhibit">Gallery B · 001</span>
+    </a>
+    <a class="work-card is-tall reveal reveal-d1" data-tone="warm" href="projects/asna-needle.html">
+      <div class="work-visual" data-project="Case file · 002" data-asset="assets/projects/asna-needle/hero.webp" role="img" aria-label="Asna Needle and Co. project screenshot placeholder">
+        <span class="work-placeholder" aria-hidden="true"></span>
+        <div class="work-hover-meta">
+          <p class="work-desc">A warm tailoring storefront shaped like cloth, patience, and hand-finished craft.</p>
+          <div class="work-links"><span>Live site</span><span>GitHub</span></div>
+        </div>
       </div>
-      <div class="work-meta-row"><span class="work-num">003</span><span class="work-status">Available</span></div>
-      <p class="work-name">Obsidian</p>
-      <p class="work-type">Editorial Illustration</p>
-      <span class="work-arrow">Explore <svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M0 3.5H10M7 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg></span>
-    </div>
-    <div class="work-item reveal reveal-d1">
-      <div class="work-img">
-        <canvas class="work-canvas" id="w4" width="400" height="530"></canvas>
-        <span class="work-exhibit">Gallery B · 002</span>
+      <div class="work-info">
+        <div><span class="work-index">002</span><h4 class="work-title">Asna Needle &amp; Co.</h4><p class="work-type">Brand / commerce website</p></div>
+        <span class="work-year">2026</span>
       </div>
-      <div class="work-meta-row"><span class="work-num">004</span><span class="work-status">Exhibited</span></div>
-      <p class="work-name">Silence</p>
-      <p class="work-type">Atmospheric Study</p>
-      <span class="work-arrow">Explore <svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M0 3.5H10M7 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg></span>
-    </div>
-    <div class="work-item reveal reveal-d2">
-      <div class="work-img">
-        <canvas class="work-canvas" id="w5" width="400" height="530"></canvas>
-        <span class="work-exhibit">Gallery C · 001</span>
+    </a>
+    <a class="work-card is-medium reveal reveal-d2" data-tone="blue" href="projects/zyphoria.html">
+      <div class="work-visual" data-project="Case file · 003" data-asset="assets/projects/zyphoria/hero.webp" role="img" aria-label="Zyphoria project screenshot placeholder">
+        <span class="work-placeholder" aria-hidden="true"></span>
+        <div class="work-hover-meta">
+          <p class="work-desc">A surreal product world with neon quiet, soft systems, and a drifting interface rhythm.</p>
+          <div class="work-links"><span>Live site</span><span>GitHub</span></div>
+        </div>
       </div>
-      <div class="work-meta-row"><span class="work-num">005</span><span class="work-status">In Collection</span></div>
-      <p class="work-name">Threshold</p>
-      <p class="work-type">Narrative Series</p>
-      <span class="work-arrow">Explore <svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M0 3.5H10M7 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg></span>
-    </div>
-    <div class="work-item reveal reveal-d3">
-      <div class="work-img">
-        <canvas class="work-canvas" id="w6" width="400" height="530"></canvas>
-        <span class="work-exhibit">Gallery C · 002</span>
+      <div class="work-info">
+        <div><span class="work-index">003</span><h4 class="work-title">Zyphoria</h4><p class="work-type">Immersive landing experience</p></div>
+        <span class="work-year">2025</span>
       </div>
-      <div class="work-meta-row"><span class="work-num">006</span><span class="work-status">Available</span></div>
-      <p class="work-name">Vessel</p>
-      <p class="work-type">Object Studies</p>
-      <span class="work-arrow">Explore <svg width="12" height="7" viewBox="0 0 12 7" fill="none"><path d="M0 3.5H10M7 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg></span>
-    </div>
+    </a>
+    <a class="work-card is-poster reveal reveal-d1" data-tone="ink" href="projects/ink-of-arabia.html">
+      <div class="work-visual" data-project="Case file · 004" data-asset="assets/projects/ink-of-arabia/hero.webp" role="img" aria-label="Ink of Arabia project screenshot placeholder">
+        <span class="work-placeholder" aria-hidden="true"></span>
+        <div class="work-hover-meta">
+          <p class="work-desc">An editorial homage to calligraphy, ink rituals, and desert-lit publication design.</p>
+          <div class="work-links"><span>Live site</span></div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div><span class="work-index">004</span><h4 class="work-title">Ink of Arabia</h4><p class="work-type">Editorial cultural microsite</p></div>
+        <span class="work-year">2025</span>
+      </div>
+    </a>
+    <a class="work-card is-wide reveal reveal-d3" data-tone="paper" href="projects/archive.html">
+      <div class="work-visual" data-project="Case file · 005" data-asset="assets/projects/archive/hero.webp" role="img" aria-label="Archive portfolio experiment screenshot placeholder">
+        <span class="work-placeholder" aria-hidden="true"></span>
+        <div class="work-hover-meta">
+          <p class="work-desc">The living portfolio experiment: dust, fragments, clock time, vinyl, and a quiet operator.</p>
+          <div class="work-links"><span>Live site</span><span>GitHub</span></div>
+        </div>
+      </div>
+      <div class="work-info">
+        <div><span class="work-index">005</span><h4 class="work-title">Archive / Portfolio experiment</h4><p class="work-type">Personal archive system</p></div>
+        <span class="work-year">2026</span>
+      </div>
+    </a>
   </div>
 </section>
 
@@ -464,7 +527,7 @@ const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring'
 let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
 document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
 (function animRing(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-document.querySelectorAll('a,button,.work-item,.feat-img,.frag-item').forEach(el=>{
+document.querySelectorAll('a,button,.work-card,.feat-img,.frag-item').forEach(el=>{
   el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(10,10,10,0.4)';});
   el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(10,10,10,0.28)';});
 });
@@ -515,11 +578,14 @@ function tick(){
 }
 tick();setInterval(tick,15000);
 
+const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
 // ── VINYL SPIN ──────────────────────────────────────────────────
 let vinylAngle=0;
 const vdisc=document.getElementById('vinyl-disc');
 (function spinVinyl(){
-  vinylAngle+=0.18;
+  if(prefersReduced)return;
+  vinylAngle+=0.12;
   if(vdisc)vdisc.style.transform=`rotate(${vinylAngle}deg)`;
   requestAnimationFrame(spinVinyl);
 })();
@@ -530,19 +596,20 @@ const ectx=ecanvas.getContext('2d');
 function resizeEnv(){ecanvas.width=window.innerWidth;ecanvas.height=window.innerHeight;}
 resizeEnv();window.addEventListener('resize',resizeEnv);
 const particles=[];
-for(let i=0;i<38;i++){
+for(let i=0;i<20;i++){
   particles.push({
     x:Math.random()*window.innerWidth,
     y:Math.random()*window.innerHeight,
     r:Math.random()*1.2+0.3,
     vx:(Math.random()-0.5)*0.12,
     vy:(Math.random()-0.5)*0.08-0.05,
-    op:Math.random()*0.3+0.05,
+    op:Math.random()*0.22+0.035,
     life:Math.random()*400+200
   });
 }
 let envT=0;
 (function animEnv(){
+  if(prefersReduced)return;
   envT++;
   ectx.clearRect(0,0,ecanvas.width,ecanvas.height);
   // light beam in hero area
@@ -586,6 +653,7 @@ document.getElementById('fragments')&&document.getElementById('fragments').addEv
 });
 document.getElementById('fragments')&&document.getElementById('fragments').addEventListener('mouseleave',()=>{cursorInFrag=false;});
 (function animFrags(){
+  if(prefersReduced)return;
   fragT+=0.012;
   fragItems.forEach((item,i)=>{
     const speed=parseFloat(item.dataset.swaySpeed)||1.4;
@@ -776,21 +844,34 @@ function drawFragment(id,v){
 
 // draw all
 drawFeat('feat-canvas');
-[0,1,2,3,4,5].forEach(i=>drawWork('w'+(i+1),i));
 [0,1,2,3].forEach(i=>drawFragment('f'+(i+1),i));
 
-// ── SMOOTH SCROLL INERTIA ───────────────────────────────────────
-let scrollY=window.scrollY,targetScroll=window.scrollY,isScrolling=false;
-window.addEventListener('wheel',e=>{
-  e.preventDefault();
-  targetScroll=Math.max(0,Math.min(document.body.scrollHeight-window.innerHeight,targetScroll+e.deltaY*0.85));
-  if(!isScrolling){isScrolling=true;animScroll();}
-},{passive:false});
-function animScroll(){
-  scrollY+=(targetScroll-scrollY)*0.072;
-  window.scrollTo(0,scrollY);
-  if(Math.abs(targetScroll-scrollY)>0.5)requestAnimationFrame(animScroll);
-  else isScrolling=false;
+// ── PROJECT PLACEHOLDER IMAGES ─────────────────────────────────
+function loadProjectPanel(panel){
+  if(panel.dataset.loaded)return;
+  panel.dataset.loaded='true';
+  const src=panel.dataset.asset;
+  const img=new Image();
+  img.loading='lazy';
+  img.decoding='async';
+  img.onload=()=>{
+    panel.style.backgroundImage=`linear-gradient(to top,rgba(10,10,10,.34),transparent 46%),url(${src})`;
+    panel.style.backgroundSize='cover';
+    panel.style.backgroundPosition='center';
+    panel.classList.add('has-image');
+  };
+  img.src=src;
+}
+const projectPanels=document.querySelectorAll('.work-visual[data-asset]');
+if('IntersectionObserver' in window){
+  const assetObserver=new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){loadProjectPanel(entry.target);assetObserver.unobserve(entry.target);}
+    });
+  },{rootMargin:'320px'});
+  projectPanels.forEach(panel=>assetObserver.observe(panel));
+}else{
+  projectPanels.forEach(loadProjectPanel);
 }
 
 // ── LIGHT LEAK ON SECTION ENTRY ─────────────────────────────────

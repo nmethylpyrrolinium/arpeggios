@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Archive / Portfolio experiment — Archive Case File</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<nav class="project-nav" aria-label="Project navigation">
+  <a class="nav-link" href="../index.html#works">← Back to works</a>
+  <span class="nav-mark">Archive · Case file</span>
+  <span class="nav-time" id="nav-time"></span>
+</nav>
+<header class="hero">
+  <div class="hero-image tone-paper" data-asset="../assets/projects/archive/hero.webp" data-label="Hero screenshot pending" role="img" aria-label="Archive / Portfolio experiment full bleed screenshot placeholder">
+    <span class="placeholder" aria-hidden="true"></span>
+  </div>
+  <div class="hero-title">
+    <div>
+      <p class="kicker">Selected work</p>
+      <h1>Archive / Portfolio experiment</h1>
+      <p class="subtitle">A living portfolio as old-gallery room: dust, fragments, clock time, vinyl, and quiet evidence.</p>
+    </div>
+    <dl class="meta-card">
+      <div class="meta-row"><dt>Deliverable</dt><dd>Personal archive portfolio</dd></div>
+      <div class="meta-row"><dt>Year</dt><dd>2026</dd></div>
+      <div class="meta-row"><dt>Role</dt><dd>Creative direction, visual design, frontend engineering</dd></div>
+      <div class="meta-row"><dt>Live Site</dt><dd><a href="../index.html">Open current site</a></dd></div>
+      <div class="meta-row"><dt>GitHub</dt><dd>Current repository</dd></div>
+    </dl>
+  </div>
+</header>
+<main>
+  <section class="case-section" aria-labelledby="summary"><h2 id="summary">Summary</h2><div class="case-copy"><p>This portfolio experiment reframes a personal site as an editorial archive. The work is presented as case files surrounded by atmosphere, fragments, and small cinematic rituals.</p></div></section>
+  <section class="case-section" aria-labelledby="concept"><h2 id="concept">Concept</h2><div class="case-copy"><p>The identity is intentionally quiet: grain, drawn worlds, hanging studies, a vinyl widget, and warm gallery light rather than loud portfolio spectacle.</p></div></section>
+  <section class="case-section" aria-labelledby="build"><h2 id="build">Design / Build</h2><div class="case-copy"><p>The implementation stays GitHub Pages compatible, avoids heavy libraries, preserves semantic HTML, and uses CSS placeholders until final screenshots are added.</p></div></section>
+  <section class="case-section" aria-labelledby="outcome"><h2 id="outcome">Reflection / Outcome</h2><div class="case-copy"><p>The result establishes a flexible archive identity that can grow with real projects while keeping the mood personal and cinematic.</p></div></section>
+  <section class="gallery" aria-labelledby="gallery">
+    <div class="gallery-head"><h2 id="gallery">Screenshot gallery</h2><span class="gallery-note">Placeholders until assets are added</span></div>
+    <div class="shots">
+      <div class="shot tall tone-paper" data-asset="../assets/projects/archive/detail.webp" data-label="Detail screenshot pending" role="img" aria-label="Archive / Portfolio experiment detail screenshot placeholder"><span class="placeholder" aria-hidden="true"></span></div>
+      <div class="shot tone-paper" data-asset="../assets/projects/archive/hero.webp" data-label="Mobile / crop pending" role="img" aria-label="Archive / Portfolio experiment secondary screenshot placeholder"><span class="placeholder" aria-hidden="true"></span></div>
+    </div>
+  </section>
+  <a class="back-link" href="../index.html#works">← Back to Works</a>
+</main>
+<script>
+function tick(){const t=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});const el=document.getElementById('nav-time');if(el)el.textContent='Mumbai · '+t;}
+tick();setInterval(tick,15000);
+function loadPanel(panel){if(panel.dataset.loaded)return;panel.dataset.loaded='true';const src=panel.dataset.asset;const img=new Image();img.loading='lazy';img.decoding='async';img.onload=()=>{panel.style.backgroundImage=`linear-gradient(to top,rgba(10,10,10,.28),transparent 50%),url(${src})`;panel.classList.add('has-image');};img.src=src;}
+const panels=document.querySelectorAll('[data-asset]');if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){loadPanel(entry.target);observer.unobserve(entry.target);}});},{rootMargin:'360px'});panels.forEach(panel=>observer.observe(panel));}else{panels.forEach(loadPanel);}
+</script>
+</body>
+</html>

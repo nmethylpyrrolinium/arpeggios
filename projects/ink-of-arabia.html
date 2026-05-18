@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ink of Arabia — Archive Case File</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="project.css">
+</head>
+<body>
+<div class="grain" aria-hidden="true"></div>
+<nav class="project-nav" aria-label="Project navigation">
+  <a class="nav-link" href="../index.html#works">← Back to works</a>
+  <span class="nav-mark">Archive · Case file</span>
+  <span class="nav-time" id="nav-time"></span>
+</nav>
+<header class="hero">
+  <div class="hero-image tone-ink" data-asset="../assets/projects/ink-of-arabia/hero.webp" data-label="Hero screenshot pending" role="img" aria-label="Ink of Arabia full bleed screenshot placeholder">
+    <span class="placeholder" aria-hidden="true"></span>
+  </div>
+  <div class="hero-title">
+    <div>
+      <p class="kicker">Selected work</p>
+      <h1>Ink of Arabia</h1>
+      <p class="subtitle">Ink, desert light, and calligraphic heritage arranged as an editorial microsite.</p>
+    </div>
+    <dl class="meta-card">
+      <div class="meta-row"><dt>Deliverable</dt><dd>Editorial cultural microsite</dd></div>
+      <div class="meta-row"><dt>Year</dt><dd>2025</dd></div>
+      <div class="meta-row"><dt>Role</dt><dd>Art direction, editorial layout, frontend implementation</dd></div>
+      <div class="meta-row"><dt>Live Site</dt><dd>Pending screenshot / deployment URL</dd></div>
+      <div class="meta-row"><dt>GitHub</dt><dd>Not currently public</dd></div>
+    </dl>
+  </div>
+</header>
+<main>
+  <section class="case-section" aria-labelledby="summary"><h2 id="summary">Summary</h2><div class="case-copy"><p>Ink of Arabia is an editorial web piece shaped around calligraphy, ritual, and the feeling of ink drying in warm light.</p></div></section>
+  <section class="case-section" aria-labelledby="concept"><h2 id="concept">Concept</h2><div class="case-copy"><p>The design treats letterforms as architecture: spacious, reverent, and grounded in a museum-like reading pace.</p></div></section>
+  <section class="case-section" aria-labelledby="build"><h2 id="build">Design / Build</h2><div class="case-copy"><p>The system favors large typography, careful captions, responsive story blocks, and placeholder-safe image areas for future manuscript and process photography.</p></div></section>
+  <section class="case-section" aria-labelledby="outcome"><h2 id="outcome">Reflection / Outcome</h2><div class="case-copy"><p>The project pushed the archive language toward cultural storytelling while keeping the tone respectful, slow, and image-led.</p></div></section>
+  <section class="gallery" aria-labelledby="gallery">
+    <div class="gallery-head"><h2 id="gallery">Screenshot gallery</h2><span class="gallery-note">Placeholders until assets are added</span></div>
+    <div class="shots">
+      <div class="shot tall tone-ink" data-asset="../assets/projects/ink-of-arabia/detail.webp" data-label="Detail screenshot pending" role="img" aria-label="Ink of Arabia detail screenshot placeholder"><span class="placeholder" aria-hidden="true"></span></div>
+      <div class="shot tone-ink" data-asset="../assets/projects/ink-of-arabia/hero.webp" data-label="Mobile / crop pending" role="img" aria-label="Ink of Arabia secondary screenshot placeholder"><span class="placeholder" aria-hidden="true"></span></div>
+    </div>
+  </section>
+  <a class="back-link" href="../index.html#works">← Back to Works</a>
+</main>
+<script>
+function tick(){const t=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});const el=document.getElementById('nav-time');if(el)el.textContent='Mumbai · '+t;}
+tick();setInterval(tick,15000);
+function loadPanel(panel){if(panel.dataset.loaded)return;panel.dataset.loaded='true';const src=panel.dataset.asset;const img=new Image();img.loading='lazy';img.decoding='async';img.onload=()=>{panel.style.backgroundImage=`linear-gradient(to top,rgba(10,10,10,.28),transparent 50%),url(${src})`;panel.classList.add('has-image');};img.src=src;}
+const panels=document.querySelectorAll('[data-asset]');if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){loadPanel(entry.target);observer.unobserve(entry.target);}});},{rootMargin:'360px'});panels.forEach(panel=>observer.observe(panel));}else{panels.forEach(loadPanel);}
+</script>
+</body>
+</html>
