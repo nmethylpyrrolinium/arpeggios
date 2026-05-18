@@ -251,6 +251,159 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
   .works-header{display:block;}
   .works-meta{margin-top:1.5rem;}
 }
+
+.feat-links-spaced{margin-top:2.5rem}.section-label-tight{margin-bottom:3rem}.annotation-fragments{left:clamp(2rem,6vw,6rem);top:10.5rem;opacity:.4}.annotation-philosophy{right:clamp(2rem,6vw,6rem);bottom:5rem;font-size:12px;opacity:.35}.frag-offset-1{margin-top:2.5rem}.frag-offset-2{margin-top:.8rem}.frag-offset-3{margin-top:3.5rem}
+
+/* ── RESPONSIVE EDITORIAL SYSTEM OVERRIDES ───────────────────── */
+:root{
+  --page-pad:clamp(1rem,4.8vw,6rem);
+  --section-y:clamp(4.5rem,10vw,10rem);
+  --section-gap:clamp(2rem,5vw,6rem);
+  --hero-type:clamp(3.35rem,9vw,8.8rem);
+  --title-type:clamp(2.15rem,5.4vw,5.4rem);
+  --project-type:clamp(1.7rem,3.4vw,3.65rem);
+  --body-type:clamp(1rem,1.2vw,1.15rem);
+  --meta-type:clamp(.68rem,.74vw,.78rem);
+  --safe-measure:68ch;
+}
+html{font-size:clamp(15px,.92vw + .48rem,18px);overflow-x:clip;}
+body{min-width:320px;cursor:auto;text-rendering:optimizeLegibility;-webkit-font-smoothing:antialiased;}
+a,button{cursor:pointer;}
+p,h1,h2,h3,h4,span,dd,dt{overflow-wrap:break-word;}
+@supports(text-wrap:balance){h1,h2,h3,h4,.hero-title,.entry-title,.works-title,.phil-quote,.contact-title{text-wrap:balance;}}
+@supports(text-wrap:pretty){p,.feat-body,.phil-body,.work-desc,.hero-desc{text-wrap:pretty;}}
+@media (hover:hover) and (pointer:fine){body{cursor:none}a,button,.work-card,.feat-img,.frag-item{cursor:none}}
+@media (hover:none),(pointer:coarse){#cur,#cur-ring{display:none!important}}
+
+nav{padding:clamp(1rem,2.1vw,1.8rem) var(--page-pad);gap:1.25rem;background:linear-gradient(to bottom,rgba(250,249,247,.74),rgba(250,249,247,0));backdrop-filter:blur(2px);}
+.nav-mark,.nav-link,.nav-time{font-size:var(--meta-type);white-space:nowrap;}
+.nav-right{gap:clamp(.85rem,2vw,2.5rem);min-width:0;}
+
+#entry{min-height:100svh;padding:6rem var(--page-pad) 4rem;}
+.entry-title{font-size:clamp(3.5rem,10vw,9rem);line-height:.96;max-width:11ch;margin-inline:auto;}
+.entry-label{line-height:1.6;}
+
+#hero{min-height:min(92svh,860px);padding:clamp(6rem,12vh,9rem) 0 clamp(3.5rem,8vh,6rem);justify-content:flex-end;}
+.hero-top{padding:0 var(--page-pad);margin-bottom:clamp(2rem,5vh,4.5rem);gap:2rem;}
+.hero-desc{font-size:clamp(.78rem,1vw,.92rem);max-width:26ch;line-height:1.7;}
+.hero-title-wrap{padding:0 var(--page-pad);}
+.hero-title{font-size:var(--hero-type);line-height:.98;letter-spacing:-.04em;max-width:12.5ch;}
+.hero-sub{padding:0 var(--page-pad);margin-top:clamp(2rem,5vh,3.8rem);gap:2rem;}
+.hero-roles{gap:clamp(.8rem,2vw,2rem);max-width:760px;}
+.hero-role{line-height:1.5;}
+
+#featured,#works,#fragments,#philosophy,#contact{padding-left:var(--page-pad);padding-right:var(--page-pad);}
+#featured{padding-top:var(--section-y);padding-bottom:var(--section-y);}
+.section-label{margin-bottom:clamp(2.6rem,6vw,5rem);line-height:1.6;}
+.feat-grid{grid-template-columns:minmax(280px,.82fr) minmax(260px,.62fr);gap:clamp(2.5rem,7vw,7rem);max-width:1320px;margin-inline:auto;}
+.feat-body{font-size:var(--body-type);max-width:38ch;}
+
+#works{padding-top:var(--section-y);padding-bottom:calc(var(--section-y) + 1rem);}
+.works-header{max-width:1380px;margin:0 auto clamp(3.2rem,8vw,7rem);align-items:flex-start;}
+.works-title{font-size:var(--title-type);line-height:.98;max-width:12ch;}
+.works-meta{white-space:normal;line-height:1.7;max-width:32ch;justify-content:flex-end;text-align:right;}
+.works-editorial{max-width:1380px;margin-inline:auto;grid-template-columns:repeat(12,minmax(0,1fr));gap:clamp(3.5rem,8vw,9rem) clamp(1.25rem,3.4vw,4rem);}
+.work-card{min-width:0;}
+.work-card:nth-child(1){grid-column:1 / span 9;}
+.work-card:nth-child(2){grid-column:9 / span 4;margin-top:clamp(5rem,12vw,11rem);}
+.work-card:nth-child(3){grid-column:2 / span 5;margin-top:0;}
+.work-card:nth-child(4){grid-column:7 / span 6;margin-top:clamp(3rem,8vw,8rem);}
+.work-card:nth-child(5){grid-column:3 / span 8;margin-top:0;}
+.work-card.is-wide .work-visual{aspect-ratio:16/9.6;}
+.work-visual{border:1px solid rgba(216,214,210,.7);transition:transform 280ms var(--ease),box-shadow 280ms var(--ease),filter 280ms var(--ease);transform:translate3d(var(--px,0),var(--py,0),0);will-change:transform;}
+.work-card:hover .work-visual,.work-card:focus-visible .work-visual{transform:translate3d(var(--px,0),calc(var(--py,0) - 3px),0) scale(1.018);box-shadow:0 32px 90px rgba(28,24,18,.12);}
+.work-card:hover .work-placeholder{transform:scale(1.025);}
+.work-info{gap:1rem;margin-top:clamp(1rem,2vw,1.6rem);}
+.work-title{font-size:var(--project-type);max-width:13ch;}
+.work-type,.work-year,.work-index,.work-links span{font-size:var(--meta-type);line-height:1.55;}
+.work-hover-meta{transition-duration:720ms;}
+.work-desc{font-size:clamp(.78rem,.95vw,.95rem);max-width:42ch;}
+
+#fragments{padding-top:var(--section-y);padding-bottom:var(--section-y);}
+.frag-strip{gap:clamp(1rem,2.4vw,1.8rem);overflow-x:auto;overscroll-behavior-inline:contain;scrollbar-width:thin;padding-bottom:1rem;}
+#philosophy{min-height:auto;padding-top:var(--section-y);padding-bottom:var(--section-y);}
+.phil-inner{max-width:920px;margin-left:clamp(0px,8vw,12rem);margin-right:auto;}
+.phil-quote{font-size:clamp(2rem,4.6vw,4.3rem);line-height:1.16;}
+.phil-body{font-size:var(--body-type);max-width:48ch;}
+#contact{min-height:auto;padding-top:var(--section-y);padding-bottom:var(--section-y);}
+.contact-title{font-size:clamp(3rem,8vw,7rem);}
+.contact-links{flex-wrap:wrap;justify-content:center;gap:1rem clamp(1.2rem,3vw,2.5rem);}
+footer{padding:2rem var(--page-pad);gap:1.5rem;flex-wrap:wrap;}
+
+.reveal,.reveal-up,.reveal-soft,.stagger-child,.project-hero-reveal{opacity:0;transition-property:opacity,transform,filter;transition-duration:900ms;transition-timing-function:var(--ease);}
+.reveal,.reveal-up,.stagger-child{transform:translateY(24px);}
+.reveal-soft{transform:translateY(10px);filter:blur(6px);}
+.project-hero-reveal{transform:translateY(18px) scale(.985);filter:saturate(.92);}
+.reveal.vis,.reveal.is-visible,.reveal-up.is-visible,.reveal-soft.is-visible,.stagger-child.is-visible,.project-hero-reveal.is-visible{opacity:1;transform:translateY(0) scale(1);filter:none;}
+.stagger-child:nth-child(1){transition-delay:50ms}.stagger-child:nth-child(2){transition-delay:120ms}.stagger-child:nth-child(3){transition-delay:190ms}.stagger-child:nth-child(4){transition-delay:260ms}
+.work-image-parallax{backface-visibility:hidden;}
+
+@media (max-width:1100px){
+  .work-card:nth-child(1){grid-column:1 / span 8}.work-card:nth-child(2){grid-column:9 / span 4;margin-top:5rem}.work-card:nth-child(3){grid-column:1 / span 5}.work-card:nth-child(4){grid-column:6 / span 7;margin-top:4rem}.work-card:nth-child(5){grid-column:2 / span 10}
+  .hero-title{max-width:13ch;}
+}
+@media (max-width:900px){
+  nav{position:sticky;top:0;background:rgba(250,249,247,.88);}
+  .nav-time{display:none;}
+  #hero{min-height:auto;padding-top:5rem;}
+  .hero-top,.hero-sub{align-items:flex-start;}
+  .hero-sub{flex-direction:column;}
+  .hero-scroll-hint{display:none;}
+  .works-editorial{display:grid;grid-template-columns:1fr;gap:4rem;}
+  .work-card,.work-card:nth-child(n){grid-column:auto;margin:0!important;}
+  .work-title{max-width:none;}
+  .work-hover-meta{opacity:1;transform:none;position:relative;inset:auto;color:var(--ink2);margin-top:1rem;display:block;}
+  .work-desc{color:var(--ink2);}
+  .work-links{justify-content:flex-start;margin-top:.85rem;}
+  .work-links span{color:var(--ink3);border-color:var(--border);background:transparent;}
+  .phil-inner{margin-left:0;}
+}
+@media (max-width:680px){
+  :root{--page-pad:clamp(1rem,5vw,1.5rem);}
+  nav{align-items:flex-start;}
+  .nav-right{flex-wrap:wrap;justify-content:flex-end;row-gap:.55rem;}
+  .nav-mark{max-width:11ch;line-height:1.4;}
+  #entry{min-height:auto;padding-top:7rem;}
+  .entry-title{font-size:clamp(3.4rem,18vw,5.6rem);}
+  .hero-top{display:block;}
+  .hero-desc{text-align:left;margin-top:1rem;}
+  .hero-title{font-size:clamp(3.05rem,16vw,5.2rem);max-width:10.8ch;}
+  .works-header{display:block;}
+  .works-meta{margin-top:1.5rem;text-align:left;justify-content:flex-start;}
+  .work-card.is-wide .work-visual,.work-card.is-medium .work-visual{aspect-ratio:4/5;}
+  .work-info{grid-template-columns:1fr;}
+  .work-year{text-align:left;margin-top:0;}
+  .feat-grid{grid-template-columns:1fr;}
+  .feat-links{display:grid;gap:1rem;}
+  .contact-dot{display:none;}
+  #archive-operator{display:none;}
+}
+@media (orientation:landscape) and (max-height:600px){
+  :root{--section-y:clamp(3rem,8vw,5rem);}
+  #entry{min-height:auto;padding-top:5rem;padding-bottom:3rem;}
+  #hero{min-height:auto;padding-top:5rem;padding-bottom:3rem;}
+  .entry-title{font-size:clamp(2.8rem,10vw,5.5rem);margin-bottom:1.75rem;}
+  .entry-label{margin-bottom:1.25rem;}
+  .hero-title{font-size:clamp(2.8rem,9vw,5.8rem);max-width:16ch;}
+  .hero-top{margin-bottom:1.5rem;}
+  .hero-sub{margin-top:1.5rem;}
+  #viewing,#vinyl-widget,#archive-operator,.hero-annotation{display:none!important;}
+  .feat-img{max-height:72vh;}
+  .work-visual{max-height:78vh;}
+}
+@media (min-width:901px) and (max-width:1180px) and (orientation:portrait){
+  .works-editorial{grid-template-columns:repeat(8,minmax(0,1fr));}
+  .work-card:nth-child(1),.work-card:nth-child(5){grid-column:1 / span 8;}
+  .work-card:nth-child(2){grid-column:5 / span 4;margin-top:2rem;}
+  .work-card:nth-child(3){grid-column:1 / span 4;}
+  .work-card:nth-child(4){grid-column:3 / span 6;margin-top:2rem;}
+}
+@media (prefers-reduced-motion:reduce){
+  .reveal,.reveal-up,.reveal-soft,.stagger-child,.project-hero-reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important;}
+  .work-visual{transform:none!important;}
+  #archive-operator .operator-cable{animation:none!important;}
+}
+
 @media(prefers-reduced-motion:reduce){
   *,*::before,*::after{animation-duration:.001ms!important;animation-iteration-count:1!important;scroll-behavior:auto!important;transition-duration:.001ms!important;}
   #env-canvas{display:none;}
@@ -297,13 +450,13 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
   <span class="operator-desk"></span>
 </div>
 
-<nav>
-  <span class="nav-mark">Archive · 2024</span>
+<nav class="reveal-soft">
+  <span class="nav-mark stagger-child">Archive · 2024</span>
   <div class="nav-right">
-    <a href="#works" class="nav-link">Works</a>
-    <a href="#philosophy" class="nav-link">Notes</a>
-    <a href="#contact" class="nav-link">Contact</a>
-    <span class="nav-time" id="nav-time"></span>
+    <a href="#works" class="nav-link stagger-child">Works</a>
+    <a href="#philosophy" class="nav-link stagger-child">Notes</a>
+    <a href="#contact" class="nav-link stagger-child">Contact</a>
+    <span class="nav-time stagger-child" id="nav-time"></span>
   </div>
 </nav>
 
@@ -313,7 +466,7 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
   <div class="entry-inner" id="entry-inner">
     <p class="entry-label">A personal archive &nbsp;·&nbsp; Est. 2024</p>
     <h1 class="entry-title">Drawn<br><em>Worlds</em></h1>
-    <button class="entry-cta" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
+    <button type="button" class="entry-cta" onclick="document.getElementById('hero').scrollIntoView({behavior:'smooth'})">
       Enter archive <span></span>
     </button>
   </div>
@@ -325,11 +478,11 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
     <span class="hero-num">01 / Identity</span>
     <p class="hero-desc">Illustration. Atmosphere.<br>Worlds built in ink and light.</p>
   </div>
-  <div class="hero-title-wrap" style="position:relative;">
+  <div class="hero-title-wrap">
     <h2 class="hero-title" id="hero-title">
       I make images<br>that feel less like<br>pictures and <em>more<br>like places.</em>
     </h2>
-    <span class="hero-annotation" style="top:50%;right:clamp(2rem,6vw,6rem);">an ongoing archive of made worlds</span>
+    <span class="hero-annotation">an ongoing archive of made worlds</span>
   </div>
   <div class="hero-sub" id="hero-sub">
     <div class="hero-roles">
@@ -353,10 +506,10 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
     </div>
     <div class="feat-content reveal reveal-d2">
       <p class="feat-exnum">Exhibition 001</p>
-      <h3 class="feat-title">Lumière<br>& Shadow</h3>
+      <h3 class="feat-title">Lumière<br>&amp; Shadow</h3>
       <p class="feat-body">A series exploring the tension between light and architectural form. Each piece is a meditation on threshold — the moment before dawn, the edge of a room.</p>
       <p class="feat-note">Ink on paper, digitally finished &nbsp;·&nbsp; 24 works</p>
-      <div class="feat-links" style="margin-top:2.5rem;">
+      <div class="feat-links feat-links-spaced">
         <a href="#" class="feat-link">View series
           <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 10L10 2M10 2H5M10 2V7" stroke="currentColor" stroke-width="0.9" stroke-linecap="round"/></svg>
         </a>
@@ -374,9 +527,9 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       <svg width="16" height="7" viewBox="0 0 16 7" fill="none"><path d="M0 3.5H14M11 1l3 2.5-3 2.5" stroke="currentColor" stroke-width="0.8" stroke-linecap="round"/></svg>
     </span>
   </div>
-  <div class="works-editorial" aria-label="Selected portfolio projects">
+  <div class="works-editorial" role="group" aria-label="Selected portfolio projects">
     <a class="work-card is-wide reveal" data-tone="dark" href="projects/echovault.html">
-      <div class="work-visual" data-project="Case file · 001" data-asset="assets/projects/echovault/hero.webp" role="img" aria-label="EchoVault project screenshot placeholder">
+      <div class="work-visual work-image-parallax" data-project="Case file · 001" data-asset="assets/projects/echovault/hero.webp" role="img" aria-label="EchoVault project screenshot placeholder">
         <span class="work-placeholder" aria-hidden="true"></span>
         <div class="work-hover-meta">
           <p class="work-desc">A private cinematic vault for echoes, memory, and carefully held digital artifacts.</p>
@@ -389,7 +542,7 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       </div>
     </a>
     <a class="work-card is-tall reveal reveal-d1" data-tone="warm" href="projects/asna-needle.html">
-      <div class="work-visual" data-project="Case file · 002" data-asset="assets/projects/asna-needle/hero.webp" role="img" aria-label="Asna Needle and Co. project screenshot placeholder">
+      <div class="work-visual work-image-parallax" data-project="Case file · 002" data-asset="assets/projects/asna-needle/hero.webp" role="img" aria-label="Asna Needle and Co. project screenshot placeholder">
         <span class="work-placeholder" aria-hidden="true"></span>
         <div class="work-hover-meta">
           <p class="work-desc">A warm tailoring storefront shaped like cloth, patience, and hand-finished craft.</p>
@@ -402,7 +555,7 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       </div>
     </a>
     <a class="work-card is-medium reveal reveal-d2" data-tone="blue" href="projects/zyphoria.html">
-      <div class="work-visual" data-project="Case file · 003" data-asset="assets/projects/zyphoria/hero.webp" role="img" aria-label="Zyphoria project screenshot placeholder">
+      <div class="work-visual work-image-parallax" data-project="Case file · 003" data-asset="assets/projects/zyphoria/hero.webp" role="img" aria-label="Zyphoria project screenshot placeholder">
         <span class="work-placeholder" aria-hidden="true"></span>
         <div class="work-hover-meta">
           <p class="work-desc">A surreal product world with neon quiet, soft systems, and a drifting interface rhythm.</p>
@@ -415,7 +568,7 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       </div>
     </a>
     <a class="work-card is-poster reveal reveal-d1" data-tone="ink" href="projects/ink-of-arabia.html">
-      <div class="work-visual" data-project="Case file · 004" data-asset="assets/projects/ink-of-arabia/hero.webp" role="img" aria-label="Ink of Arabia project screenshot placeholder">
+      <div class="work-visual work-image-parallax" data-project="Case file · 004" data-asset="assets/projects/ink-of-arabia/hero.webp" role="img" aria-label="Ink of Arabia project screenshot placeholder">
         <span class="work-placeholder" aria-hidden="true"></span>
         <div class="work-hover-meta">
           <p class="work-desc">An editorial homage to calligraphy, ink rituals, and desert-lit publication design.</p>
@@ -428,7 +581,7 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       </div>
     </a>
     <a class="work-card is-wide reveal reveal-d3" data-tone="paper" href="projects/archive.html">
-      <div class="work-visual" data-project="Case file · 005" data-asset="assets/projects/archive/hero.webp" role="img" aria-label="Archive portfolio experiment screenshot placeholder">
+      <div class="work-visual work-image-parallax" data-project="Case file · 005" data-asset="assets/projects/archive/hero.webp" role="img" aria-label="Archive portfolio experiment screenshot placeholder">
         <span class="work-placeholder" aria-hidden="true"></span>
         <div class="work-hover-meta">
           <p class="work-desc">The living portfolio experiment: dust, fragments, clock time, vinyl, and a quiet operator.</p>
@@ -446,9 +599,9 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
 <!-- FRAGMENTS -->
 <section id="fragments" data-section="Visual Fragments — Memory Wall">
   <div class="frag-rail"></div>
-  <p class="section-label reveal" style="margin-bottom:3rem;">04 / Visual Fragments</p>
+  <p class="section-label section-label-tight reveal">04 / Visual Fragments</p>
   <!-- annotation -->
-  <span class="annotation reveal" style="left:clamp(2rem,6vw,6rem);top:10.5rem;opacity:0.4;">studies from the studio, 2023–24</span>
+  <span class="annotation annotation-fragments reveal">studies from the studio, 2023–24</span>
   <div class="frag-strip reveal" id="frag-strip">
     <div class="frag-item" data-sway-speed="1.4" data-sway-amp="1.2" data-phase="0">
       <span class="frag-string"></span>
@@ -456,19 +609,19 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       <canvas class="frag-canvas frag-frame" id="f1" width="185" height="246"></canvas>
       <p class="frag-caption">Studio, morning light</p>
     </div>
-    <div class="frag-item" data-sway-speed="1.8" data-sway-amp="0.9" data-phase="1.2" style="margin-top:2.5rem;">
+    <div class="frag-item frag-offset-1" data-sway-speed="1.8" data-sway-amp="0.9" data-phase="1.2">
       <span class="frag-string"></span>
       <svg class="frag-clip-svg" width="16" height="24" viewBox="0 0 16 24" fill="none"><path d="M5 0v6M11 0v6M2 5h12v19H2z" stroke="#B8B0A0" stroke-width="0.9" stroke-linecap="round"/></svg>
       <canvas class="frag-canvas frag-frame" id="f2" width="150" height="200"></canvas>
       <p class="frag-caption">Sketch, noon</p>
     </div>
-    <div class="frag-item" data-sway-speed="1.1" data-sway-amp="1.5" data-phase="0.7" style="margin-top:0.8rem;">
+    <div class="frag-item frag-offset-2" data-sway-speed="1.1" data-sway-amp="1.5" data-phase="0.7">
       <span class="frag-string"></span>
       <svg class="frag-clip-svg" width="16" height="24" viewBox="0 0 16 24" fill="none"><path d="M5 0v6M11 0v6M2 5h12v19H2z" stroke="#B8B0A0" stroke-width="0.9" stroke-linecap="round"/></svg>
       <canvas class="frag-canvas frag-frame" id="f3" width="205" height="273"></canvas>
       <p class="frag-caption">Umber study</p>
     </div>
-    <div class="frag-item" data-sway-speed="2.0" data-sway-amp="0.7" data-phase="2.0" style="margin-top:3.5rem;">
+    <div class="frag-item frag-offset-3" data-sway-speed="2.0" data-sway-amp="0.7" data-phase="2.0">
       <span class="frag-string"></span>
       <svg class="frag-clip-svg" width="16" height="24" viewBox="0 0 16 24" fill="none"><path d="M5 0v6M11 0v6M2 5h12v19H2z" stroke="#B8B0A0" stroke-width="0.9" stroke-linecap="round"/></svg>
       <canvas class="frag-canvas frag-frame" id="f4" width="135" height="180"></canvas>
@@ -496,7 +649,7 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
       <span class="stamp"><span class="stamp-dot"></span>Curated Archive<span class="stamp-dot"></span></span>
     </div>
   </div>
-  <span class="annotation" style="right:clamp(2rem,6vw,6rem);bottom:5rem;font-size:12px;opacity:0.35;">see also: the archive, p.48</span>
+  <span class="annotation annotation-philosophy">see also: the archive, p.48</span>
 </section>
 
 <!-- CONTACT -->
@@ -524,24 +677,29 @@ footer span{font-size:10px;color:var(--ink4);letter-spacing:0.08em;}
 <script>
 // ── CURSOR ──────────────────────────────────────────────────────
 const cur=document.getElementById('cur'),ring=document.getElementById('cur-ring');
+const finePointer=window.matchMedia('(hover:hover) and (pointer:fine)').matches;
 let mx=window.innerWidth/2,my=window.innerHeight/2,rx=mx,ry=my;
-document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
-(function animRing(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
-document.querySelectorAll('a,button,.work-card,.feat-img,.frag-item').forEach(el=>{
-  el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(10,10,10,0.4)';});
-  el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(10,10,10,0.28)';});
-});
+if(finePointer&&cur&&ring){
+  document.addEventListener('mousemove',e=>{mx=e.clientX;my=e.clientY;cur.style.left=mx+'px';cur.style.top=my+'px';});
+  (function animRing(){rx+=(mx-rx)*0.1;ry+=(my-ry)*0.1;ring.style.left=rx+'px';ring.style.top=ry+'px';requestAnimationFrame(animRing);})();
+  document.querySelectorAll('a,button,.work-card,.feat-img,.frag-item').forEach(el=>{
+    el.addEventListener('mouseenter',()=>{ring.style.width='54px';ring.style.height='54px';ring.style.borderColor='rgba(10,10,10,0.4)';});
+    el.addEventListener('mouseleave',()=>{ring.style.width='32px';ring.style.height='32px';ring.style.borderColor='rgba(10,10,10,0.28)';});
+  });
+}
 
 // ── LOADER ──────────────────────────────────────────────────────
 window.addEventListener('load',()=>{
   setTimeout(()=>{
     document.getElementById('loader').classList.add('out');
-    document.getElementById('entry-inner').classList.add('vis');
+    document.getElementById('entry-inner').classList.add('vis','is-visible');
+    document.querySelector('nav')?.classList.add('vis','is-visible');
+    document.querySelectorAll('nav .stagger-child').forEach((el,i)=>setTimeout(()=>el.classList.add('is-visible'),i*70));
     document.getElementById('light-leak').style.opacity='1';
     setTimeout(()=>{document.getElementById('light-leak').style.opacity='0';},3200);
     setTimeout(()=>{
-      document.getElementById('hero-title').classList.add('vis');
-      document.getElementById('hero-sub').classList.add('vis');
+      document.getElementById('hero-title').classList.add('vis','is-visible');
+      document.getElementById('hero-sub').classList.add('vis','is-visible');
       document.getElementById('viewing').classList.add('vis');
       document.getElementById('vinyl-widget').classList.add('vis');
     },600);
@@ -549,10 +707,13 @@ window.addEventListener('load',()=>{
 });
 
 // ── SCROLL REVEAL ───────────────────────────────────────────────
-const io=new IntersectionObserver(entries=>{
-  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('vis');});
-},{threshold:0.1});
-document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+const revealTargets=document.querySelectorAll('.reveal,.reveal-up,.reveal-soft,.stagger-child,.project-hero-reveal');
+if('IntersectionObserver' in window){
+  const io=new IntersectionObserver(entries=>{
+    entries.forEach(e=>{if(e.isIntersecting){e.target.classList.add('vis','is-visible');io.unobserve(e.target);}});
+  },{threshold:0.12,rootMargin:'0px 0px -8% 0px'});
+  revealTargets.forEach(el=>io.observe(el));
+}else{revealTargets.forEach(el=>el.classList.add('vis','is-visible'));}
 
 // ── CURRENTLY VIEWING ───────────────────────────────────────────
 const viewingName=document.getElementById('viewing-name');
@@ -581,12 +742,16 @@ tick();setInterval(tick,15000);
 const prefersReduced=window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
 // ── VINYL SPIN ──────────────────────────────────────────────────
-let vinylAngle=0;
+let vinylAngle=0,vinylHover=false;
 const vdisc=document.getElementById('vinyl-disc');
+if(vdisc){
+  vdisc.addEventListener('mouseenter',()=>{vinylHover=true;});
+  vdisc.addEventListener('mouseleave',()=>{vinylHover=false;});
+}
 (function spinVinyl(){
   if(prefersReduced)return;
-  vinylAngle+=0.12;
-  if(vdisc)vdisc.style.transform=`rotate(${vinylAngle}deg)`;
+  vinylAngle+=vinylHover?0.025:0.12;
+  if(vdisc)vdisc.style.transform=`rotate(${vinylAngle}deg) scale(${vinylHover?1.05:1})`;
   requestAnimationFrame(spinVinyl);
 })();
 
@@ -872,6 +1037,21 @@ if('IntersectionObserver' in window){
   projectPanels.forEach(panel=>assetObserver.observe(panel));
 }else{
   projectPanels.forEach(loadProjectPanel);
+}
+
+
+// ── DESKTOP-ONLY WORK THUMBNAIL MICRO PARALLAX ─────────────────
+if(finePointer&&!prefersReduced){
+  document.querySelectorAll('.work-image-parallax').forEach(panel=>{
+    panel.addEventListener('mousemove',e=>{
+      const r=panel.getBoundingClientRect();
+      const x=(e.clientX-r.left)/r.width-.5;
+      const y=(e.clientY-r.top)/r.height-.5;
+      panel.style.setProperty('--px', `${(x*8).toFixed(2)}px`);
+      panel.style.setProperty('--py', `${(y*8).toFixed(2)}px`);
+    });
+    panel.addEventListener('mouseleave',()=>{panel.style.setProperty('--px','0px');panel.style.setProperty('--py','0px');});
+  });
 }
 
 // ── LIGHT LEAK ON SECTION ENTRY ─────────────────────────────────
