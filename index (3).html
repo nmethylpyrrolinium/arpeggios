@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archive — NM · Cinematic Frontend Portfolio</title>
+  <meta name="description" content="Frontend engineering, editorial interface design, and visual storytelling. A cinematic archive of crafted web experiences.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+
+  <!-- Cinematic loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-rule"></div>
+      <p class="loader-label">Opening archive</p>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+    <button id="skip-loader" class="loader-skip">Skip</button>
+  </div>
+
+  <!-- Atmospheric grain -->
+  <div class="grain" aria-hidden="true"></div>
+  <!-- Ambient light leak -->
+  <div class="ambient-leak" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header id="site-header">
+    <nav aria-label="Primary navigation">
+      <a href="#hero" class="nav-mark" aria-label="Archive — NM home">
+        <span class="mark-archive">Archive</span>
+        <span class="mark-sep">/</span>
+        <span class="mark-nm">NM</span>
+      </a>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation menu">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+      </button>
+      <div id="nav-links" class="nav-links" role="navigation">
+        <a href="#works" class="nav-item">Work</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#contact" class="nav-item">Contact</a>
+        <span class="nav-time" id="nav-time" aria-live="polite"></span>
+      </div>
+    </nav>
+  </header>
+
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 01 — HERO
+    ═══════════════════════════════════════ -->
+    <section id="hero" aria-label="Introduction">
+      <div class="hero-eyeline" data-cinematic>
+        <span class="eyeline-tag">Archive Edition · 2026</span>
+        <span class="eyeline-rule" aria-hidden="true"></span>
+        <span class="eyeline-tag">Mumbai · Frontend Catalog</span>
+      </div>
+
+      <div class="hero-stage">
+        <div class="hero-number" aria-hidden="true">01</div>
+        <h1 class="hero-headline" data-split>
+          <span class="hl-serif">Cinematic</span>
+          <span class="hl-break" aria-hidden="true"></span>
+          <span class="hl-sans">web</span>
+          <span class="hl-serif hl-italic">experiences</span>
+        </h1>
+        <p class="hero-sub" data-cinematic>
+          Frontend engineering, editorial interface design,<br class="br-wide">
+          and emotional visual storytelling.
+        </p>
+      </div>
+
+      <div class="hero-footer" data-cinematic>
+        <p class="hero-role">Creative Technologist · Frontend Builder · Visual Storyteller</p>
+        <a href="#works" class="hero-cta" aria-label="View selected works">
+          <span>View Works</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+      </div>
+
+      <!-- Vertical text watermark -->
+      <div class="hero-vertical" aria-hidden="true">
+        <span>I design and build the space between code and cinema</span>
+      </div>
+
+      <!-- Scroll indicator -->
+      <div class="scroll-cue" aria-hidden="true">
+        <div class="scroll-line"></div>
+        <span>Scroll</span>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         INTERSTITIAL — IDENTITY STATEMENT
+    ═══════════════════════════════════════ -->
+    <div class="interstitial" id="identity" aria-label="Portfolio statement">
+      <div class="interstitial-inner">
+        <p class="interstitial-text" data-cinematic>
+          I build web products that occupy the intersection of
+          <em>frontend engineering</em>, product imagination,
+          experimental UI systems, and digital art direction.
+        </p>
+        <ul class="discipline-list" aria-label="Disciplines" data-cinematic>
+          <li>Frontend Engineering</li>
+          <li aria-hidden="true">·</li>
+          <li>Experimental UI</li>
+          <li aria-hidden="true">·</li>
+          <li>Visual Systems</li>
+          <li aria-hidden="true">·</li>
+          <li>Motion Direction</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 02 — WORKS
+    ═══════════════════════════════════════ -->
+    <section id="works" aria-labelledby="works-heading">
+      <div class="section-head">
+        <div class="section-meta">
+          <span class="section-index" aria-hidden="true">02</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-label">Selected Works</span>
+        </div>
+        <h2 id="works-heading" class="section-title" data-cinematic>
+          <span>Production-ready</span>
+          <em>builds</em>
+        </h2>
+      </div>
+
+      <!-- LEAD PROJECT: EchoVault -->
+      <article class="project project-lead" id="proj-echovault" data-cinematic>
+        <div class="project-frame tone-echovault" role="img" aria-label="EchoVault — cinematic dark archive interface preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">Vault · Preview Frame</div>
+            <div class="frame-composition" aria-hidden="true">
+              <div class="comp-rule comp-rule--h"></div>
+              <div class="comp-rule comp-rule--v"></div>
+              <div class="comp-dot"></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <p class="proj-index" aria-hidden="true">001</p>
+          <p class="proj-type">Full-stack archive interface · 2026</p>
+          <h3 class="proj-title">EchoVault</h3>
+          <p class="proj-desc">Private vault interface for preserving voice notes, writings, and memory artifacts. A sealed room for memory: quiet access and echoes that know where they belong.</p>
+          <dl class="proj-details">
+            <div><dt>Role</dt><dd>Frontend + product direction</dd></div>
+            <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
+          </dl>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/echovault/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/echovault" class="proj-link">GitHub</a>
+            <a href="projects/echovault.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- WIDE PROJECT: Asna Needle -->
+      <article class="project project-wide" id="proj-asna" data-cinematic>
+        <div class="project-meta project-meta--left">
+          <p class="proj-index" aria-hidden="true">002</p>
+          <p class="proj-type">Brand commerce experience · 2026</p>
+          <h3 class="proj-title">Asna Needle<br><span class="title-amp">&amp;</span> Co.</h3>
+          <p class="proj-desc">Tailoring house translated into warm commerce, measured cloth, and slow handwork. An intimate service rather than a transactional storefront.</p>
+          <dl class="proj-details">
+            <div><dt>Role</dt><dd>Frontend + art direction</dd></div>
+            <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
+          </dl>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/asna-needle-and-co/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/asna-needle-and-co" class="proj-link">GitHub</a>
+            <a href="projects/asna-needle.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+        <div class="project-frame tone-asna" role="img" aria-label="Asna Needle & Co. — warm artisan tailoring brand preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">Textile · Study</div>
+            <div class="frame-composition" aria-hidden="true">
+              <div class="comp-rule comp-rule--h"></div>
+              <div class="comp-rule comp-rule--v comp-rule--right"></div>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      <!-- PAIR: Ink of Arabia + Zyphoria -->
+      <div class="project-pair" data-cinematic>
+        <article class="project project-half" id="proj-ink">
+          <div class="project-frame tone-ink" role="img" aria-label="Ink of Arabia — editorial calligraphy microsite preview">
+            <div class="frame-inner">
+              <div class="frame-label" aria-hidden="true">Editorial · Manuscript</div>
+            </div>
+          </div>
+          <div class="project-meta project-meta--below">
+            <p class="proj-index" aria-hidden="true">003</p>
+            <p class="proj-type">Editorial cultural microsite · 2025</p>
+            <h3 class="proj-title">Ink of Arabia</h3>
+            <p class="proj-desc">Calligraphic heritage arranged as an editorial microsite. Ink, desert light, and letterforms treated as architecture.</p>
+            <div class="proj-links">
+              <a href="https://nmethylpyrrolinium.github.io/ink-of-arabia/" class="proj-link proj-link--live">Live site</a>
+              <a href="projects/ink-of-arabia.html" class="proj-link proj-link--case">Case study →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project project-half project-half--offset" id="proj-zyphoria">
+          <div class="project-frame tone-zyphoria" role="img" aria-label="Zyphoria — surreal speculative landing page preview">
+            <div class="frame-inner">
+              <div class="frame-label" aria-hidden="true">Neon · Concept</div>
+              <div class="frame-composition" aria-hidden="true">
+                <div class="comp-rule comp-rule--h comp-rule--bottom"></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-meta project-meta--below">
+            <p class="proj-index" aria-hidden="true">004</p>
+            <p class="proj-type">Experimental landing · 2025</p>
+            <h3 class="proj-title">Zyphoria</h3>
+            <p class="proj-desc">Surreal digital atmosphere where product, dream, and interface haze drift together. Strange, soft, and lucid.</p>
+            <div class="proj-links">
+              <a href="https://nmethylpyrrolinium.github.io/zyphoria/" class="proj-link proj-link--live">Live site</a>
+              <a href="https://github.com/nmethylpyrrolinium/zyphoria" class="proj-link">GitHub</a>
+              <a href="projects/zyphoria.html" class="proj-link proj-link--case">Case study →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- FULL: Archive Portfolio -->
+      <article class="project project-archive" id="proj-archive" data-cinematic>
+        <div class="archive-bg" aria-hidden="true">
+          <span class="archive-bg-text" aria-hidden="true">Archive</span>
+        </div>
+        <div class="project-frame tone-archive" role="img" aria-label="Archive Portfolio — analog collage digital exhibition preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">Analog · Collage</div>
+            <div class="frame-composition" aria-hidden="true">
+              <div class="comp-rule comp-rule--h"></div>
+              <div class="comp-rule comp-rule--v"></div>
+              <div class="comp-rule comp-rule--diag"></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <p class="proj-index" aria-hidden="true">005</p>
+          <p class="proj-type">Portfolio system · 2026</p>
+          <h3 class="proj-title">Archive /<br>This Portfolio</h3>
+          <p class="proj-desc">A living archive rebuilt for clarity, accessibility, and emotion. Frontend engineering, editorial design, and interaction choreography merged into one curated world.</p>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/gay-baboon/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/gay-baboon" class="proj-link">GitHub</a>
+            <a href="projects/archive.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 03 — PROCESS
+    ═══════════════════════════════════════ -->
+    <section id="process" aria-labelledby="process-heading">
+      <div class="section-head">
+        <div class="section-meta">
+          <span class="section-index" aria-hidden="true">03</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-label">Process</span>
+        </div>
+        <h2 id="process-heading" class="section-title" data-cinematic>
+          <span>Fragments</span>
+          <em>from the edit</em>
+        </h2>
+      </div>
+
+      <div class="process-grid">
+        <article class="fragment fragment--wide" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·01</div>
+          <h3>Motion studies</h3>
+          <p>Every transition is choreographed before it's coded. Ease curves are tested against reduced-motion fallbacks. Motion must clarify intent — never perform for its own sake.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+        <article class="fragment" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·02</div>
+          <h3>Type rhythm</h3>
+          <p>Balancing serif drama with sans readability for long-form case study storytelling. Whitespace is designed — not defaulted.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+        <article class="fragment" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·03</div>
+          <h3>Atmosphere controls</h3>
+          <p>Grain and light leaks tuned as subtle texture, never as blockers. Atmosphere should whisper. It should never shout.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+        <article class="fragment fragment--accent" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·04</div>
+          <h3>Interface as choreography</h3>
+          <p>Each interaction must clarify intent. Scroll pacing, reveal timing, hover evolution — all designed as a sequence, not a list of features.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 04 — ABOUT
+    ═══════════════════════════════════════ -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="about-composition">
+        <div class="about-number" aria-hidden="true">04</div>
+        <div class="about-main">
+          <div class="section-meta" data-cinematic>
+            <span class="section-index" aria-hidden="true">04</span>
+            <span class="section-rule" aria-hidden="true"></span>
+            <span class="section-label">About</span>
+          </div>
+          <h2 id="about-heading" class="about-headline" data-cinematic>
+            A creative technologist<br>
+            <em>based in Mumbai</em>
+          </h2>
+          <div class="about-body" data-cinematic>
+            <p>Focused on emotionally resonant interfaces that remain fast, clear, and accessible. I build portfolio platforms, interactive brand websites, product storytelling systems, and experimental frontend prototypes.</p>
+          </div>
+        </div>
+        <div class="about-sidebar">
+          <dl class="about-dl" data-cinematic>
+            <div class="about-item">
+              <dt>Philosophy</dt>
+              <dd>Interface as choreography — every transition must clarify intent, not distract from it.</dd>
+            </div>
+            <div class="about-item">
+              <dt>Tools</dt>
+              <dd>HTML · CSS · JavaScript · React patterns · Design systems · Motion direction · Accessibility · Performance</dd>
+            </div>
+            <div class="about-item">
+              <dt>Currently exploring</dt>
+              <dd>Narrative UI, tactile web textures, AI-assisted visual prototyping.</dd>
+            </div>
+          </dl>
+        </div>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 05 — CONTACT
+    ═══════════════════════════════════════ -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="contact-stage">
+        <div class="contact-header" data-cinematic>
+          <div class="section-meta">
+            <span class="section-index" aria-hidden="true">05</span>
+            <span class="section-rule" aria-hidden="true"></span>
+            <span class="section-label">Contact</span>
+          </div>
+          <h2 id="contact-heading" class="contact-headline">
+            Open to<br><em>collaborations</em>
+          </h2>
+          <p class="contact-sub" data-cinematic>Frontend product experiences, visual systems, and experimental digital direction.</p>
+        </div>
+        <nav class="contact-links" aria-label="Contact links" data-cinematic>
+          <a href="mailto:nmethylpyrrolinium@gmail.com" class="contact-link">
+            <span class="contact-link-label">Email</span>
+            <span class="contact-link-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="https://github.com/nmethylpyrrolinium" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <span class="contact-link-label">GitHub</span>
+            <span class="contact-link-arrow" aria-hidden="true">→</span>
+          </a>
+          <a href="https://nmethylpyrrolinium.github.io/gay-baboon/" class="contact-link">
+            <span class="contact-link-label">Live Portfolio</span>
+            <span class="contact-link-arrow" aria-hidden="true">→</span>
+          </a>
+        </nav>
+        <p class="contact-filed" aria-label="Location and update frequency">Filed in Mumbai · Updated seasonally</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer aria-label="Site footer">
+    <p class="footer-copy">© 2026 Archive Portfolio · NM</p>
+    <p class="footer-note" aria-hidden="true">A quiet archive where code behaves like cinema.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
