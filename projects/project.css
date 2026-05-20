@@ -107,3 +107,12 @@ main{padding:0 var(--page-pad) var(--case-y);max-width:1380px;margin-inline:auto
   .project-nav{position:sticky;background:rgba(250,249,247,.9)}.hero{padding-top:4.5rem;padding-bottom:3rem;gap:2rem}.hero-image{min-height:62svh}.hero-title{grid-template-columns:minmax(0,1fr) minmax(240px,330px);align-items:start}.hero h1{font-size:clamp(2.8rem,8vw,5.8rem)}.subtitle{font-size:clamp(1rem,2vw,1.35rem)}.case-section{padding:3rem 0}.shot,.shot.tall{min-height:72vh}
 }
 @media(prefers-reduced-motion:reduce){.reveal,.reveal-up,.reveal-soft,.stagger-child,.project-hero-reveal{opacity:1!important;transform:none!important;filter:none!important;transition:none!important}}
+
+
+.hero::after{content:"";position:absolute;right:4vw;top:12vh;width:38vw;height:38vw;max-width:520px;max-height:520px;background:radial-gradient(circle,rgba(216,190,145,.18),transparent 62%);pointer-events:none;filter:blur(8px)}
+.case-section{position:relative}
+.case-section h2::before{content:"Case";display:block;font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--ink4);margin-bottom:.7rem;font-family:'DM Sans',sans-serif;font-style:normal}
+.meta-card{position:sticky;top:6rem;align-self:start}
+.shot{transition:transform .8s var(--ease),filter .8s var(--ease)}
+.shot:hover{transform:translateY(-4px) scale(1.01);filter:brightness(1.05)}
+.gallery-note{padding-bottom:.35rem;border-bottom:1px solid var(--border)}
