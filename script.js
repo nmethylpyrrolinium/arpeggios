@@ -1,5 +1,5 @@
 /* ═══════════════════════════════════════════════════════════
-   ARCHIVE PORTFOLIO — BLACK HOLE EXTRACTION SYSTEM
+   ALAM'S DUMP — BLACK HOLE EXTRACTION SYSTEM
    ═══════════════════════════════════════════════════════════ */
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -14,7 +14,7 @@ skipBtn?.addEventListener('click', closeLoader);
 const timeEl = document.getElementById('nav-time');
 function tick() {
   if (!timeEl) return;
-  timeEl.textContent = `Mumbai · ${new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false })}`;
+  timeEl.textContent = `UTC · ${new Date().toLocaleTimeString('en-GB', { timeZone: 'UTC', hour: '2-digit', minute: '2-digit', hour12: false })}`;
 }
 tick();
 setInterval(tick, 30000);
@@ -232,8 +232,8 @@ function updateRecoveredState() {
   const unlocked = recovered.size >= 3;
   archiveUnlock?.classList.toggle('is-unlocked', unlocked);
   if (archiveUnlock) archiveUnlock.querySelector('.archive-unlock-copy').innerHTML = unlocked
-    ? '<b>Final transmission open</b><small>Gravity threshold cleared. The archive is listening.</small>'
-    : `<b>Final transmission sealed</b><small>Recover ${3 - recovered.size} more artifact${3 - recovered.size === 1 ? '' : 's'} to stabilize this channel.</small>`;
+    ? '<b>Dump transmission open</b><small>Gravity threshold cleared. alam\'s dump is listening.</small>'
+    : `<b>Dump transmission sealed</b><small>Recover ${3 - recovered.size} more artifact${3 - recovered.size === 1 ? '' : 's'} to stabilize alam's dump.</small>`;
   hero?.classList.toggle('is-collapsed', recovered.size >= 5);
 }
 updateRecoveredState();
@@ -263,7 +263,7 @@ function orbit(ms = 0) {
     const depth = .65 + (Math.sin(angle) + 1) * .2;
     fragment.style.opacity = locked ? '1' : String(.38 + depth * .55);
     fragment.style.filter = locked ? 'none' : `blur(${Math.max(0, (1 - depth) * 1.7)}px)`;
-    fragment.style.transform = `translate3d(${x - fragment.offsetWidth / 2}px, ${y - fragment.offsetHeight / 2}px, 0) rotate(${Math.cos(angle) * (locked ? 1 : 6)}deg) scale(${locked ? 1.08 : depth})`;
+    fragment.style.transform = `translate3d(${x - fragment.offsetWidth / 2}px, ${y - fragment.offsetHeight / 2}px, ${(depth - .78) * 240}px) rotateX(${Math.sin(angle) * -7}deg) rotateY(${Math.cos(angle) * 9}deg) rotateZ(${Math.cos(angle) * (locked ? 1 : 6)}deg) scale(${locked ? 1.08 : depth})`;
     fragment.style.zIndex = locked ? '20' : String(Math.round(depth * 10));
   });
   if (lockedFragment && lockLine) {
@@ -358,3 +358,24 @@ if (!reduce && window.matchMedia('(min-width: 900px)').matches) {
     frame.addEventListener('pointerleave', () => { frame.style.transform = ''; });
   });
 }
+
+
+// ── REAL-TIME REPO CONSTELLATION DEPTH ───────────────────
+const repoCards = [...document.querySelectorAll('[data-repo-card]')];
+repoCards.forEach((card, index) => {
+  card.style.setProperty('--repo-phase', String(index * 0.37));
+  card.addEventListener('pointermove', event => {
+    if (reduce) return;
+    const box = card.getBoundingClientRect();
+    const x = (event.clientX - box.left) / box.width - .5;
+    const y = (event.clientY - box.top) / box.height - .5;
+    card.style.setProperty('--repo-x', `${(x * 100).toFixed(1)}%`);
+    card.style.setProperty('--repo-y', `${(y * 100).toFixed(1)}%`);
+    card.style.transform = `translate3d(${x * 8}px, ${y * 8}px, 28px) rotateX(${-y * 9}deg) rotateY(${x * 12}deg)`;
+  });
+  card.addEventListener('pointerleave', () => {
+    card.style.transform = '';
+    card.style.removeProperty('--repo-x');
+    card.style.removeProperty('--repo-y');
+  });
+});

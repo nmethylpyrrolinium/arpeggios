@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Asna Needle &amp; Co. — Archive Case File</title>
+<title>Asna Needle &amp; Co. — alam's dump Case File</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="project.css">
 </head>
@@ -11,7 +11,7 @@
 <div class="grain" aria-hidden="true"></div>
 <nav class="project-nav reveal-soft" aria-label="Project navigation">
   <a class="nav-link stagger-child" href="../index.html#works">← Back to works</a>
-  <span class="nav-mark stagger-child">Archive · Case file</span>
+  <span class="nav-mark stagger-child">alam's dump · Case file</span>
   <span class="nav-time stagger-child" id="nav-time"></span>
 </nav>
 <header class="hero">
@@ -28,8 +28,8 @@
       <div class="meta-row"><dt>Deliverable</dt><dd>Brand and commerce website</dd></div>
       <div class="meta-row"><dt>Year</dt><dd>2026</dd></div>
       <div class="meta-row"><dt>Role</dt><dd>Visual direction, responsive frontend, content structure</dd></div>
-      <div class="meta-row"><dt>Live Site</dt><dd>Pending screenshot / deployment URL</dd></div>
-      <div class="meta-row"><dt>GitHub</dt><dd>Available when repository is public</dd></div>
+      <div class="meta-row"><dt>Live Site</dt><dd><a href="https://nmethylpyrrolinium.github.io/asnaneedle.studio/">Open live site</a></dd></div>
+      <div class="meta-row"><dt>GitHub</dt><dd><a href="https://github.com/nmethylpyrrolinium/asnaneedle.studio">Open repository</a></dd></div>
     </dl>
   </div>
 </header>
@@ -48,7 +48,7 @@
   <a class="back-link reveal-soft" href="../index.html#works">← Back to Works</a>
 </main>
 <script>
-function tick(){const t=new Date().toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:false});const el=document.getElementById('nav-time');if(el)el.textContent='Mumbai · '+t;}
+function tick(){const t=new Date().toLocaleTimeString('en-GB',{timeZone:'UTC',hour:'2-digit',minute:'2-digit',hour12:false});const el=document.getElementById('nav-time');if(el)el.textContent='UTC · '+t;}
 tick();setInterval(tick,15000);
 function loadPanel(panel){if(panel.dataset.loaded)return;panel.dataset.loaded='true';const src=panel.dataset.asset;const img=new Image();img.loading='lazy';img.decoding='async';img.onload=()=>{panel.style.backgroundImage=`linear-gradient(to top,rgba(10,10,10,.28),transparent 50%),url(${src})`;panel.classList.add('has-image');};img.src=src;}
 const panels=document.querySelectorAll('[data-asset]');if('IntersectionObserver' in window){const observer=new IntersectionObserver(entries=>{entries.forEach(entry=>{if(entry.isIntersecting){loadPanel(entry.target);observer.unobserve(entry.target);}});},{rootMargin:'360px'});panels.forEach(panel=>observer.observe(panel));}else{panels.forEach(loadPanel);}
