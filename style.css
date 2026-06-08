@@ -853,3 +853,69 @@ footer {
   .scroll-cue { animation: none; opacity: .5; }
   .scroll-line { animation: none; }
 }
+
+/* ═══════════════════════════════════════════════════════════
+   TERRAIN EDITION — A THREE-DIMENSIONAL DIGITAL EXPEDITION
+   ═══════════════════════════════════════════════════════════ */
+#hero {
+  isolation: isolate;
+  background: #100f0c;
+  color: #eee9dc;
+  padding-top: clamp(6.5rem, 12vw, 9rem);
+  padding-bottom: clamp(2rem, 4vw, 4rem);
+}
+#terrain-canvas, .terrain-vignette {
+  position: absolute; inset: 0; width: 100%; height: 100%;
+}
+#terrain-canvas { z-index: -3; display: block; }
+.terrain-vignette {
+  z-index: -2; pointer-events: none;
+  background:
+    linear-gradient(90deg, rgba(8,8,6,.72), transparent 45%, rgba(8,8,6,.22)),
+    linear-gradient(180deg, rgba(8,8,6,.22), transparent 45%, rgba(8,8,6,.84));
+}
+.terrain-coordinate {
+  position: absolute; z-index: 2; bottom: 22%;
+  font: 500 .58rem/1.65 var(--sans); letter-spacing: .2em; text-transform: uppercase;
+  color: rgba(238,233,220,.45); writing-mode: vertical-rl;
+}
+.terrain-coordinate--left { left: 1.2rem; transform: rotate(180deg); }
+.terrain-coordinate--right { right: 1.2rem; }
+#hero .hero-eyeline, #hero .hero-footer { position: relative; z-index: 3; }
+#hero .eyeline-tag, #hero .hero-role { color: rgba(238,233,220,.55); }
+#hero .eyeline-rule, #hero .hero-footer { border-color: rgba(238,233,220,.2); }
+#hero .eyeline-rule { background: rgba(238,233,220,.24); }
+#hero .hero-stage { align-self: center; z-index: 2; }
+#hero .hero-headline { max-width: 11ch; text-shadow: 0 8px 42px rgba(0,0,0,.4); }
+#hero .hl-serif { color: #f2eddf; }
+#hero .hl-italic { color: #b9a783; }
+#hero .hl-sans { color: rgba(242,237,223,.7); letter-spacing: .08em; text-transform: uppercase; }
+#hero .hero-sub { color: rgba(242,237,223,.68); max-width: 48ch; }
+#hero .hero-number { -webkit-text-stroke-color: rgba(242,237,223,.08); }
+#hero .hero-cta { color: #eee9dc; border-color: rgba(238,233,220,.5); }
+#hero .hero-vertical, #hero .scroll-cue { color: rgba(238,233,220,.36); }
+#hero .scroll-line { background: linear-gradient(to bottom, rgba(238,233,220,.45), transparent); }
+
+/* Physical depth for the archive beyond the mountain */
+.project-frame {
+  transform-style: preserve-3d;
+  will-change: transform;
+  box-shadow: 0 45px 90px rgba(14,12,9,.14), 0 2px 0 rgba(255,255,255,.55) inset;
+  transition: transform .55s var(--ease), box-shadow .55s var(--ease), filter .6s var(--ease);
+}
+.project-frame::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: linear-gradient(125deg, rgba(255,255,255,.18), transparent 28%, transparent 70%, rgba(0,0,0,.12));
+  mix-blend-mode: soft-light; opacity: .8;
+}
+.project-frame:hover { box-shadow: 0 60px 130px rgba(14,12,9,.22); }
+.project { perspective: 1200px; }
+
+@media (max-width: 800px) {
+  .terrain-coordinate { display: none; }
+  #hero { min-height: 100svh; padding-top: 7rem; }
+  #hero .hero-headline { max-width: 9ch; }
+  #hero .hero-sub { font-size: .9rem; max-width: 34ch; }
+}
+#site-header { color: #eee9dc; }
+#site-header .toggle-line { background: currentColor; }
