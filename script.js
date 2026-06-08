@@ -1,250 +1,360 @@
 /* ═══════════════════════════════════════════════════════════
-   ARCHIVE PORTFOLIO — CINEMATIC INTERACTION SYSTEM
+   ARCHIVE PORTFOLIO — BLACK HOLE EXTRACTION SYSTEM
    ═══════════════════════════════════════════════════════════ */
 
-// ── LOADER ────────────────────────────────────────────────
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const coarsePointer = window.matchMedia('(pointer: coarse)').matches;
 const loader = document.getElementById('loader');
 const skipBtn = document.getElementById('skip-loader');
+const closeLoader = () => loader?.classList.add('done');
+window.addEventListener('load', () => setTimeout(closeLoader, 520));
+skipBtn?.addEventListener('click', closeLoader);
 
-function closeLoader() {
-  loader.classList.add('done');
-}
-
-window.addEventListener('load', () => {
-  // Small dramatic pause before dismissing
-  setTimeout(closeLoader, 800);
-});
-skipBtn.addEventListener('click', closeLoader);
-
-// ── CLOCK ─────────────────────────────────────────────────
+// ── CLOCK + MOBILE NAV ─────────────────────────────────────
 const timeEl = document.getElementById('nav-time');
 function tick() {
   if (!timeEl) return;
-  const t = new Date().toLocaleTimeString('en-IN', {
-    hour: '2-digit', minute: '2-digit', hour12: false
-  });
-  timeEl.textContent = 'Mumbai · ' + t;
+  timeEl.textContent = `Mumbai · ${new Date().toLocaleTimeString('en-IN', { hour: '2-digit', minute: '2-digit', hour12: false })}`;
 }
 tick();
 setInterval(tick, 30000);
 
-// ── MOBILE NAV ────────────────────────────────────────────
 const menuBtn = document.querySelector('.menu-toggle');
 const navLinks = document.getElementById('nav-links');
-
-menuBtn.addEventListener('click', () => {
+menuBtn?.addEventListener('click', () => {
   const expanded = menuBtn.getAttribute('aria-expanded') === 'true';
   menuBtn.setAttribute('aria-expanded', String(!expanded));
-  navLinks.classList.toggle('open');
+  navLinks?.classList.toggle('open');
 });
+navLinks?.querySelectorAll('.nav-item').forEach(link => link.addEventListener('click', () => {
+  menuBtn?.setAttribute('aria-expanded', 'false');
+  navLinks.classList.remove('open');
+}));
 
-// Close nav when a link is clicked (mobile)
-navLinks.querySelectorAll('.nav-item').forEach(link => {
-  link.addEventListener('click', () => {
-    menuBtn.setAttribute('aria-expanded', 'false');
-    navLinks.classList.remove('open');
-  });
-});
-
-// Close nav on outside click
-document.addEventListener('click', e => {
-  if (!e.target.closest('nav')) {
-    menuBtn.setAttribute('aria-expanded', 'false');
-    navLinks.classList.remove('open');
+document.addEventListener('click', event => {
+  if (!event.target.closest('nav')) {
+    menuBtn?.setAttribute('aria-expanded', 'false');
+    navLinks?.classList.remove('open');
   }
 });
 
-// ── HEADER SCROLL STATE ───────────────────────────────────
+// ── HEADER + EVENT HORIZON SCROLL STATE ───────────────────
 const header = document.getElementById('site-header');
+const hero = document.getElementById('hero');
 let lastScroll = 0;
 let headerVisible = true;
+function handleScroll() {
+  const y = window.scrollY;
+  const delta = y - lastScroll;
+  const progress = Math.min(1, y / Math.max(1, window.innerHeight * .72));
+  hero?.style.setProperty('--hero-progress', progress.toFixed(3));
+  hero?.classList.toggle('is-scrolling', progress > .02 && progress < 1);
 
-window.addEventListener('scroll', () => {
-  const currentScroll = window.scrollY;
-  const delta = currentScroll - lastScroll;
-
-  // Fade header at top
-  if (currentScroll < 60) {
-    header.style.background = '';
-    header.style.color = '';
-  } else {
-    header.style.background = 'rgba(245,242,236,0.94)';
-    header.style.color = '#0E0C09';
+  if (header) {
+    if (y < 60) {
+      header.style.background = '';
+      header.style.color = '';
+    } else {
+      header.style.background = 'rgba(245,242,236,0.94)';
+      header.style.color = '#0E0C09';
+    }
+    if (Math.abs(delta) >= 5 && delta > 0 && y > 200 && headerVisible) {
+      header.style.transform = 'translateY(-100%)';
+      header.style.transition = 'transform .4s cubic-bezier(0.19,1,0.22,1), background .4s';
+      headerVisible = false;
+    } else if (delta < 0 && !headerVisible) {
+      header.style.transform = '';
+      headerVisible = true;
+    }
   }
+  lastScroll = y;
+}
+window.addEventListener('scroll', handleScroll, { passive: true });
+handleScroll();
 
-  // Hide/show on scroll direction (with threshold)
-  if (Math.abs(delta) < 5) { lastScroll = currentScroll; return; }
-  if (delta > 0 && currentScroll > 200 && headerVisible) {
-    header.style.transform = 'translateY(-100%)';
-    header.style.transition = 'transform .4s cubic-bezier(0.19,1,0.22,1), background .4s';
-    headerVisible = false;
-  } else if (delta < 0 && !headerVisible) {
-    header.style.transform = '';
-    headerVisible = true;
-  }
-  lastScroll = currentScroll;
-}, { passive: true });
-
-// ── CINEMATIC REVEAL SYSTEM ───────────────────────────────
-const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+// ── CINEMATIC REVEALS ─────────────────────────────────────
 const revealTargets = document.querySelectorAll('[data-cinematic]');
-
-if (reduce) {
+if (reduce || !('IntersectionObserver' in window)) {
   revealTargets.forEach(el => el.classList.add('revealed'));
-} else if ('IntersectionObserver' in window) {
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        // Stagger children within a revealed block
-        const el = entry.target;
-        el.classList.add('revealed');
-        observer.unobserve(el);
-      }
-    });
-  }, {
-    threshold: 0.08,
-    rootMargin: '0px 0px -6% 0px'
-  });
-
-  revealTargets.forEach(el => observer.observe(el));
 } else {
-  revealTargets.forEach(el => el.classList.add('revealed'));
+  const observer = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('revealed');
+      observer.unobserve(entry.target);
+    }
+  }), { threshold: .08, rootMargin: '0px 0px -6% 0px' });
+  revealTargets.forEach(el => observer.observe(el));
 }
 
-// Also reveal project-pair children with stagger
 const pairs = document.querySelectorAll('.project-pair');
 if ('IntersectionObserver' in window && !reduce) {
-  const pairObserver = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        const children = entry.target.querySelectorAll('.project-half');
-        children.forEach((child, i) => {
-          setTimeout(() => {
-            child.style.opacity = '1';
-            child.style.transform = 'none';
-          }, i * 120);
-        });
-        pairObserver.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.06 });
-
-  // Init hidden state for pair children
+  const pairObserver = new IntersectionObserver(entries => entries.forEach(entry => {
+    if (!entry.isIntersecting) return;
+    entry.target.querySelectorAll('.project-half').forEach((child, index) => setTimeout(() => {
+      child.style.opacity = '1';
+      child.style.transform = 'none';
+    }, index * 120));
+    pairObserver.unobserve(entry.target);
+  }), { threshold: .06 });
   pairs.forEach(pair => {
     pair.querySelectorAll('.project-half').forEach(child => {
-      if (!reduce) {
-        child.style.opacity = '0';
-        child.style.transform = 'translateY(28px)';
-        child.style.transition = 'opacity 1s cubic-bezier(0.19,1,0.22,1), transform 1.1s cubic-bezier(0.19,1,0.22,1)';
-      }
+      child.style.opacity = '0';
+      child.style.transform = 'translateY(28px)';
+      child.style.transition = 'opacity 1s cubic-bezier(0.19,1,0.22,1), transform 1.1s cubic-bezier(0.19,1,0.22,1)';
     });
     pairObserver.observe(pair);
   });
 }
 
-// ── SCROLL CUE AUTO-HIDE ──────────────────────────────────
-const scrollCue = document.querySelector('.scroll-cue');
-if (scrollCue) {
-  window.addEventListener('scroll', () => {
-    if (window.scrollY > 120) {
-      scrollCue.style.opacity = '0';
-      scrollCue.style.transition = 'opacity .6s';
-    }
-  }, { passive: true, once: false });
-}
+// ── BLACK HOLE WEBGL FIELD ────────────────────────────────
+(() => {
+  const canvas = document.getElementById('black-hole-canvas');
+  if (!canvas) return;
+  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' });
+  if (!gl) {
+    canvas.style.background = 'radial-gradient(circle at 58% 47%, #000 0 11%, #8d8269 11.3%, #08090b 14%, #020303 45%)';
+    return;
+  }
+  const vertex = 'attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}';
+  const fragment = `
+    precision highp float;
+    uniform vec2 r; uniform float t; uniform vec2 m; uniform float s; uniform float collapse;
+    float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453123);}
+    float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y);}
+    mat2 rot(float a){float c=cos(a),q=sin(a);return mat2(c,-q,q,c);}
+    void main(){
+      vec2 uv=(gl_FragCoord.xy-.5*r)/r.y;
+      vec2 center=vec2((.58-.5)*r.x/r.y,.5-.47);
+      if(r.x/r.y<1.1)center=vec2(0.,.5-.47);
+      vec2 q=uv-center; q+=m*.018/(1.+length(q)*8.);
+      q*=rot(-.08); float d=length(q); float a=atan(q.y,q.x);
+      float ringRadius=mix(.145,.012,collapse); float warp=1./max(.035,d);
+      vec2 starUv=uv+normalize(q)*warp*.008*(1.-collapse);
+      float stars=step(.9965,hash(floor(starUv*r.y*.42)));
+      float tiny=step(.991,hash(floor(starUv*r.y*.19)))*.35;
+      float twinkle=.65+.35*sin(t*1.8+hash(floor(starUv*r.y*.42))*20.);
+      vec3 col=vec3((stars+tiny)*twinkle);
+      float dust=noise(vec2(a*7.-t*.025,d*85.));
+      float disc=exp(-abs(q.y)*78.)*smoothstep(.42,.1,abs(q.x))*smoothstep(.075,.16,d);
+      disc*=.3+.7*dust; col+=vec3(.42,.38,.29)*disc*.32;
+      float ring=exp(-abs(d-ringRadius)*260.)+exp(-abs(d-ringRadius*.96)*85.)*.28;
+      float beam=pow(max(0.,1.-abs(q.y)/(ringRadius*.09+.002)),5.)*smoothstep(ringRadius*.65,ringRadius*1.7,abs(q.x))*smoothstep(ringRadius*3.8,ringRadius*1.1,abs(q.x));
+      vec3 warm=vec3(1.,.82,.5), cool=vec3(.48,.64,.82);
+      col+=mix(cool,warm,smoothstep(-.2,.22,q.x))*ring*(1.-collapse)*.82;
+      col+=mix(cool,warm,smoothstep(-.25,.25,q.x))*beam*.42*(1.-collapse);
+      col*=smoothstep(ringRadius*.86,ringRadius*1.02,d);
+      col+=vec3(1.)*exp(-d*480.)*collapse*2.4;
+      float vign=1.-smoothstep(.35,1.15,length(uv*vec2(.7,1.))); col*=.25+.75*vign;
+      col+=(hash(gl_FragCoord.xy+fract(t))-.5)/280.;
+      gl_FragColor=vec4(pow(max(col,0.),vec3(.82)),1.);
+    }`;
+  const compile = (type, source) => {
+    const shader = gl.createShader(type);
+    gl.shaderSource(shader, source);
+    gl.compileShader(shader);
+    return shader;
+  };
+  const program = gl.createProgram();
+  gl.attachShader(program, compile(gl.VERTEX_SHADER, vertex));
+  gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragment));
+  gl.linkProgram(program);
+  gl.useProgram(program);
+  const buffer = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+  gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1, -1, 3, -1, -1, 3]), gl.STATIC_DRAW);
+  const pos = gl.getAttribLocation(program, 'p');
+  gl.enableVertexAttribArray(pos);
+  gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
+  const resolution = gl.getUniformLocation(program, 'r');
+  const time = gl.getUniformLocation(program, 't');
+  const mouse = gl.getUniformLocation(program, 'm');
+  const scroll = gl.getUniformLocation(program, 's');
+  const collapse = gl.getUniformLocation(program, 'collapse');
+  let mx = 0, my = 0, tx = 0, ty = 0, raf;
+  const resize = () => {
+    const density = Math.min(devicePixelRatio, coarsePointer ? 1 : 1.35);
+    canvas.width = innerWidth * density;
+    canvas.height = canvas.clientHeight * density;
+    gl.viewport(0, 0, canvas.width, canvas.height);
+  };
+  addEventListener('resize', resize);
+  addEventListener('pointermove', event => {
+    tx = event.clientX / innerWidth - .5;
+    ty = .5 - event.clientY / innerHeight;
+  }, { passive: true });
+  resize();
+  const draw = ms => {
+    mx += (tx - mx) * .025; my += (ty - my) * .025;
+    gl.uniform2f(resolution, canvas.width, canvas.height);
+    gl.uniform1f(time, ms * .001);
+    gl.uniform2f(mouse, mx, my);
+    gl.uniform1f(scroll, Math.min(1, scrollY / innerHeight));
+    gl.uniform1f(collapse, hero?.classList.contains('is-collapsed') ? 1 : 0);
+    gl.drawArrays(gl.TRIANGLES, 0, 3);
+    if (!reduce) raf = requestAnimationFrame(draw);
+  };
+  if (reduce) draw(0); else raf = requestAnimationFrame(draw);
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) cancelAnimationFrame(raf);
+    else if (!reduce) raf = requestAnimationFrame(draw);
+  });
+})();
 
-// ── SMOOTH HASH NAVIGATION ────────────────────────────────
-document.querySelectorAll('a[href^="#"]').forEach(link => {
-  link.addEventListener('click', e => {
-    const target = document.querySelector(link.getAttribute('href'));
-    if (!target) return;
-    e.preventDefault();
-    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+// ── ORBIT, LOCK, EXTRACTION, AND RECOVERY ─────────────────
+const fragments = [...document.querySelectorAll('.orbit-fragment')];
+const lockLine = document.querySelector('.lock-line');
+const cursor = document.querySelector('.gravity-cursor');
+const status = document.querySelector('.sr-status');
+const countEl = document.getElementById('extraction-count');
+const archiveUnlock = document.getElementById('archive-unlock');
+let pointerX = innerWidth * .5;
+let pointerY = innerHeight * .5;
+let lockedFragment = null;
+let mobilePrimed = null;
+let orbitRaf;
+let recovered = new Set();
+try { recovered = new Set(JSON.parse(localStorage.getItem('nm-recovered') || '[]')); } catch (_) { recovered = new Set(); }
+
+function setLock(fragment) {
+  lockedFragment?.classList.remove('is-locked');
+  lockedFragment = fragment;
+  fragment?.classList.add('is-locked');
+}
+function clearLock(fragment) {
+  if (lockedFragment !== fragment) return;
+  fragment.classList.remove('is-locked');
+  lockedFragment = null;
+  lockLine?.classList.remove('visible');
+}
+function updateRecoveredState() {
+  fragments.forEach(fragment => fragment.classList.toggle('is-recovered', recovered.has(fragment.dataset.target)));
+  if (countEl) countEl.textContent = String(recovered.size).padStart(2, '0');
+  const unlocked = recovered.size >= 3;
+  archiveUnlock?.classList.toggle('is-unlocked', unlocked);
+  if (archiveUnlock) archiveUnlock.querySelector('.archive-unlock-copy').innerHTML = unlocked
+    ? '<b>Final transmission open</b><small>Gravity threshold cleared. The archive is listening.</small>'
+    : `<b>Final transmission sealed</b><small>Recover ${3 - recovered.size} more artifact${3 - recovered.size === 1 ? '' : 's'} to stabilize this channel.</small>`;
+  hero?.classList.toggle('is-collapsed', recovered.size >= 5);
+}
+updateRecoveredState();
+
+function orbit(ms = 0) {
+  if (!hero) return;
+  const rect = hero.getBoundingClientRect();
+  const mobile = innerWidth <= 900;
+  const cx = rect.width * (mobile ? .5 : .58);
+  const cy = rect.height * (mobile ? .44 : .47);
+  const rx = Math.min(rect.width * (mobile ? .39 : .31), mobile ? 185 : 430);
+  const ry = Math.min(rect.height * (mobile ? .29 : .31), mobile ? 245 : 300);
+  fragments.forEach((fragment, index) => {
+    const base = Number(fragment.dataset.angle);
+    const radius = Number(fragment.dataset.radius);
+    const locked = fragment === lockedFragment;
+    const speed = reduce ? 0 : ms * (mobile ? .000018 : .000024) * (index % 2 ? -1 : 1);
+    const angle = base + (locked ? speed * .08 : speed);
+    let x = cx + Math.cos(angle) * rx * radius;
+    let y = cy + Math.sin(angle) * ry * radius;
+    if (!mobile && !locked) {
+      const dx = pointerX - x, dy = pointerY - y;
+      const influence = Math.max(0, 1 - Math.hypot(dx, dy) / 280);
+      x += dx * influence * .035;
+      y += dy * influence * .035;
+    }
+    const depth = .65 + (Math.sin(angle) + 1) * .2;
+    fragment.style.opacity = locked ? '1' : String(.38 + depth * .55);
+    fragment.style.filter = locked ? 'none' : `blur(${Math.max(0, (1 - depth) * 1.7)}px)`;
+    fragment.style.transform = `translate3d(${x - fragment.offsetWidth / 2}px, ${y - fragment.offsetHeight / 2}px, 0) rotate(${Math.cos(angle) * (locked ? 1 : 6)}deg) scale(${locked ? 1.08 : depth})`;
+    fragment.style.zIndex = locked ? '20' : String(Math.round(depth * 10));
+  });
+  if (lockedFragment && lockLine) {
+    const b = lockedFragment.getBoundingClientRect();
+    const hx = rect.left + cx, hy = rect.top + cy;
+    const fx = b.left + b.width / 2, fy = b.top + b.height / 2;
+    lockLine.style.width = `${Math.hypot(fx - hx, fy - hy)}px`;
+    lockLine.style.transform = `rotate(${Math.atan2(fy - hy, fx - hx)}rad)`;
+    lockLine.classList.add('visible');
+  }
+  orbitRaf = requestAnimationFrame(orbit);
+}
+orbitRaf = requestAnimationFrame(orbit);
+
+window.addEventListener('pointermove', event => {
+  pointerX = event.clientX; pointerY = event.clientY;
+  if (cursor) cursor.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
+}, { passive: true });
+
+fragments.forEach(fragment => {
+  fragment.addEventListener('pointerenter', () => !coarsePointer && setLock(fragment));
+  fragment.addEventListener('pointerleave', () => !coarsePointer && clearLock(fragment));
+  fragment.addEventListener('focus', () => setLock(fragment));
+  fragment.addEventListener('blur', () => clearLock(fragment));
+  fragment.addEventListener('click', event => {
+    if (coarsePointer && mobilePrimed !== fragment) {
+      event.preventDefault();
+      mobilePrimed = fragment;
+      setLock(fragment);
+      status.textContent = `${fragment.querySelector('b').textContent} stabilized. Tap again to extract.`;
+      return;
+    }
+    mobilePrimed = null;
+    extract(fragment);
   });
 });
 
-// ── PROJECT FRAME PARALLAX (subtle, desktop only) ─────────
-if (!reduce && window.matchMedia('(min-width: 900px)').matches) {
-  const frames = document.querySelectorAll('.project-frame');
-  const handleScroll = () => {
-    frames.forEach(frame => {
-      const rect = frame.getBoundingClientRect();
-      const center = rect.top + rect.height / 2;
-      const viewCenter = window.innerHeight / 2;
-      const dist = (center - viewCenter) / window.innerHeight;
-      // Very subtle background-position shift for depth
-      frame.style.backgroundPositionY = `calc(50% + ${dist * 18}px)`;
-    });
-  };
-  window.addEventListener('scroll', handleScroll, { passive: true });
+function extract(fragment) {
+  if (!fragment || hero?.classList.contains('is-extracting')) return;
+  const target = document.getElementById(fragment.dataset.target);
+  if (!target) return;
+  setLock(fragment);
+  hero.classList.add('is-extracting');
+  const rect = fragment.getBoundingClientRect();
+  const ghost = fragment.querySelector('.artifact-glass').cloneNode(true);
+  ghost.classList.add('extraction-ghost');
+  Object.assign(ghost.style, { left: `${rect.left}px`, top: `${rect.top}px`, width: `${rect.width}px`, height: `${rect.height * .72}px` });
+  document.body.appendChild(ghost);
+  requestAnimationFrame(() => Object.assign(ghost.style, {
+    left: `${innerWidth * .18}px`, top: `${innerHeight * .19}px`, width: `${innerWidth * .64}px`, height: `${innerHeight * .62}px`, transform: 'rotate(0deg) scale(1)', filter: 'brightness(1.5)'
+  }));
+  const name = fragment.querySelector('b').textContent;
+  status.textContent = `Extracting ${name}.`;
+  setTimeout(() => {
+    target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    recovered.add(fragment.dataset.target);
+    try { localStorage.setItem('nm-recovered', JSON.stringify([...recovered])); } catch (_) { /* storage is optional */ }
+    updateRecoveredState();
+    target.classList.add('is-recovered-now');
+    target.querySelector('.recovered-signal')?.remove();
+    const signal = document.createElement('span');
+    signal.className = 'recovered-signal';
+    signal.textContent = `Artifact ${fragment.dataset.index} · recovered`;
+    target.appendChild(signal);
+    status.textContent = `${name} recovered.`;
+    setTimeout(() => { ghost.remove(); hero.classList.remove('is-extracting'); clearLock(fragment); }, 350);
+    setTimeout(() => target.classList.remove('is-recovered-now'), 2400);
+  }, reduce ? 20 : 820);
 }
 
-// ── TERRAIN ENGINE — custom WebGL height-field expedition ──
-(() => {
-  const canvas = document.getElementById('terrain-canvas');
-  if (!canvas) return;
-  const gl = canvas.getContext('webgl', { antialias: false, alpha: false, powerPreference: 'high-performance' });
-  if (!gl) { canvas.style.background = 'radial-gradient(circle at 65% 35%, #625844, #100f0c 65%)'; return; }
+document.getElementById('extract-first')?.addEventListener('click', () => extract(fragments[0]));
 
-  const vertex = `attribute vec2 p;void main(){gl_Position=vec4(p,0.,1.);}`;
-  const fragment = `
-    precision highp float;
-    uniform vec2 r; uniform float t; uniform vec2 m;
-    #define PI 3.14159265
-    float hash(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}
-    float noise(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(hash(i),hash(i+vec2(1,0)),f.x),mix(hash(i+vec2(0,1)),hash(i+1.),f.x),f.y);}
-    float fbm(vec2 p){float v=0.,a=.5;mat2 q=mat2(.8,-.6,.6,.8);for(int i=0;i<6;i++){v+=a*noise(p);p=q*p*2.03;a*=.5;}return v;}
-    float terrain(vec2 p){
-      float ridges=1.-abs(2.*fbm(p*.19)-1.);
-      float massif=pow(max(0.,1.-length((p-vec2(4.,4.))*vec2(.055,.085))),2.2)*15.;
-      float peak=pow(max(0.,1.-length((p-vec2(-5.,11.))*vec2(.08,.055))),2.8)*11.;
-      return ridges*ridges*5.2+massif+peak-2.5;
-    }
-    vec3 normal(vec3 p){float e=.08,h=terrain(p.xz);return normalize(vec3(h-terrain(p.xz-vec2(e,0.)),e,h-terrain(p.xz-vec2(0,e))));}
-    void main(){
-      vec2 uv=(gl_FragCoord.xy*2.-r)/r.y;
-      vec3 ro=vec3(-1.5+m.x*1.8,7.5+m.y*1.1,-12.+sin(t*.08)*.5);
-      vec3 ta=vec3(1.5,3.3,8.);
-      vec3 ww=normalize(ta-ro),uu=normalize(cross(ww,vec3(0,1,0))),vv=cross(uu,ww);
-      vec3 rd=normalize(uv.x*uu+uv.y*vv+1.65*ww);
-      float d=0., hit=0.; vec3 p;
-      for(int i=0;i<92;i++){p=ro+rd*d;float h=p.y-terrain(p.xz);if(h<.025){hit=1.;break;}d+=max(.035,h*.19);if(d>65.)break;}
-      vec3 col=vec3(.055,.052,.043);
-      if(hit>0.){
-        vec3 n=normal(p);vec3 sun=normalize(vec3(-.55,.7,-.35));float dif=max(dot(n,sun),0.);
-        float contour=smoothstep(.035,.0,abs(fract(p.y*.58)-.5)-.47);
-        float strata=.5+.5*sin(p.y*5.+fbm(p.xz)*5.);
-        vec3 rock=mix(vec3(.12,.115,.095),vec3(.54,.48,.35),dif);
-        rock+=vec3(.14,.105,.05)*pow(dif,3.);rock*=.82+.18*strata;rock+=contour*.08;
-        float fog=1.-exp(-d*d*.0012);col=mix(rock,vec3(.07,.067,.056),fog);
-      } else {
-        float glow=pow(max(dot(rd,normalize(vec3(-.3,.35,.8))),0.),10.);
-        col+=vec3(.32,.27,.17)*glow;
-      }
-      float vign=1.-smoothstep(.5,1.4,length(uv*.72));col*=.62+.38*vign;
-      col+= (hash(gl_FragCoord.xy+fract(t))-0.5)/255.;
-      col=pow(col,vec3(.88));gl_FragColor=vec4(col,1.);
-    }`;
-  const compile = (type, source) => { const shader = gl.createShader(type); gl.shaderSource(shader, source); gl.compileShader(shader); return shader; };
-  const program = gl.createProgram(); gl.attachShader(program, compile(gl.VERTEX_SHADER, vertex)); gl.attachShader(program, compile(gl.FRAGMENT_SHADER, fragment)); gl.linkProgram(program); gl.useProgram(program);
-  const buffer = gl.createBuffer(); gl.bindBuffer(gl.ARRAY_BUFFER, buffer); gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([-1,-1,3,-1,-1,3]), gl.STATIC_DRAW);
-  const pos = gl.getAttribLocation(program, 'p'); gl.enableVertexAttribArray(pos); gl.vertexAttribPointer(pos, 2, gl.FLOAT, false, 0, 0);
-  const resolution = gl.getUniformLocation(program, 'r'), time = gl.getUniformLocation(program, 't'), mouse = gl.getUniformLocation(program, 'm');
-  let mx = 0, my = 0, tx = 0, ty = 0, raf;
-  const resize = () => { const d = Math.min(devicePixelRatio, 1.35); canvas.width = innerWidth*d; canvas.height = canvas.clientHeight*d; gl.viewport(0,0,canvas.width,canvas.height); };
-  addEventListener('resize', resize); addEventListener('pointermove', e => { tx=(e.clientX/innerWidth-.5);ty=(.5-e.clientY/innerHeight); }, {passive:true}); resize();
-  const draw = ms => { mx+=(tx-mx)*.025;my+=(ty-my)*.025;gl.uniform2f(resolution,canvas.width,canvas.height);gl.uniform1f(time,ms*.001);gl.uniform2f(mouse,mx,my);gl.drawArrays(gl.TRIANGLES,0,3);if(!reduce)raf=requestAnimationFrame(draw); };
-  if (!reduce) raf=requestAnimationFrame(draw); else draw(0);
-  document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelAnimationFrame(raf);else if(!reduce)raf=requestAnimationFrame(draw);});
-})();
+// ── SMOOTH HASH NAVIGATION + PROJECT DEPTH ────────────────
+document.querySelectorAll('a[href^="#"]').forEach(link => link.addEventListener('click', event => {
+  const target = document.querySelector(link.getAttribute('href'));
+  if (!target) return;
+  event.preventDefault();
+  target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'start' });
+}));
 
-// ── PROJECT DEPTH — restrained physical tilt, never neon ──
-if (!reduce && matchMedia('(pointer: fine)').matches) {
-  document.querySelectorAll('.project-frame').forEach(frame => {
-    frame.addEventListener('pointermove', e => {
-      const b=frame.getBoundingClientRect(), x=(e.clientX-b.left)/b.width-.5, y=(e.clientY-b.top)/b.height-.5;
-      frame.style.transform=`rotateX(${-y*4}deg) rotateY(${x*5}deg) translateZ(8px)`;
+if (!reduce && window.matchMedia('(min-width: 900px)').matches) {
+  const frames = document.querySelectorAll('.project-frame');
+  window.addEventListener('scroll', () => frames.forEach(frame => {
+    const rect = frame.getBoundingClientRect();
+    frame.style.backgroundPositionY = `calc(50% + ${((rect.top + rect.height / 2 - innerHeight / 2) / innerHeight) * 18}px)`;
+  }), { passive: true });
+  frames.forEach(frame => {
+    frame.addEventListener('pointermove', event => {
+      const b = frame.getBoundingClientRect(), x = (event.clientX - b.left) / b.width - .5, y = (event.clientY - b.top) / b.height - .5;
+      frame.style.transform = `rotateX(${-y * 4}deg) rotateY(${x * 5}deg) translateZ(8px)`;
     });
-    frame.addEventListener('pointerleave',()=>{ frame.style.transform=''; });
+    frame.addEventListener('pointerleave', () => { frame.style.transform = ''; });
   });
 }
