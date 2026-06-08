@@ -232,9 +232,9 @@ function updateRecoveredState() {
   const unlocked = recovered.size >= 3;
   archiveUnlock?.classList.toggle('is-unlocked', unlocked);
   if (archiveUnlock) archiveUnlock.querySelector('.archive-unlock-copy').innerHTML = unlocked
-    ? '<b>Dump transmission open</b><small>Gravity threshold cleared. alam\'s dump is listening.</small>'
-    : `<b>Dump transmission sealed</b><small>Recover ${3 - recovered.size} more artifact${3 - recovered.size === 1 ? '' : 's'} to stabilize alam's dump.</small>`;
-  hero?.classList.toggle('is-collapsed', recovered.size >= 5);
+    ? '<b>Direct transmission open</b><small>Gravity threshold cleared. The archive is listening.</small>'
+    : `<b>Direct transmission sealed</b><small>Recover ${3 - recovered.size} more artifact${3 - recovered.size === 1 ? '' : 's'} to stabilize the archive.</small>`;
+  hero?.classList.toggle('is-collapsed', recovered.size >= fragments.length);
 }
 updateRecoveredState();
 
