@@ -38,6 +38,41 @@ document.addEventListener('click', event => {
   }
 });
 
+// ── DEVICE TILT (MOBILE CAMERA INPUT) ─────────────────────
+// Feeds the same pointer-driven systems (shader warp + fragment
+// orbit + camera parallax) so mobile gets real 3D reactivity
+// instead of the previously-inert static orbit.
+const motionBtn = document.getElementById('enable-motion');
+let tiltX = 0, tiltY = 0;
+let lastInputTime = performance.now();
+function applyTiltEvent(event) {
+  if (event.gamma == null || event.beta == null) return;
+  tiltX = Math.max(-1, Math.min(1, event.gamma / 45));
+  tiltY = Math.max(-1, Math.min(1, (event.beta - 45) / 45)) * -1;
+  lastInputTime = performance.now();
+}
+function startTilt() {
+  window.addEventListener('deviceorientation', applyTiltEvent, { passive: true });
+}
+if (coarsePointer && !reduce && window.DeviceOrientationEvent) {
+  if (typeof DeviceOrientationEvent.requestPermission === 'function') {
+    // iOS 13+: requires a user gesture before motion data is available.
+    motionBtn?.removeAttribute('hidden');
+    motionBtn?.addEventListener('click', async () => {
+      try {
+        const result = await DeviceOrientationEvent.requestPermission();
+        if (result === 'granted') {
+          startTilt();
+          motionBtn.setAttribute('hidden', '');
+        }
+      } catch (_) { /* user dismissed the permission dialog */ }
+    });
+  } else {
+    // Android + other browsers expose motion data without a prompt.
+    startTilt();
+  }
+}
+
 // ── HEADER + EVENT HORIZON SCROLL STATE ───────────────────
 const header = document.getElementById('site-header');
 const hero = document.getElementById('hero');
@@ -144,6 +179,10 @@ if ('IntersectionObserver' in window && !reduce) {
       col+=mix(cool,warm,smoothstep(-.25,.25,q.x))*beam*.42*(1.-collapse);
       col*=smoothstep(ringRadius*.86,ringRadius*1.02,d);
       col+=vec3(1.)*exp(-d*480.)*collapse*2.4;
+      vec2 emberUv=uv+m*.12;
+      float embers=step(.997,hash(floor(emberUv*r.y*.16+t*.02)));
+      float emberTwinkle=.5+.5*sin(t*3.1+hash(floor(emberUv*r.y*.16))*30.);
+      col+=vec3(1.,.78,.42)*embers*emberTwinkle*.9*(1.-collapse);
       float vign=1.-smoothstep(.35,1.15,length(uv*vec2(.7,1.))); col*=.25+.75*vign;
       col+=(hash(gl_FragCoord.xy+fract(t))-.5)/280.;
       gl_FragColor=vec4(pow(max(col,0.),vec3(.82)),1.);
@@ -182,6 +221,14 @@ if ('IntersectionObserver' in window && !reduce) {
     tx = event.clientX / innerWidth - .5;
     ty = .5 - event.clientY / innerHeight;
   }, { passive: true });
+  if (coarsePointer) {
+    // Mirror the page-level tilt values into this shader's own
+    // mouse-warp input so the lensing reacts to device orientation.
+    addEventListener('deviceorientation', () => {
+      tx = tiltX * .5;
+      ty = tiltY * .5;
+    }, { passive: true });
+  }
   resize();
   const draw = ms => {
     mx += (tx - mx) * .025; my += (ty - my) * .025;
@@ -204,6 +251,7 @@ if ('IntersectionObserver' in window && !reduce) {
 const fragments = [...document.querySelectorAll('.orbit-fragment')];
 const lockLine = document.querySelector('.lock-line');
 const cursor = document.querySelector('.gravity-cursor');
+const rig = document.querySelector('.cinematic-rig');
 const status = document.querySelector('.sr-status');
 const countEl = document.getElementById('extraction-count');
 const archiveUnlock = document.getElementById('archive-unlock');
@@ -254,11 +302,17 @@ function orbit(ms = 0) {
     const angle = base + (locked ? speed * .08 : speed);
     let x = cx + Math.cos(angle) * rx * radius;
     let y = cy + Math.sin(angle) * ry * radius;
-    if (!mobile && !locked) {
-      const dx = pointerX - x, dy = pointerY - y;
-      const influence = Math.max(0, 1 - Math.hypot(dx, dy) / 280);
-      x += dx * influence * .035;
-      y += dy * influence * .035;
+    if (!locked) {
+      if (!mobile) {
+        const dx = pointerX - x, dy = pointerY - y;
+        const influence = Math.max(0, 1 - Math.hypot(dx, dy) / 280);
+        x += dx * influence * .035;
+        y += dy * influence * .035;
+      } else {
+        // Device tilt stands in for cursor influence on touch devices.
+        x += tiltX * rx * .14;
+        y += tiltY * ry * .14;
+      }
     }
     const depth = .65 + (Math.sin(angle) + 1) * .2;
     fragment.style.opacity = locked ? '1' : String(.38 + depth * .55);
@@ -274,12 +328,20 @@ function orbit(ms = 0) {
     lockLine.style.transform = `rotate(${Math.atan2(fy - hy, fx - hx)}rad)`;
     lockLine.classList.add('visible');
   }
+  if (rig && !reduce) {
+    const idle = performance.now() - lastInputTime > 10000;
+    const camX = idle ? Math.sin(ms * .00012) * .4 : (mobile ? tiltX : (pointerX / innerWidth - .5) * 2);
+    const camY = idle ? Math.cos(ms * .00009) * .25 : (mobile ? tiltY : (pointerY / innerHeight - .5) * 2);
+    rig.style.setProperty('--cam-x', camX.toFixed(3));
+    rig.style.setProperty('--cam-y', camY.toFixed(3));
+  }
   orbitRaf = requestAnimationFrame(orbit);
 }
 orbitRaf = requestAnimationFrame(orbit);
 
 window.addEventListener('pointermove', event => {
   pointerX = event.clientX; pointerY = event.clientY;
+  lastInputTime = performance.now();
   if (cursor) cursor.style.transform = `translate3d(${pointerX}px,${pointerY}px,0)`;
 }, { passive: true });
 
