@@ -252,6 +252,24 @@ const fragments = [...document.querySelectorAll('.orbit-fragment')];
 const lockLine = document.querySelector('.lock-line');
 const cursor = document.querySelector('.gravity-cursor');
 const rig = document.querySelector('.cinematic-rig');
+
+// ── CROSS-PAGE MORPH TRANSITIONS (VIEW TRANSITIONS API) ───
+// Pairs each homepage project frame with its case-study hero image
+// so browsers that support the View Transitions API morph the
+// image across the navigation instead of hard-cutting. Silently
+// ignored (harmless) in browsers without support.
+const caseSlugs = {
+  'proj-echovault': 'echovault',
+  'proj-asna': 'asna-needle',
+  'proj-ink': 'ink-of-arabia',
+  'proj-zyphoria': 'zyphoria',
+  'proj-catene': 'catene',
+  'proj-archive': 'alam-s-dump'
+};
+Object.entries(caseSlugs).forEach(([id, slug]) => {
+  const frame = document.getElementById(id)?.querySelector('.project-frame');
+  if (frame) frame.style.viewTransitionName = `case-${slug}`;
+});
 const status = document.querySelector('.sr-status');
 const countEl = document.getElementById('extraction-count');
 const archiveUnlock = document.getElementById('archive-unlock');
