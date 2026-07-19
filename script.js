@@ -273,16 +273,13 @@ const lockLine = document.querySelector('.lock-line');
 const cursor = document.querySelector('.gravity-cursor');
 const rig = document.querySelector('.cinematic-rig');
 
-// ── PHASE 2 — LIVE SIGNAL ──────────────────────────────────
-// Polls the arpeggios-api backend and rotates results through a
-// single quiet line beside the clock. GitHub every 30 min (cheap,
-// free-tier friendly). Last.fm every 5 min — "currently listening"
-// only means something if it's actually current. Clash Royale
-// every 2 hours — trophy counts rarely need urgency.
+// ── PHASE 3 — LIVE TRANSMISSIONS ───────────────────────────
+// Polls the arpeggios-api backend and populates three live
+// widgets directly: now-playing (hero), Clash Royale signal
+// (hero), and a recent-commits log (Process section). GitHub
+// every 30 min, Last.fm every 5 min (only meaningful if current),
+// Clash Royale every 2 hours (trophy counts rarely need urgency).
 const API_BASE = 'https://arpeggios-api.vercel.app';
-const navSignal = document.getElementById('nav-signal');
-let signalQueue = [];
-let signalIndex = 0;
 
 function timeAgo(iso) {
   const diffMin = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
@@ -293,58 +290,106 @@ function timeAgo(iso) {
   return `${Math.round(diffHr / 24)}d ago`;
 }
 
-function setSignalSlot(key, text) {
-  signalQueue = signalQueue.filter(item => item.key !== key);
-  if (text) signalQueue.push({ key, text });
+function escapeHtml(str) {
+  const div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
 }
 
-function showNextSignal() {
-  if (!navSignal || signalQueue.length === 0) {
-    navSignal?.classList.remove('visible');
-    return;
-  }
-  signalIndex = (signalIndex + 1) % signalQueue.length;
-  navSignal.classList.remove('visible');
-  setTimeout(() => {
-    navSignal.textContent = signalQueue[signalIndex].text;
-    navSignal.classList.add('visible');
-  }, 250);
-}
+// Now Playing
+const nowPlayingEl = document.getElementById('now-playing');
+const nowPlayingArt = document.getElementById('now-playing-art');
+const nowPlayingTrack = document.getElementById('now-playing-track');
+const nowPlayingArtist = document.getElementById('now-playing-artist');
 
-async function fetchGithubSignal() {
-  try {
-    const res = await fetch(`${API_BASE}/api/github`);
-    const data = await res.json();
-    const latest = data.commits?.[0];
-    setSignalSlot('github', latest ? `${latest.repo} · ${timeAgo(latest.timestamp)}` : null);
-  } catch (_) { setSignalSlot('github', null); }
-}
-
-async function fetchLastfmSignal() {
+async function fetchLastfmWidget() {
+  if (!nowPlayingEl) return;
   try {
     const res = await fetch(`${API_BASE}/api/lastfm`);
     const data = await res.json();
-    setSignalSlot('lastfm', data.playing && data.track
-      ? `Listening — ${data.track.name} · ${data.track.artist}`
-      : null);
-  } catch (_) { setSignalSlot('lastfm', null); }
+    if (!data.playing || !data.track) {
+      nowPlayingEl.setAttribute('hidden', '');
+      nowPlayingEl.classList.remove('playing');
+      return;
+    }
+    nowPlayingArt.style.backgroundImage = data.track.albumArt ? `url(${data.track.albumArt})` : 'none';
+    nowPlayingTrack.textContent = data.track.name;
+    nowPlayingArtist.textContent = data.track.artist;
+    nowPlayingEl.removeAttribute('hidden');
+    nowPlayingEl.classList.add('playing');
+  } catch (_) { nowPlayingEl.setAttribute('hidden', ''); }
 }
 
-async function fetchClashSignal() {
+// Tap-to-expand on touch devices (no hover to rely on)
+if (nowPlayingEl && coarsePointer) {
+  nowPlayingEl.addEventListener('click', () => {
+    nowPlayingEl.classList.toggle('expanded');
+  });
+}
+
+// Clash Royale
+const clashEl = document.getElementById('clash-transmission');
+const clashTrophies = document.getElementById('clash-trophies');
+const clashArena = document.getElementById('clash-arena');
+
+async function fetchClashWidget() {
+  if (!clashEl) return;
   try {
     const res = await fetch(`${API_BASE}/api/clashroyale`);
     const data = await res.json();
-    setSignalSlot('clash', data.player ? `${data.player.trophies} trophies · ${data.player.arena}` : null);
-  } catch (_) { setSignalSlot('clash', null); }
+    if (!data.player) { clashEl.setAttribute('hidden', ''); return; }
+    clashTrophies.textContent = `${data.player.trophies} trophies`;
+    clashArena.textContent = data.player.arena || '';
+    clashEl.removeAttribute('hidden');
+    clashEl.classList.add('active');
+  } catch (_) { clashEl.setAttribute('hidden', ''); }
 }
 
-fetchGithubSignal();
-fetchLastfmSignal();
-fetchClashSignal();
-setInterval(fetchGithubSignal, 30 * 60 * 1000);
-setInterval(fetchLastfmSignal, 5 * 60 * 1000);
-setInterval(fetchClashSignal, 2 * 60 * 60 * 1000);
-setInterval(showNextSignal, 6000);
+// GitHub log
+const githubLogEl = document.getElementById('github-transmission');
+const githubLogList = document.getElementById('github-log');
+
+async function fetchGithubWidget() {
+  if (!githubLogEl || !githubLogList) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/github`);
+    const data = await res.json();
+    const commits = (data.commits || []).slice(0, 3);
+    if (commits.length === 0) { githubLogEl.setAttribute('hidden', ''); return; }
+    githubLogList.innerHTML = commits.map((commit, i) => `
+      <li style="animation-delay:${i * 120}ms">
+        <span class="t-repo">${escapeHtml(commit.repo)}</span>
+        <span class="t-msg">${escapeHtml(commit.message.split('\n')[0].slice(0, 48))}</span>
+        <span class="t-time">${timeAgo(commit.timestamp)}</span>
+      </li>
+    `).join('');
+    githubLogEl.removeAttribute('hidden');
+  } catch (_) { githubLogEl.setAttribute('hidden', ''); }
+}
+
+fetchLastfmWidget();
+fetchClashWidget();
+fetchGithubWidget();
+setInterval(fetchGithubWidget, 30 * 60 * 1000);
+setInterval(fetchLastfmWidget, 5 * 60 * 1000);
+setInterval(fetchClashWidget, 2 * 60 * 60 * 1000);
+
+// Ping Alam — a small, honest gesture: no backend inbox exists, so
+// this plays a satisfying ripple/confirmation, then opens your mail
+// client as the real action underneath it.
+const pingBtn = document.getElementById('ping-alam');
+const pingLabel = document.getElementById('ping-alam-label');
+pingBtn?.addEventListener('click', () => {
+  pingBtn.classList.add('pinged');
+  pingLabel.textContent = 'Signal sent';
+  setTimeout(() => {
+    window.location.href = 'mailto:alfar4864@gmail.com?subject=Signal%20from%20the%20archive';
+  }, 500);
+  setTimeout(() => {
+    pingBtn.classList.remove('pinged');
+    pingLabel.textContent = 'Ping Alam';
+  }, 2200);
+});
 
 // ── CROSS-PAGE MORPH TRANSITIONS (VIEW TRANSITIONS API) ───
 // Pairs each homepage project frame with its case-study hero image
