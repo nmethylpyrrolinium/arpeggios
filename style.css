@@ -1244,4 +1244,26 @@ body::after {
   animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
 }
 
+/* ═══════════════════════════════════════════════════════════
+   PHASE 2 — LIVE SIGNAL
+   A single rotating line beside the clock, fed by /api/github,
+   /api/lastfm, /api/clashroyale on the arpeggios-api backend.
+   Deliberately not a widget — same restraint as .nav-time.
+   ═══════════════════════════════════════════════════════════ */
+.nav-signal {
+  font-size: var(--text-xs); letter-spacing: .14em;
+  text-transform: uppercase; color: var(--ink-5);
+  opacity: 0; transition: opacity .5s ease;
+  max-width: 220px; overflow: hidden; text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.nav-signal.visible { opacity: .7; }
+
+@media (max-width: 900px) {
+  .nav-signal {
+    padding: .5rem 0 .8rem; border-top: 1px solid var(--rule); width: 100%;
+    white-space: normal; max-width: none;
+  }
+}
+
 
