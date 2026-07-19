@@ -60,27 +60,6 @@
       <div class="gravity-cursor" aria-hidden="true"></div>
       <button id="enable-motion" class="motion-toggle black-hole-ui" type="button" hidden>Enable motion</button>
 
-      <!-- Now Playing — live Last.fm transmission -->
-      <div class="now-playing black-hole-ui" id="now-playing" aria-live="polite" hidden>
-        <div class="now-playing-ring" aria-hidden="true"></div>
-        <div class="now-playing-art" id="now-playing-art" aria-hidden="true"></div>
-        <div class="now-playing-meta">
-          <span class="now-playing-label">Now playing</span>
-          <span class="now-playing-track" id="now-playing-track"></span>
-          <span class="now-playing-artist" id="now-playing-artist"></span>
-        </div>
-      </div>
-
-      <!-- Clash Royale — intercepted arena transmission -->
-      <div class="clash-transmission black-hole-ui" id="clash-transmission" aria-live="polite" hidden>
-        <div class="clash-crown" aria-hidden="true">♛</div>
-        <div class="clash-meta">
-          <span class="clash-label">Arena signal</span>
-          <span class="clash-trophies" id="clash-trophies"></span>
-          <span class="clash-arena" id="clash-arena"></span>
-        </div>
-      </div>
-
       <div class="cinematic-rig" aria-hidden="true">
         <span class="orbit-ring orbit-ring--one"></span>
         <span class="orbit-ring orbit-ring--two"></span>
@@ -150,6 +129,79 @@
     </section>
 
     <!-- ═══════════════════════════════════════
+         LIVE TRANSMISSIONS — CATALOGUE
+    ═══════════════════════════════════════ -->
+    <section id="transmissions" aria-labelledby="transmissions-heading">
+      <div class="section-head">
+        <div class="section-meta">
+          <span class="section-index" aria-hidden="true">01.5</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-label">Live</span>
+        </div>
+        <h2 id="transmissions-heading" class="catalogue-heading" data-cinematic>transmissions</h2>
+      </div>
+
+      <div class="catalogue-table">
+        <div class="catalogue-table-head">
+          <span>Signal</span>
+          <span>Status</span>
+        </div>
+
+        <article class="catalogue-row" id="live-lastfm">
+          <button class="cat-row-head" aria-expanded="false" aria-controls="live-lastfm-detail">
+            <span class="cat-thumb cat-thumb--lastfm" id="lastfm-thumb" aria-hidden="true">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 1 0 0 20 10 10 0 0 0 0-20Zm4.6 14.7c-.2.3-.5.4-.8.2-2.2-1.3-4.9-1.6-8.2-.9-.3.1-.6-.1-.7-.4-.1-.3.1-.6.4-.7 3.6-.8 6.6-.5 9.1 1 .3.2.4.5.2.8Zm1.2-2.7c-.2.3-.6.5-1 .3-2.5-1.5-6.3-2-9.3-1.1-.4.1-.8-.1-.9-.5-.1-.4.1-.8.5-.9 3.4-1 7.6-.5 10.5 1.2.3.2.5.6.2 1Zm.1-2.8C14.9 9.4 9.7 9.2 6.7 10.1c-.5.1-.9-.1-1-.6-.1-.5.1-.9.6-1 3.5-1 9.2-.8 12.8 1.3.4.3.6.8.3 1.2-.3.4-.8.5-1.5.2Z"/></svg>
+            </span>
+            <span class="cat-title" id="lastfm-title">Nothing playing right now</span>
+            <span class="cat-year" id="lastfm-meta">—</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="live-lastfm-detail" hidden>
+            <div class="cat-detail-preview cat-detail-preview--art" id="lastfm-art" role="img" aria-label="Album art"></div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Last.fm · currently listening</p>
+              <p class="proj-desc" id="lastfm-detail-track">—</p>
+              <ul class="cat-recent" id="lastfm-recent" aria-label="Recently played"></ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="catalogue-row" id="live-github">
+          <button class="cat-row-head" aria-expanded="false" aria-controls="live-github-detail">
+            <span class="cat-thumb cat-thumb--github" aria-hidden="true">
+              <svg width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+            </span>
+            <span class="cat-title" id="github-title">No recent commits</span>
+            <span class="cat-year" id="github-meta">—</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="live-github-detail" hidden>
+            <div class="cat-detail-meta cat-detail-meta--full">
+              <p class="proj-type">GitHub · recent activity</p>
+              <ul class="cat-recent" id="github-recent" aria-label="Recent commits"></ul>
+            </div>
+          </div>
+        </article>
+
+        <article class="catalogue-row" id="live-clash">
+          <button class="cat-row-head" aria-expanded="false" aria-controls="live-clash-detail">
+            <span class="cat-thumb cat-thumb--clash" aria-hidden="true">♛</span>
+            <span class="cat-title" id="clash-title">Arena signal unavailable</span>
+            <span class="cat-year" id="clash-meta">—</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="live-clash-detail" hidden>
+            <div class="cat-detail-meta cat-detail-meta--full">
+              <p class="proj-type">Clash Royale · arena status</p>
+              <p class="proj-desc" id="clash-detail-stats">—</p>
+              <ul class="cat-recent" id="clash-recent" aria-label="Recent battles"></ul>
+            </div>
+          </div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
          INTERSTITIAL — IDENTITY STATEMENT
     ═══════════════════════════════════════ -->
     <div class="interstitial" id="identity" aria-label="Portfolio statement">
@@ -181,174 +233,189 @@
           <span class="section-rule" aria-hidden="true"></span>
           <span class="section-label">Selected Work</span>
         </div>
-        <h2 id="works-heading" class="section-title" data-cinematic>
-          <span>Six selected</span>
-          <em>signals</em>
-        </h2>
+        <h2 id="works-heading" class="catalogue-heading" data-cinematic>works</h2>
       </div>
 
-      <!-- LEAD PROJECT: EchoVault -->
-      <article class="project project-lead" id="proj-echovault" data-cinematic>
-        <div class="project-frame tone-echovault" role="img" aria-label="EchoVault — cinematic dark archive interface preview">
-          <div class="frame-inner">
-            <div class="frame-label" aria-hidden="true">Vault · Preview Frame</div>
-            <div class="frame-composition" aria-hidden="true">
-              <div class="comp-rule comp-rule--h"></div>
-              <div class="comp-rule comp-rule--v"></div>
-              <div class="comp-dot"></div>
-            </div>
-          </div>
+      <div class="catalogue-table catalogue-table--works">
+        <div class="catalogue-table-head">
+          <span>Title</span>
+          <span>Year</span>
         </div>
-        <div class="project-meta">
-          <p class="proj-index" aria-hidden="true">001</p>
-          <p class="proj-type">Full-stack archive interface · 2026</p>
-          <h3 class="proj-title">EchoVault</h3>
-          <p class="proj-desc">Private vault interface for preserving voice notes, writings, and memory artifacts. A sealed room for memory: quiet access and echoes that know where they belong.</p>
-          <dl class="proj-details">
-            <div><dt>Role</dt><dd>Frontend + product direction</dd></div>
-            <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
-          </dl>
-          <div class="proj-links">
-            <a href="https://nmethylpyrrolinium.github.io/echovault.com/" class="proj-link proj-link--live">Live site</a>
-            <a href="https://github.com/nmethylpyrrolinium/echovault.com" class="proj-link">GitHub</a>
-            <a href="projects/echovault.html" class="proj-link proj-link--case">Case study →</a>
-          </div>
-        </div>
-      </article>
 
-      <!-- WIDE PROJECT: Asna Needle -->
-      <article class="project project-wide" id="proj-asna" data-cinematic>
-        <div class="project-meta project-meta--left">
-          <p class="proj-index" aria-hidden="true">002</p>
-          <p class="proj-type">Brand commerce experience · 2026</p>
-          <h3 class="proj-title">Asna Needle<br><span class="title-amp">&amp;</span> Co.</h3>
-          <p class="proj-desc">Tailoring house translated into warm commerce, measured cloth, and slow handwork. An intimate service rather than a transactional storefront.</p>
-          <dl class="proj-details">
-            <div><dt>Role</dt><dd>Frontend + art direction</dd></div>
-            <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
-          </dl>
-          <div class="proj-links">
-            <a href="https://nmethylpyrrolinium.github.io/asnaneedle.studio/" class="proj-link proj-link--live">Live site</a>
-            <a href="https://github.com/nmethylpyrrolinium/asnaneedle.studio" class="proj-link">GitHub</a>
-            <a href="projects/asna-needle.html" class="proj-link proj-link--case">Case study →</a>
-          </div>
-        </div>
-        <div class="project-frame tone-asna" role="img" aria-label="Asna Needle & Co. — warm artisan tailoring brand preview">
-          <div class="frame-inner">
-            <div class="frame-label" aria-hidden="true">Textile · Study</div>
-            <div class="frame-composition" aria-hidden="true">
-              <div class="comp-rule comp-rule--h"></div>
-              <div class="comp-rule comp-rule--v comp-rule--right"></div>
+        <article class="catalogue-row" id="proj-echovault" data-cinematic>
+          <button class="cat-row-head" aria-expanded="false" aria-controls="proj-echovault-detail">
+            <span class="cat-thumb tone-echovault" aria-hidden="true"><span class="cat-index">01</span></span>
+            <span class="cat-title">EchoVault</span>
+            <span class="cat-year">2026</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="proj-echovault-detail" hidden>
+            <div class="cat-detail-preview tone-echovault" role="img" aria-label="EchoVault — cinematic dark archive interface preview">
+              <div class="frame-inner">
+                <div class="frame-label" aria-hidden="true">Vault · Preview Frame</div>
+                <div class="frame-composition" aria-hidden="true">
+                  <div class="comp-rule comp-rule--h"></div>
+                  <div class="comp-rule comp-rule--v"></div>
+                  <div class="comp-dot"></div>
+                </div>
+              </div>
             </div>
-          </div>
-        </div>
-      </article>
-
-      <!-- PAIR: Ink of Arabia + Zyphoria -->
-      <div class="project-pair" data-cinematic>
-        <article class="project project-half" id="proj-ink">
-          <div class="project-frame tone-ink" role="img" aria-label="Ink of Arabia — editorial calligraphy microsite preview">
-            <div class="frame-inner">
-              <div class="frame-label" aria-hidden="true">Editorial · Manuscript</div>
-            </div>
-          </div>
-          <div class="project-meta project-meta--below">
-            <p class="proj-index" aria-hidden="true">003</p>
-            <p class="proj-type">Editorial cultural microsite · 2025</p>
-            <h3 class="proj-title">Ink of Arabia</h3>
-            <p class="proj-desc">Calligraphic heritage arranged as an editorial microsite. Ink, desert light, and letterforms treated as architecture.</p>
-            <div class="proj-links">
-              <a href="https://nmethylpyrrolinium.github.io/inkofarabia/" class="proj-link proj-link--live">Live site</a>
-              <a href="https://github.com/nmethylpyrrolinium/inkofarabia" class="proj-link">GitHub</a>
-              <a href="projects/ink-of-arabia.html" class="proj-link proj-link--case">Case study →</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="project project-half project-half--offset" id="proj-zyphoria">
-          <div class="project-frame tone-zyphoria" role="img" aria-label="Zyphoria — surreal speculative landing page preview">
-            <div class="frame-inner">
-              <div class="frame-label" aria-hidden="true">Neon · Concept</div>
-              <div class="frame-composition" aria-hidden="true">
-                <div class="comp-rule comp-rule--h comp-rule--bottom"></div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Full-stack archive interface · 2026</p>
+              <p class="proj-desc">Private vault interface for preserving voice notes, writings, and memory artifacts. A sealed room for memory: quiet access and echoes that know where they belong.</p>
+              <dl class="proj-details">
+                <div><dt>Role</dt><dd>Frontend + product direction</dd></div>
+                <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
+              </dl>
+              <div class="proj-links">
+                <a href="https://nmethylpyrrolinium.github.io/echovault.com/" class="proj-link proj-link--live">Live site</a>
+                <a href="https://github.com/nmethylpyrrolinium/echovault.com" class="proj-link">GitHub</a>
+                <a href="projects/echovault.html" class="proj-link proj-link--case">Case study →</a>
               </div>
             </div>
           </div>
-          <div class="project-meta project-meta--below">
-            <p class="proj-index" aria-hidden="true">004</p>
-            <p class="proj-type">Experimental landing · 2025</p>
-            <h3 class="proj-title">Zyphoria</h3>
-            <p class="proj-desc">Surreal digital atmosphere where product, dream, and interface haze drift together. Strange, soft, and lucid.</p>
-            <div class="proj-links">
-              <a href="https://nmethylpyrrolinium.github.io/zyphoria.com/" class="proj-link proj-link--live">Live site</a>
-              <a href="https://github.com/nmethylpyrrolinium/zyphoria.com" class="proj-link">GitHub</a>
-              <a href="projects/zyphoria.html" class="proj-link proj-link--case">Case study →</a>
+        </article>
+
+        <article class="catalogue-row" id="proj-asna" data-cinematic>
+          <button class="cat-row-head" aria-expanded="false" aria-controls="proj-asna-detail">
+            <span class="cat-thumb tone-asna" aria-hidden="true"><span class="cat-index">02</span></span>
+            <span class="cat-title">Asna Needle &amp; Co.</span>
+            <span class="cat-year">2026</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="proj-asna-detail" hidden>
+            <div class="cat-detail-preview tone-asna" role="img" aria-label="Asna Needle & Co. — warm artisan tailoring brand preview">
+              <div class="frame-inner">
+                <div class="frame-label" aria-hidden="true">Textile · Study</div>
+                <div class="frame-composition" aria-hidden="true">
+                  <div class="comp-rule comp-rule--h"></div>
+                  <div class="comp-rule comp-rule--v comp-rule--right"></div>
+                </div>
+              </div>
+            </div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Brand commerce experience · 2026</p>
+              <p class="proj-desc">Tailoring house translated into warm commerce, measured cloth, and slow handwork. An intimate service rather than a transactional storefront.</p>
+              <dl class="proj-details">
+                <div><dt>Role</dt><dd>Frontend + art direction</dd></div>
+                <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
+              </dl>
+              <div class="proj-links">
+                <a href="https://nmethylpyrrolinium.github.io/asnaneedle.studio/" class="proj-link proj-link--live">Live site</a>
+                <a href="https://github.com/nmethylpyrrolinium/asnaneedle.studio" class="proj-link">GitHub</a>
+                <a href="projects/asna-needle.html" class="proj-link proj-link--case">Case study →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="catalogue-row" id="proj-ink" data-cinematic>
+          <button class="cat-row-head" aria-expanded="false" aria-controls="proj-ink-detail">
+            <span class="cat-thumb tone-ink" aria-hidden="true"><span class="cat-index">03</span></span>
+            <span class="cat-title">Ink of Arabia</span>
+            <span class="cat-year">2025</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="proj-ink-detail" hidden>
+            <div class="cat-detail-preview tone-ink" role="img" aria-label="Ink of Arabia — editorial calligraphy microsite preview">
+              <div class="frame-inner">
+                <div class="frame-label" aria-hidden="true">Editorial · Manuscript</div>
+              </div>
+            </div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Editorial cultural microsite · 2025</p>
+              <p class="proj-desc">Calligraphic heritage arranged as an editorial microsite. Ink, desert light, and letterforms treated as architecture.</p>
+              <div class="proj-links">
+                <a href="https://nmethylpyrrolinium.github.io/inkofarabia/" class="proj-link proj-link--live">Live site</a>
+                <a href="https://github.com/nmethylpyrrolinium/inkofarabia" class="proj-link">GitHub</a>
+                <a href="projects/ink-of-arabia.html" class="proj-link proj-link--case">Case study →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="catalogue-row" id="proj-zyphoria" data-cinematic>
+          <button class="cat-row-head" aria-expanded="false" aria-controls="proj-zyphoria-detail">
+            <span class="cat-thumb tone-zyphoria" aria-hidden="true"><span class="cat-index">04</span></span>
+            <span class="cat-title">Zyphoria</span>
+            <span class="cat-year">2025</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="proj-zyphoria-detail" hidden>
+            <div class="cat-detail-preview tone-zyphoria" role="img" aria-label="Zyphoria — surreal speculative landing page preview">
+              <div class="frame-inner">
+                <div class="frame-label" aria-hidden="true">Neon · Concept</div>
+                <div class="frame-composition" aria-hidden="true">
+                  <div class="comp-rule comp-rule--h comp-rule--bottom"></div>
+                </div>
+              </div>
+            </div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Experimental landing · 2025</p>
+              <p class="proj-desc">Surreal digital atmosphere where product, dream, and interface haze drift together. Strange, soft, and lucid.</p>
+              <div class="proj-links">
+                <a href="https://nmethylpyrrolinium.github.io/zyphoria.com/" class="proj-link proj-link--live">Live site</a>
+                <a href="https://github.com/nmethylpyrrolinium/zyphoria.com" class="proj-link">GitHub</a>
+                <a href="projects/zyphoria.html" class="proj-link proj-link--case">Case study →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="catalogue-row" id="proj-catene" data-cinematic>
+          <button class="cat-row-head" aria-expanded="false" aria-controls="proj-catene-detail">
+            <span class="cat-thumb tone-catene" aria-hidden="true"><span class="cat-index">05</span></span>
+            <span class="cat-title">catene.pk</span>
+            <span class="cat-year">2026</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="proj-catene-detail" hidden>
+            <div class="cat-detail-preview tone-catene" role="img" aria-label="catene.pk — fashion commerce experience preview">
+              <div class="frame-inner">
+                <div class="frame-label" aria-hidden="true">Fashion · Commerce</div>
+                <div class="catene-object" aria-hidden="true"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Fashion commerce experience · 2026</p>
+              <p class="proj-desc">A sharp digital storefront shaped around chain geometry, editorial pacing, and a darker fashion signal.</p>
+              <div class="proj-links">
+                <a href="https://nmethylpyrrolinium.github.io/Catene.pk/" class="proj-link proj-link--live">Live site</a>
+                <a href="https://github.com/nmethylpyrrolinium/Catene.pk" class="proj-link">GitHub</a>
+                <a href="projects/catene.html" class="proj-link proj-link--case">Case study →</a>
+              </div>
+            </div>
+          </div>
+        </article>
+
+        <article class="catalogue-row" id="proj-archive" data-cinematic>
+          <button class="cat-row-head" aria-expanded="false" aria-controls="proj-archive-detail">
+            <span class="cat-thumb tone-archive" aria-hidden="true"><span class="cat-index">06</span></span>
+            <span class="cat-title">Alam's Dump</span>
+            <span class="cat-year">2026</span>
+            <span class="cat-chevron" aria-hidden="true">＋</span>
+          </button>
+          <div class="cat-detail" id="proj-archive-detail" hidden>
+            <div class="cat-detail-preview tone-archive" role="img" aria-label="Alam's Dump — black-hole JavaScript experiment preview">
+              <div class="frame-inner">
+                <div class="frame-label" aria-hidden="true">JavaScript · Personal experiment</div>
+                <div class="frame-composition" aria-hidden="true">
+                  <div class="comp-rule comp-rule--h"></div><div class="comp-rule comp-rule--v"></div><div class="comp-rule comp-rule--diag"></div>
+                </div>
+              </div>
+            </div>
+            <div class="cat-detail-meta">
+              <p class="proj-type">Personal experiment · GitHub Pages · 2026</p>
+              <p class="proj-desc">A personal JavaScript dump for black-hole motion, interface experiments, and ideas that do not need permission to get strange.</p>
+              <div class="proj-links">
+                <a href="https://nmethylpyrrolinium.github.io/alam-s-dump/" class="proj-link proj-link--live">Live site</a>
+                <a href="https://github.com/nmethylpyrrolinium/alam-s-dump" class="proj-link">GitHub</a>
+                <a href="projects/alam-s-dump.html" class="proj-link proj-link--case">Case study →</a>
+              </div>
             </div>
           </div>
         </article>
       </div>
-
-      <!-- SELECTED PROJECT 05: catene.pk -->
-      <article class="project project-archive project-catene" id="proj-catene" data-cinematic>
-        <div class="archive-bg" aria-hidden="true"><span class="archive-bg-text">CATENE</span></div>
-        <div class="project-frame tone-catene" role="img" aria-label="catene.pk — fashion commerce experience preview">
-          <div class="frame-inner">
-            <div class="frame-label" aria-hidden="true">Fashion · Commerce</div>
-            <div class="catene-object" aria-hidden="true"><span></span><span></span><span></span></div>
-          </div>
-        </div>
-        <div class="project-meta">
-          <p class="proj-index" aria-hidden="true">005</p>
-          <p class="proj-type">Fashion commerce experience · 2026</p>
-          <h3 class="proj-title">catene.pk</h3>
-          <p class="proj-desc">A sharp digital storefront shaped around chain geometry, editorial pacing, and a darker fashion signal.</p>
-          <div class="proj-links">
-            <a href="https://nmethylpyrrolinium.github.io/Catene.pk/" class="proj-link proj-link--live">Live site</a>
-            <a href="https://github.com/nmethylpyrrolinium/Catene.pk" class="proj-link">GitHub</a>
-            <a href="projects/catene.html" class="proj-link proj-link--case">Case study →</a>
-          </div>
-        </div>
-      </article>
-
-      <!-- SELECTED PROJECT 06: Alam's Dump -->
-      <article class="project project-archive project-dump" id="proj-archive" data-cinematic>
-        <div class="archive-bg" aria-hidden="true"><span class="archive-bg-text">ALAM / 06</span></div>
-        <div class="project-frame tone-archive" role="img" aria-label="Alam's Dump — black-hole JavaScript experiment preview">
-          <div class="frame-inner">
-            <div class="frame-label" aria-hidden="true">JavaScript · Personal experiment</div>
-            <div class="frame-composition" aria-hidden="true">
-              <div class="comp-rule comp-rule--h"></div><div class="comp-rule comp-rule--v"></div><div class="comp-rule comp-rule--diag"></div>
-            </div>
-          </div>
-        </div>
-        <div class="project-meta">
-          <p class="proj-index" aria-hidden="true">006</p>
-          <p class="proj-type">Personal experiment · GitHub Pages · 2026</p>
-          <h3 class="proj-title">Alam's<br>Dump</h3>
-          <p class="proj-desc">A personal JavaScript dump for black-hole motion, interface experiments, and ideas that do not need permission to get strange.</p>
-          <div class="proj-links">
-            <a href="https://nmethylpyrrolinium.github.io/alam-s-dump/" class="proj-link proj-link--live">Live site</a>
-            <a href="https://github.com/nmethylpyrrolinium/alam-s-dump" class="proj-link">GitHub</a>
-            <a href="projects/alam-s-dump.html" class="proj-link proj-link--case">Case study →</a>
-          </div>
-        </div>
-      </article>
-
-      <aside class="repo-constellation" aria-labelledby="repo-constellation-heading" data-cinematic>
-        <div class="repo-constellation-head">
-          <p class="repo-kicker">Curated transmission · six signals only</p>
-          <h3 id="repo-constellation-heading">The projects worth pulling closer</h3>
-          <p>A deliberate selection—not the whole GitHub drawer. Only finished worlds and active experiments make this orbit.</p>
-        </div>
-        <div class="repo-grid" aria-label="Selected project repositories">
-          <a class="repo-card repo-card--hot" href="https://github.com/nmethylpyrrolinium/echovault.com" target="_blank" rel="noopener noreferrer" data-repo-card><span>001 · Archive</span><b>EchoVault</b><small>Memory interface</small></a>
-          <a class="repo-card" href="https://github.com/nmethylpyrrolinium/asnaneedle.studio" target="_blank" rel="noopener noreferrer" data-repo-card><span>002 · Commerce</span><b>Asna Needle</b><small>Tailoring studio</small></a>
-          <a class="repo-card" href="https://github.com/nmethylpyrrolinium/inkofarabia" target="_blank" rel="noopener noreferrer" data-repo-card><span>003 · Editorial</span><b>Ink of Arabia</b><small>Calligraphic microsite</small></a>
-          <a class="repo-card" href="https://github.com/nmethylpyrrolinium/zyphoria.com" target="_blank" rel="noopener noreferrer" data-repo-card><span>004 · Experiment</span><b>Zyphoria</b><small>Surreal interface</small></a>
-          <a class="repo-card repo-card--hot" href="https://github.com/nmethylpyrrolinium/Catene.pk" target="_blank" rel="noopener noreferrer" data-repo-card><span>005 · Fashion</span><b>catene.pk</b><small>Commerce signal</small></a>
-          <a class="repo-card repo-card--hot" href="https://github.com/nmethylpyrrolinium/alam-s-dump" target="_blank" rel="noopener noreferrer" data-repo-card><span>006 · Personal</span><b>Alam's Dump</b><small>JavaScript experiments</small></a>
-        </div>
-      </aside>
     </section>
 
     <!-- ═══════════════════════════════════════
@@ -392,14 +459,6 @@
           <p>Each interaction must clarify intent. Scroll pacing, reveal timing, hover evolution — all designed as a sequence, not a list of features.</p>
           <div class="fragment-rule" aria-hidden="true"></div>
         </article>
-      </div>
-
-      <div class="process-transmission" id="github-transmission" aria-live="polite" hidden>
-        <div class="transmission-head">
-          <svg class="transmission-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
-          <span class="transmission-label">Recent commits</span>
-        </div>
-        <ul class="transmission-log" id="github-log"></ul>
       </div>
     </section>
 

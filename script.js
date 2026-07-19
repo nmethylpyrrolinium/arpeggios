@@ -273,12 +273,45 @@ const lockLine = document.querySelector('.lock-line');
 const cursor = document.querySelector('.gravity-cursor');
 const rig = document.querySelector('.cinematic-rig');
 
-// ── PHASE 3 — LIVE TRANSMISSIONS ───────────────────────────
-// Polls the arpeggios-api backend and populates three live
-// widgets directly: now-playing (hero), Clash Royale signal
-// (hero), and a recent-commits log (Process section). GitHub
-// every 30 min, Last.fm every 5 min (only meaningful if current),
-// Clash Royale every 2 hours (trophy counts rarely need urgency).
+// ── CATALOGUE ROWS — SHARED ACCORDION SYSTEM ──────────────
+// Used by both the Live Transmissions table and the Works
+// catalogue below it. One row open at a time within each table;
+// tables are independent of each other.
+function expandRow(row) {
+  if (!row) return;
+  const btn = row.querySelector('.cat-row-head');
+  const detail = row.querySelector('.cat-detail');
+  if (!btn || !detail) return;
+  const table = row.closest('.catalogue-table');
+  table?.querySelectorAll('.catalogue-row.expanded').forEach(openRow => {
+    if (openRow !== row) collapseRow(openRow);
+  });
+  btn.setAttribute('aria-expanded', 'true');
+  row.classList.add('expanded');
+  detail.hidden = false;
+  requestAnimationFrame(() => detail.classList.add('open'));
+}
+function collapseRow(row) {
+  if (!row) return;
+  const btn = row.querySelector('.cat-row-head');
+  const detail = row.querySelector('.cat-detail');
+  if (!btn || !detail) return;
+  btn.setAttribute('aria-expanded', 'false');
+  row.classList.remove('expanded');
+  detail.classList.remove('open');
+  setTimeout(() => { if (!row.classList.contains('expanded')) detail.hidden = true; }, 400);
+}
+document.querySelectorAll('.cat-row-head').forEach(btn => {
+  btn.addEventListener('click', () => {
+    const row = btn.closest('.catalogue-row');
+    row.classList.contains('expanded') ? collapseRow(row) : expandRow(row);
+  });
+});
+
+// ── PHASE 4 — LIVE TRANSMISSIONS (CATALOGUE) ───────────────
+// Populates the three rows in the "transmissions" catalogue table,
+// directly below the hero. GitHub every 30 min, Last.fm every 5
+// min (only meaningful if current), Clash Royale every 2 hours.
 const API_BASE = 'https://arpeggios-api.vercel.app';
 
 function timeAgo(iso) {
@@ -296,83 +329,94 @@ function escapeHtml(str) {
   return div.innerHTML;
 }
 
-// Now Playing
-const nowPlayingEl = document.getElementById('now-playing');
-const nowPlayingArt = document.getElementById('now-playing-art');
-const nowPlayingTrack = document.getElementById('now-playing-track');
-const nowPlayingArtist = document.getElementById('now-playing-artist');
-
-async function fetchLastfmWidget() {
-  if (!nowPlayingEl) return;
+async function fetchLastfmRow() {
+  const title = document.getElementById('lastfm-title');
+  const meta = document.getElementById('lastfm-meta');
+  const thumb = document.getElementById('lastfm-thumb');
+  const art = document.getElementById('lastfm-art');
+  const detailTrack = document.getElementById('lastfm-detail-track');
+  const recentList = document.getElementById('lastfm-recent');
+  if (!title) return;
   try {
     const res = await fetch(`${API_BASE}/api/lastfm`);
     const data = await res.json();
     if (!data.playing || !data.track) {
-      nowPlayingEl.setAttribute('hidden', '');
-      nowPlayingEl.classList.remove('playing');
+      title.textContent = 'Nothing playing right now';
+      meta.textContent = '—';
+      thumb.classList.remove('is-live');
       return;
     }
-    nowPlayingArt.style.backgroundImage = data.track.albumArt ? `url(${data.track.albumArt})` : 'none';
-    nowPlayingTrack.textContent = data.track.name;
-    nowPlayingArtist.textContent = data.track.artist;
-    nowPlayingEl.removeAttribute('hidden');
-    nowPlayingEl.classList.add('playing');
-  } catch (_) { nowPlayingEl.setAttribute('hidden', ''); }
+    title.textContent = `${data.track.name} — ${data.track.artist}`;
+    meta.textContent = 'Now playing';
+    thumb.classList.add('is-live');
+    if (art) art.style.backgroundImage = data.track.albumArt ? `url(${data.track.albumArt})` : 'none';
+    if (detailTrack) detailTrack.textContent = `${data.track.name} by ${data.track.artist}${data.track.album ? ' · ' + data.track.album : ''}`;
+    if (recentList) {
+      recentList.innerHTML = (data.recent || []).slice(0, 4).map(track =>
+        `<li>${escapeHtml(track.name)} — ${escapeHtml(track.artist)}</li>`
+      ).join('');
+    }
+  } catch (_) { title.textContent = 'Signal unavailable'; meta.textContent = '—'; }
 }
 
-// Tap-to-expand on touch devices (no hover to rely on)
-if (nowPlayingEl && coarsePointer) {
-  nowPlayingEl.addEventListener('click', () => {
-    nowPlayingEl.classList.toggle('expanded');
-  });
-}
-
-// Clash Royale
-const clashEl = document.getElementById('clash-transmission');
-const clashTrophies = document.getElementById('clash-trophies');
-const clashArena = document.getElementById('clash-arena');
-
-async function fetchClashWidget() {
-  if (!clashEl) return;
-  try {
-    const res = await fetch(`${API_BASE}/api/clashroyale`);
-    const data = await res.json();
-    if (!data.player) { clashEl.setAttribute('hidden', ''); return; }
-    clashTrophies.textContent = `${data.player.trophies} trophies`;
-    clashArena.textContent = data.player.arena || '';
-    clashEl.removeAttribute('hidden');
-    clashEl.classList.add('active');
-  } catch (_) { clashEl.setAttribute('hidden', ''); }
-}
-
-// GitHub log
-const githubLogEl = document.getElementById('github-transmission');
-const githubLogList = document.getElementById('github-log');
-
-async function fetchGithubWidget() {
-  if (!githubLogEl || !githubLogList) return;
+async function fetchGithubRow() {
+  const title = document.getElementById('github-title');
+  const meta = document.getElementById('github-meta');
+  const recentList = document.getElementById('github-recent');
+  if (!title) return;
   try {
     const res = await fetch(`${API_BASE}/api/github`);
     const data = await res.json();
-    const commits = (data.commits || []).slice(0, 3);
-    if (commits.length === 0) { githubLogEl.setAttribute('hidden', ''); return; }
-    githubLogList.innerHTML = commits.map((commit, i) => `
-      <li style="animation-delay:${i * 120}ms">
-        <span class="t-repo">${escapeHtml(commit.repo)}</span>
-        <span class="t-msg">${escapeHtml(commit.message.split('\n')[0].slice(0, 48))}</span>
-        <span class="t-time">${timeAgo(commit.timestamp)}</span>
-      </li>
-    `).join('');
-    githubLogEl.removeAttribute('hidden');
-  } catch (_) { githubLogEl.setAttribute('hidden', ''); }
+    const commits = (data.commits || []).slice(0, 4);
+    if (commits.length === 0) {
+      title.textContent = 'No recent commits';
+      meta.textContent = '—';
+      return;
+    }
+    const latest = commits[0];
+    title.textContent = `${latest.repo} — ${latest.message.split('\n')[0].slice(0, 40)}`;
+    meta.textContent = timeAgo(latest.timestamp);
+    if (recentList) {
+      recentList.innerHTML = commits.map(commit =>
+        `<li><span class="t-repo">${escapeHtml(commit.repo)}</span> ${escapeHtml(commit.message.split('\n')[0].slice(0, 48))} <span class="t-time">${timeAgo(commit.timestamp)}</span></li>`
+      ).join('');
+    }
+  } catch (_) { title.textContent = 'Signal unavailable'; meta.textContent = '—'; }
 }
 
-fetchLastfmWidget();
-fetchClashWidget();
-fetchGithubWidget();
-setInterval(fetchGithubWidget, 30 * 60 * 1000);
-setInterval(fetchLastfmWidget, 5 * 60 * 1000);
-setInterval(fetchClashWidget, 2 * 60 * 60 * 1000);
+async function fetchClashRow() {
+  const title = document.getElementById('clash-title');
+  const meta = document.getElementById('clash-meta');
+  const detailStats = document.getElementById('clash-detail-stats');
+  const recentList = document.getElementById('clash-recent');
+  const rowEl = document.getElementById('live-clash');
+  if (!title) return;
+  try {
+    const res = await fetch(`${API_BASE}/api/clashroyale`);
+    const data = await res.json();
+    if (!data.player) {
+      title.textContent = 'Arena signal unavailable';
+      meta.textContent = '—';
+      return;
+    }
+    title.textContent = `${data.player.trophies} trophies — ${data.player.arena}`;
+    meta.textContent = `Level ${data.player.level}`;
+    rowEl?.classList.add('is-live');
+    if (detailStats) detailStats.textContent = `${data.player.wins} wins · ${data.player.losses} losses · Best: ${data.player.bestTrophies} trophies`;
+    if (recentList) {
+      recentList.innerHTML = (data.recentBattles || []).slice(0, 4).map(battle =>
+        `<li>vs ${escapeHtml(battle.opponent)} — ${battle.crownsFor}:${battle.crownsAgainst} <span class="t-time">${timeAgo(battle.timestamp)}</span></li>`
+      ).join('');
+    }
+  } catch (_) { title.textContent = 'Arena signal unavailable'; meta.textContent = '—'; }
+}
+
+fetchLastfmRow();
+fetchGithubRow();
+fetchClashRow();
+setInterval(fetchGithubRow, 30 * 60 * 1000);
+setInterval(fetchLastfmRow, 5 * 60 * 1000);
+setInterval(fetchClashRow, 2 * 60 * 60 * 1000);
 
 // Ping Alam — a small, honest gesture: no backend inbox exists, so
 // this plays a satisfying ripple/confirmation, then opens your mail
@@ -390,6 +434,7 @@ pingBtn?.addEventListener('click', () => {
     pingLabel.textContent = 'Ping Alam';
   }, 2200);
 });
+
 
 // ── CROSS-PAGE MORPH TRANSITIONS (VIEW TRANSITIONS API) ───
 // Pairs each homepage project frame with its case-study hero image
@@ -537,6 +582,7 @@ function extract(fragment) {
   status.textContent = `Extracting ${name}.`;
   setTimeout(() => {
     target.scrollIntoView({ behavior: reduce ? 'auto' : 'smooth', block: 'center' });
+    expandRow(target.classList.contains('catalogue-row') ? target : null);
     recovered.add(fragment.dataset.target);
     try { localStorage.setItem('nm-recovered', JSON.stringify([...recovered])); } catch (_) { /* storage is optional */ }
     updateRecoveredState();
