@@ -54,6 +54,18 @@ function applyTiltEvent(event) {
 function startTilt() {
   window.addEventListener('deviceorientation', applyTiltEvent, { passive: true });
 }
+// Touch-drag: a reliable interaction layer that needs no permission
+// dialog and works regardless of gyroscope support. Finger position
+// relative to screen center substitutes for cursor/tilt position.
+if (coarsePointer) {
+  window.addEventListener('touchmove', event => {
+    const touch = event.touches[0];
+    if (!touch) return;
+    tiltX = Math.max(-1, Math.min(1, (touch.clientX / innerWidth - .5) * 2));
+    tiltY = Math.max(-1, Math.min(1, (touch.clientY / innerHeight - .5) * 2));
+    lastInputTime = performance.now();
+  }, { passive: true });
+}
 if (coarsePointer && !reduce && window.DeviceOrientationEvent) {
   if (typeof DeviceOrientationEvent.requestPermission === 'function') {
     // iOS 13+: requires a user gesture before motion data is available.
@@ -179,10 +191,10 @@ if ('IntersectionObserver' in window && !reduce) {
       col+=mix(cool,warm,smoothstep(-.25,.25,q.x))*beam*.42*(1.-collapse);
       col*=smoothstep(ringRadius*.86,ringRadius*1.02,d);
       col+=vec3(1.)*exp(-d*480.)*collapse*2.4;
-      vec2 emberUv=uv+m*.12;
-      float embers=step(.997,hash(floor(emberUv*r.y*.16+t*.02)));
-      float emberTwinkle=.5+.5*sin(t*3.1+hash(floor(emberUv*r.y*.16))*30.);
-      col+=vec3(1.,.78,.42)*embers*emberTwinkle*.9*(1.-collapse);
+      vec2 emberUv=uv+m*.22;
+      float embers=step(.994,hash(floor(emberUv*r.y*.2+t*.03)));
+      float emberTwinkle=.6+.4*sin(t*3.4+hash(floor(emberUv*r.y*.2))*30.);
+      col+=vec3(1.,.72,.32)*embers*emberTwinkle*1.6*(1.-collapse);
       float vign=1.-smoothstep(.35,1.15,length(uv*vec2(.7,1.))); col*=.25+.75*vign;
       col+=(hash(gl_FragCoord.xy+fract(t))-.5)/280.;
       gl_FragColor=vec4(pow(max(col,0.),vec3(.82)),1.);
@@ -225,8 +237,16 @@ if ('IntersectionObserver' in window && !reduce) {
     // Mirror the page-level tilt values into this shader's own
     // mouse-warp input so the lensing reacts to device orientation.
     addEventListener('deviceorientation', () => {
-      tx = tiltX * .5;
-      ty = tiltY * .5;
+      tx = tiltX * .7;
+      ty = tiltY * .7;
+    }, { passive: true });
+    // Touch-drag directly warps the lensing too — the most
+    // reliable interaction on tablets since it needs no permission.
+    addEventListener('touchmove', event => {
+      const touch = event.touches[0];
+      if (!touch) return;
+      tx = (touch.clientX / innerWidth - .5) * 1.4;
+      ty = (.5 - touch.clientY / innerHeight) * 1.4;
     }, { passive: true });
   }
   resize();
@@ -327,9 +347,9 @@ function orbit(ms = 0) {
         x += dx * influence * .035;
         y += dy * influence * .035;
       } else {
-        // Device tilt stands in for cursor influence on touch devices.
-        x += tiltX * rx * .14;
-        y += tiltY * ry * .14;
+        // Device tilt / touch-drag stands in for cursor influence.
+        x += tiltX * rx * .38;
+        y += tiltY * ry * .38;
       }
     }
     const depth = .65 + (Math.sin(angle) + 1) * .2;

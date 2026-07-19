@@ -1,0 +1,32 @@
+
+/* ═══════════════════════════════════════════════════════════
+   PHASE 1.5 — INTERACTIVE DEPTH PASS
+   Brings the case-study pages up to the same interactive language
+   as the homepage: tilt on hero/gallery images (via
+   project-interactive.js) and native cross-document view
+   transitions so arriving here from the archive feels continuous
+   rather than a hard page-cut.
+   ═══════════════════════════════════════════════════════════ */
+
+@view-transition {
+  navigation: auto;
+}
+::view-transition-group(*) {
+  animation-duration: .6s;
+  animation-timing-function: cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+/* Faster transform transition so pointer-driven tilt tracks the
+   cursor responsively; the existing filter transition (brightness
+   on hover) is untouched and keeps its original pacing. */
+.hero-image,
+.shot {
+  transition: transform .12s ease-out, filter .9s var(--ease);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-image,
+  .shot {
+    transition: filter .9s var(--ease);
+  }
+}

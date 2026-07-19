@@ -18,22 +18,43 @@
   const prefersReduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (prefersReduced) return;
 
-  const isDesktop = window.matchMedia('(min-width: 900px)').matches;
-  if (!isDesktop) return;
+  // Capability-based, not a pixel breakpoint — a hard min-width cutoff
+  // was silently disabling tilt on tablets that fell under it. Mouse
+  // devices get pointer-tilt; touch devices get drag-tilt instead.
+  const hasHover = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
+  const isTouch = window.matchMedia('(pointer: coarse)').matches;
 
-  // Tilt — same rotation values as the homepage's .project-frame
-  // tilt, so a case study reads as the same physical material as
-  // the archive, not a separate flat document.
   const tiltTargets = document.querySelectorAll('.hero-image, .shot');
-  tiltTargets.forEach(el => {
-    el.addEventListener('pointermove', event => {
-      const box = el.getBoundingClientRect();
-      const x = (event.clientX - box.left) / box.width - .5;
-      const y = (event.clientY - box.top) / box.height - .5;
-      el.style.transform = `rotateX(${-y * 4}deg) rotateY(${x * 5}deg) translateZ(8px) scale(1.01)`;
+
+  if (hasHover) {
+    tiltTargets.forEach(el => {
+      el.addEventListener('pointermove', event => {
+        const box = el.getBoundingClientRect();
+        const x = (event.clientX - box.left) / box.width - .5;
+        const y = (event.clientY - box.top) / box.height - .5;
+        el.style.transform = `rotateX(${-y * 12}deg) rotateY(${x * 16}deg) translateZ(28px) scale(1.04)`;
+      });
+      el.addEventListener('pointerleave', () => { el.style.transform = ''; });
     });
-    el.addEventListener('pointerleave', () => { el.style.transform = ''; });
-  });
+  }
+
+  if (isTouch) {
+    // Drag-tilt: finger position relative to the element's own
+    // center drives the same rotation the cursor would on desktop.
+    // No permission dialog, no gyroscope dependency — works on
+    // every tablet immediately.
+    tiltTargets.forEach(el => {
+      el.addEventListener('touchmove', event => {
+        const touch = event.touches[0];
+        if (!touch) return;
+        const box = el.getBoundingClientRect();
+        const x = (touch.clientX - box.left) / box.width - .5;
+        const y = (touch.clientY - box.top) / box.height - .5;
+        el.style.transform = `rotateX(${-y * 14}deg) rotateY(${x * 18}deg) translateZ(28px) scale(1.05)`;
+      }, { passive: true });
+      el.addEventListener('touchend', () => { el.style.transform = ''; });
+    });
+  }
 
   // Scroll parallax on the hero image — identical formula to the
   // homepage's project-frame parallax, so scrolling into a case
