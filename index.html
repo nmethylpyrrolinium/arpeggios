@@ -45,7 +45,6 @@
         <a href="#about" class="nav-item">About</a>
         <a href="#contact" class="nav-item">Contact</a>
         <span class="nav-time" id="nav-time" aria-live="polite"></span>
-        <span class="nav-signal" id="nav-signal" aria-live="polite"></span>
       </div>
     </nav>
   </header>
@@ -60,6 +59,28 @@
       <div class="event-horizon-vignette" aria-hidden="true"></div>
       <div class="gravity-cursor" aria-hidden="true"></div>
       <button id="enable-motion" class="motion-toggle black-hole-ui" type="button" hidden>Enable motion</button>
+
+      <!-- Now Playing — live Last.fm transmission -->
+      <div class="now-playing black-hole-ui" id="now-playing" aria-live="polite" hidden>
+        <div class="now-playing-ring" aria-hidden="true"></div>
+        <div class="now-playing-art" id="now-playing-art" aria-hidden="true"></div>
+        <div class="now-playing-meta">
+          <span class="now-playing-label">Now playing</span>
+          <span class="now-playing-track" id="now-playing-track"></span>
+          <span class="now-playing-artist" id="now-playing-artist"></span>
+        </div>
+      </div>
+
+      <!-- Clash Royale — intercepted arena transmission -->
+      <div class="clash-transmission black-hole-ui" id="clash-transmission" aria-live="polite" hidden>
+        <div class="clash-crown" aria-hidden="true">♛</div>
+        <div class="clash-meta">
+          <span class="clash-label">Arena signal</span>
+          <span class="clash-trophies" id="clash-trophies"></span>
+          <span class="clash-arena" id="clash-arena"></span>
+        </div>
+      </div>
+
       <div class="cinematic-rig" aria-hidden="true">
         <span class="orbit-ring orbit-ring--one"></span>
         <span class="orbit-ring orbit-ring--two"></span>
@@ -372,6 +393,14 @@
           <div class="fragment-rule" aria-hidden="true"></div>
         </article>
       </div>
+
+      <div class="process-transmission" id="github-transmission" aria-live="polite" hidden>
+        <div class="transmission-head">
+          <svg class="transmission-icon" width="14" height="14" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
+          <span class="transmission-label">Recent commits</span>
+        </div>
+        <ul class="transmission-log" id="github-log"></ul>
+      </div>
     </section>
 
     <!-- ═══════════════════════════════════════
@@ -431,18 +460,26 @@
         </div>
         <nav class="contact-links" aria-label="Contact links" data-cinematic>
           <a href="mailto:alfar4864@gmail.com" class="contact-link">
+            <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 6.5 12 13l9-6.5M4 5h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V6a1 1 0 0 1 1-1Z" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round"/></svg>
             <span><small>Email</small><strong>alfar4864@gmail.com</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a href="https://instagram.com/nmethylpyrrolinium" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.3"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>
             <span><small>Instagram · primary</small><strong>@nmethylpyrrolinium</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a href="https://instagram.com/nmethylblaugrana" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <svg class="contact-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="5" stroke="currentColor" stroke-width="1.3"/><circle cx="12" cy="12" r="4" stroke="currentColor" stroke-width="1.3"/><circle cx="17.2" cy="6.8" r="1.1" fill="currentColor"/></svg>
             <span><small>Instagram · football</small><strong>@nmethylblaugrana</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
           </a>
           <a href="https://github.com/nmethylpyrrolinium" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <svg class="contact-icon" width="16" height="16" viewBox="0 0 16 16" fill="currentColor" aria-hidden="true"><path d="M8 0C3.58 0 0 3.58 0 8c0 3.54 2.29 6.53 5.47 7.59.4.07.55-.17.55-.38 0-.19-.01-.82-.01-1.49-2.01.37-2.53-.49-2.69-.94-.09-.23-.48-.94-.82-1.13-.28-.15-.68-.52-.01-.53.63-.01 1.08.58 1.23.82.72 1.21 1.87.87 2.33.66.07-.52.28-.87.51-1.07-1.78-.2-3.64-.89-3.64-3.95 0-.87.31-1.59.82-2.15-.08-.2-.36-1.02.08-2.12 0 0 .67-.21 2.2.82.64-.18 1.32-.27 2-.27.68 0 1.36.09 2 .27 1.53-1.04 2.2-.82 2.2-.82.44 1.1.16 1.92.08 2.12.51.56.82 1.27.82 2.15 0 3.07-1.87 3.75-3.65 3.95.29.25.54.73.54 1.48 0 1.07-.01 1.93-.01 2.2 0 .21.15.46.55.38A8.01 8.01 0 0 0 16 8c0-4.42-3.58-8-8-8Z"/></svg>
             <span><small>Code</small><strong>GitHub / nmethylpyrrolinium</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
           </a>
         </nav>
+        <button class="ping-alam" id="ping-alam" type="button">
+          <span class="ping-alam-ripple" aria-hidden="true"></span>
+          <span class="ping-alam-label" id="ping-alam-label">Ping Alam</span>
+        </button>
         <div class="archive-unlock" id="archive-unlock" aria-live="polite">
           <span class="archive-unlock-dot" aria-hidden="true"></span>
           <span class="archive-unlock-copy"><b>Direct transmission sealed</b><small>Recover 3 artifacts to stabilize the archive.</small></span>
