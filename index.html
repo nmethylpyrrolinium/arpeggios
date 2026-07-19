@@ -1,575 +1,462 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <meta name="theme-color" content="#05070d" />
-    <meta
-      name="description"
-      content="Alam’s Dump is a private-feeling browser photo lab for restoring and styling digital keepsakes."
-    />
-    <title>Alam’s Dump — Digital Keepsake Lab</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600;700&family=Inter:wght@500;700;800;900&family=Share+Tech+Mono&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="styles.css" />
-    <link rel="stylesheet" href="layout-v2.css" />
-    <link rel="stylesheet" href="cards-v2.css" />
-  </head>
-  <body>
-    <section class="admin-shell" id="adminView" hidden aria-live="polite"></section>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Archive / NM — Cinematic Frontend Portfolio</title>
+  <meta name="description" content="Archive / NM: a cinematic portfolio of selected frontend experiments, digital products, and interactive visual systems.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
 
-    <div class="grain veil" aria-hidden="true"></div>
-    <div class="orb orb-a" aria-hidden="true"></div>
-    <div class="orb orb-b" aria-hidden="true"></div>
+  <!-- Cinematic loader -->
+  <div id="loader" aria-hidden="true">
+    <div class="loader-inner">
+      <div class="loader-rule"></div>
+      <p class="loader-label">Calibrating gravity</p>
+      <div class="loader-bar"><div class="loader-fill"></div></div>
+    </div>
+    <button id="skip-loader" class="loader-skip">Skip</button>
+  </div>
 
-    <header class="site-header">
-      <a class="brand" href="#top" aria-label="Alam’s Dump home">
-        <span class="brand-mark">A/D</span>
-        <span class="brand-copy">
-          <strong>Alam’s Dump</strong>
-          <small>digital keepsake lab</small>
-        </span>
+  <!-- Atmospheric grain -->
+  <div class="grain" aria-hidden="true"></div>
+  <!-- Ambient light leak -->
+  <div class="ambient-leak" aria-hidden="true"></div>
+
+  <!-- Header -->
+  <header id="site-header">
+    <nav aria-label="Primary navigation">
+      <a href="#hero" class="nav-mark" aria-label="Archive / NM home">
+        <span class="mark-archive">Archive</span>
+        <span class="mark-sep">/</span>
+        <span class="mark-nm">NM</span>
       </a>
-      <nav aria-label="Primary navigation">
-        <a href="#lab">Edit</a>
-        <a href="#wall">Wall</a>
-        <a href="#lab">Hang a photo</a>
-      </nav>
-      <button class="header-new-photo" id="newPhotoButton" type="button">New photo</button>
-    </header>
+      <button class="menu-toggle" aria-expanded="false" aria-controls="nav-links" aria-label="Toggle navigation menu">
+        <span class="toggle-line"></span>
+        <span class="toggle-line"></span>
+      </button>
+      <div id="nav-links" class="nav-links" role="navigation">
+        <a href="#works" class="nav-item">Work</a>
+        <a href="#about" class="nav-item">About</a>
+        <a href="#contact" class="nav-item">Contact</a>
+        <span class="nav-time" id="nav-time" aria-live="polite"></span>
+      </div>
+    </nav>
+  </header>
 
-    <main id="top">
-      <section class="hero section-shell">
-        <div class="hero-copy">
-          <p class="eyebrow">ALAM’S DUMP / 2026</p>
-          <h1>Restore. Damage. Export.</h1>
-          <p class="lede">A private photo lab that runs entirely in your browser.</p>
-          <div class="hero-actions">
-            <a class="button primary" href="#lab">Edit a photo</a>
-            <a class="button ghost" href="#wall">See the wall</a>
+  <main id="main">
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 01 — HERO
+    ═══════════════════════════════════════ -->
+    <section id="hero" aria-label="Project extraction interface">
+      <canvas id="black-hole-canvas" aria-hidden="true"></canvas>
+      <div class="event-horizon-vignette" aria-hidden="true"></div>
+      <div class="gravity-cursor" aria-hidden="true"></div>
+      <button id="enable-motion" class="motion-toggle black-hole-ui" type="button" hidden>Enable motion</button>
+      <div class="cinematic-rig" aria-hidden="true">
+        <span class="orbit-ring orbit-ring--one"></span>
+        <span class="orbit-ring orbit-ring--two"></span>
+        <span class="orbit-ring orbit-ring--three"></span>
+        <span class="gravity-monolith"></span>
+        <span class="light-slice light-slice--one"></span>
+        <span class="light-slice light-slice--two"></span>
+      </div>
+
+      <div class="hero-eyeline black-hole-ui" data-cinematic>
+        <span class="eyeline-tag">Archive Field · 2026</span>
+        <span class="eyeline-rule" aria-hidden="true"></span>
+        <span class="eyeline-tag"><span class="system-pulse" aria-hidden="true"></span> Singularity stable</span>
+      </div>
+
+      <div class="singularity-label black-hole-ui" aria-hidden="true">
+        <span>NM / SELECTED WORK EXTRACTOR</span>
+        <span>LIVE GRAVITY WELL · 06 ARTIFACTS</span>
+      </div>
+
+      <div class="fragment-field" aria-label="Selected projects orbiting the Archive NM singularity">
+        <button class="orbit-fragment fragment-echovault" data-target="proj-echovault" data-index="001" data-angle="-0.35" data-radius="1" aria-label="Extract EchoVault project">
+          <span class="artifact-glass"><span class="artifact-code">VOICE_01<br>MEMORY / SEALED</span></span>
+          <span class="artifact-meta"><b>EchoVault</b><small>Memory artifact · 001</small></span>
+        </button>
+        <button class="orbit-fragment fragment-asna" data-target="proj-asna" data-index="002" data-angle="1.05" data-radius=".86" aria-label="Extract Asna Needle and Co. project">
+          <span class="artifact-glass"><span class="artifact-stitch"></span></span>
+          <span class="artifact-meta"><b>Asna Needle</b><small>Measured cloth · 002</small></span>
+        </button>
+        <button class="orbit-fragment fragment-ink" data-target="proj-ink" data-index="003" data-angle="2.35" data-radius=".94" aria-label="Extract Ink of Arabia project">
+          <span class="artifact-glass"><span class="artifact-glyph">ن</span></span>
+          <span class="artifact-meta"><b>Ink of Arabia</b><small>Manuscript · 003</small></span>
+        </button>
+        <button class="orbit-fragment fragment-zyphoria" data-target="proj-zyphoria" data-index="004" data-angle="3.6" data-radius=".78" aria-label="Extract Zyphoria project">
+          <span class="artifact-glass"><span class="artifact-haze"></span></span>
+          <span class="artifact-meta"><b>Zyphoria</b><small>Signal haze · 004</small></span>
+        </button>
+        <button class="orbit-fragment fragment-catene" data-target="proj-catene" data-index="005" data-angle="4.55" data-radius="1.04" aria-label="Extract catene.pk project">
+          <span class="artifact-glass"><span class="artifact-chain">C—PK</span></span>
+          <span class="artifact-meta"><b>catene.pk</b><small>Fashion signal · 005</small></span>
+        </button>
+        <button class="orbit-fragment fragment-archive" data-target="proj-archive" data-index="006" data-angle="5.55" data-radius=".82" aria-label="Extract Alam's Dump project">
+          <span class="artifact-glass"><span class="artifact-mirror">alam</span></span>
+          <span class="artifact-meta"><b>Alam's Dump</b><small>Personal experiment · 006</small></span>
+        </button>
+      </div>
+
+      <div class="lock-line" aria-hidden="true"></div>
+      <div class="hero-intro black-hole-ui" data-cinematic>
+        <p class="hero-kicker">Selected work held in orbit</p>
+        <h1>Stabilize.<br><em>Extract.</em></h1>
+        <p>Move through the live gravity field. Lock onto a fragment to pull a selected project through the event horizon.</p>
+      </div>
+
+      <div class="hero-footer black-hole-ui" data-cinematic>
+        <p class="hero-role"><span id="extraction-count">00</span> / 06 artifacts recovered</p>
+        <button class="hero-cta" id="extract-first" type="button" aria-label="Extract the first project">
+          <span>Recover first artifact</span>
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" aria-hidden="true"><path d="M2 12L12 2M12 2H5M12 2V9" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+
+      <div class="hero-vertical black-hole-ui" aria-hidden="true"><span>Move cursor to disturb the gravity field</span></div>
+      <div class="scroll-cue black-hole-ui" aria-hidden="true"><div class="scroll-line"></div><span>Enter the archive</span></div>
+      <div class="extraction-flash" aria-hidden="true"></div>
+      <div class="sr-status" aria-live="polite"></div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         INTERSTITIAL — IDENTITY STATEMENT
+    ═══════════════════════════════════════ -->
+    <div class="interstitial" id="identity" aria-label="Portfolio statement">
+      <div class="interstitial-inner">
+        <p class="interstitial-text" data-cinematic>
+          I build digital worlds where web products collide at the intersection of
+          <em>frontend engineering</em>, product imagination,
+          experimental UI systems, and digital art direction.
+        </p>
+        <ul class="discipline-list" aria-label="Disciplines" data-cinematic>
+          <li>Frontend Engineering</li>
+          <li aria-hidden="true">·</li>
+          <li>Experimental UI</li>
+          <li aria-hidden="true">·</li>
+          <li>Visual Systems</li>
+          <li aria-hidden="true">·</li>
+          <li>Motion Direction</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 02 — WORKS
+    ═══════════════════════════════════════ -->
+    <section id="works" aria-labelledby="works-heading">
+      <div class="section-head">
+        <div class="section-meta">
+          <span class="section-index" aria-hidden="true">02</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-label">Selected Work</span>
+        </div>
+        <h2 id="works-heading" class="section-title" data-cinematic>
+          <span>Six selected</span>
+          <em>signals</em>
+        </h2>
+      </div>
+
+      <!-- LEAD PROJECT: EchoVault -->
+      <article class="project project-lead" id="proj-echovault" data-cinematic>
+        <div class="project-frame tone-echovault" role="img" aria-label="EchoVault — cinematic dark archive interface preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">Vault · Preview Frame</div>
+            <div class="frame-composition" aria-hidden="true">
+              <div class="comp-rule comp-rule--h"></div>
+              <div class="comp-rule comp-rule--v"></div>
+              <div class="comp-dot"></div>
+            </div>
           </div>
-          <dl class="metric-strip" aria-label="Reconstruction parameters">
-            <div>
-              <dt>Black point</dt>
-              <dd>0.045</dd>
+        </div>
+        <div class="project-meta">
+          <p class="proj-index" aria-hidden="true">001</p>
+          <p class="proj-type">Full-stack archive interface · 2026</p>
+          <h3 class="proj-title">EchoVault</h3>
+          <p class="proj-desc">Private vault interface for preserving voice notes, writings, and memory artifacts. A sealed room for memory: quiet access and echoes that know where they belong.</p>
+          <dl class="proj-details">
+            <div><dt>Role</dt><dd>Frontend + product direction</dd></div>
+            <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
+          </dl>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/echovault.com/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/echovault.com" class="proj-link">GitHub</a>
+            <a href="projects/echovault.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- WIDE PROJECT: Asna Needle -->
+      <article class="project project-wide" id="proj-asna" data-cinematic>
+        <div class="project-meta project-meta--left">
+          <p class="proj-index" aria-hidden="true">002</p>
+          <p class="proj-type">Brand commerce experience · 2026</p>
+          <h3 class="proj-title">Asna Needle<br><span class="title-amp">&amp;</span> Co.</h3>
+          <p class="proj-desc">Tailoring house translated into warm commerce, measured cloth, and slow handwork. An intimate service rather than a transactional storefront.</p>
+          <dl class="proj-details">
+            <div><dt>Role</dt><dd>Frontend + art direction</dd></div>
+            <div><dt>Tools</dt><dd>HTML, CSS, JS</dd></div>
+          </dl>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/asnaneedle.studio/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/asnaneedle.studio" class="proj-link">GitHub</a>
+            <a href="projects/asna-needle.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+        <div class="project-frame tone-asna" role="img" aria-label="Asna Needle & Co. — warm artisan tailoring brand preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">Textile · Study</div>
+            <div class="frame-composition" aria-hidden="true">
+              <div class="comp-rule comp-rule--h"></div>
+              <div class="comp-rule comp-rule--v comp-rule--right"></div>
             </div>
-            <div>
-              <dt>Blue bias</dt>
-              <dd>+14%</dd>
+          </div>
+        </div>
+      </article>
+
+      <!-- PAIR: Ink of Arabia + Zyphoria -->
+      <div class="project-pair" data-cinematic>
+        <article class="project project-half" id="proj-ink">
+          <div class="project-frame tone-ink" role="img" aria-label="Ink of Arabia — editorial calligraphy microsite preview">
+            <div class="frame-inner">
+              <div class="frame-label" aria-hidden="true">Editorial · Manuscript</div>
             </div>
-            <div>
-              <dt>Noise cancel</dt>
-              <dd>48%</dd>
+          </div>
+          <div class="project-meta project-meta--below">
+            <p class="proj-index" aria-hidden="true">003</p>
+            <p class="proj-type">Editorial cultural microsite · 2025</p>
+            <h3 class="proj-title">Ink of Arabia</h3>
+            <p class="proj-desc">Calligraphic heritage arranged as an editorial microsite. Ink, desert light, and letterforms treated as architecture.</p>
+            <div class="proj-links">
+              <a href="https://nmethylpyrrolinium.github.io/inkofarabia/" class="proj-link proj-link--live">Live site</a>
+              <a href="https://github.com/nmethylpyrrolinium/inkofarabia" class="proj-link">GitHub</a>
+              <a href="projects/ink-of-arabia.html" class="proj-link proj-link--case">Case study →</a>
+            </div>
+          </div>
+        </article>
+
+        <article class="project project-half project-half--offset" id="proj-zyphoria">
+          <div class="project-frame tone-zyphoria" role="img" aria-label="Zyphoria — surreal speculative landing page preview">
+            <div class="frame-inner">
+              <div class="frame-label" aria-hidden="true">Neon · Concept</div>
+              <div class="frame-composition" aria-hidden="true">
+                <div class="comp-rule comp-rule--h comp-rule--bottom"></div>
+              </div>
+            </div>
+          </div>
+          <div class="project-meta project-meta--below">
+            <p class="proj-index" aria-hidden="true">004</p>
+            <p class="proj-type">Experimental landing · 2025</p>
+            <h3 class="proj-title">Zyphoria</h3>
+            <p class="proj-desc">Surreal digital atmosphere where product, dream, and interface haze drift together. Strange, soft, and lucid.</p>
+            <div class="proj-links">
+              <a href="https://nmethylpyrrolinium.github.io/zyphoria.com/" class="proj-link proj-link--live">Live site</a>
+              <a href="https://github.com/nmethylpyrrolinium/zyphoria.com" class="proj-link">GitHub</a>
+              <a href="projects/zyphoria.html" class="proj-link proj-link--case">Case study →</a>
+            </div>
+          </div>
+        </article>
+      </div>
+
+      <!-- SELECTED PROJECT 05: catene.pk -->
+      <article class="project project-archive project-catene" id="proj-catene" data-cinematic>
+        <div class="archive-bg" aria-hidden="true"><span class="archive-bg-text">CATENE</span></div>
+        <div class="project-frame tone-catene" role="img" aria-label="catene.pk — fashion commerce experience preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">Fashion · Commerce</div>
+            <div class="catene-object" aria-hidden="true"><span></span><span></span><span></span></div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <p class="proj-index" aria-hidden="true">005</p>
+          <p class="proj-type">Fashion commerce experience · 2026</p>
+          <h3 class="proj-title">catene.pk</h3>
+          <p class="proj-desc">A sharp digital storefront shaped around chain geometry, editorial pacing, and a darker fashion signal.</p>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/Catene.pk/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/Catene.pk" class="proj-link">GitHub</a>
+            <a href="projects/catene.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+      </article>
+
+      <!-- SELECTED PROJECT 06: Alam's Dump -->
+      <article class="project project-archive project-dump" id="proj-archive" data-cinematic>
+        <div class="archive-bg" aria-hidden="true"><span class="archive-bg-text">ALAM / 06</span></div>
+        <div class="project-frame tone-archive" role="img" aria-label="Alam's Dump — black-hole JavaScript experiment preview">
+          <div class="frame-inner">
+            <div class="frame-label" aria-hidden="true">JavaScript · Personal experiment</div>
+            <div class="frame-composition" aria-hidden="true">
+              <div class="comp-rule comp-rule--h"></div><div class="comp-rule comp-rule--v"></div><div class="comp-rule comp-rule--diag"></div>
+            </div>
+          </div>
+        </div>
+        <div class="project-meta">
+          <p class="proj-index" aria-hidden="true">006</p>
+          <p class="proj-type">Personal experiment · GitHub Pages · 2026</p>
+          <h3 class="proj-title">Alam's<br>Dump</h3>
+          <p class="proj-desc">A personal JavaScript dump for black-hole motion, interface experiments, and ideas that do not need permission to get strange.</p>
+          <div class="proj-links">
+            <a href="https://nmethylpyrrolinium.github.io/alam-s-dump/" class="proj-link proj-link--live">Live site</a>
+            <a href="https://github.com/nmethylpyrrolinium/alam-s-dump" class="proj-link">GitHub</a>
+            <a href="projects/alam-s-dump.html" class="proj-link proj-link--case">Case study →</a>
+          </div>
+        </div>
+      </article>
+
+      <aside class="repo-constellation" aria-labelledby="repo-constellation-heading" data-cinematic>
+        <div class="repo-constellation-head">
+          <p class="repo-kicker">Curated transmission · six signals only</p>
+          <h3 id="repo-constellation-heading">The projects worth pulling closer</h3>
+          <p>A deliberate selection—not the whole GitHub drawer. Only finished worlds and active experiments make this orbit.</p>
+        </div>
+        <div class="repo-grid" aria-label="Selected project repositories">
+          <a class="repo-card repo-card--hot" href="https://github.com/nmethylpyrrolinium/echovault.com" target="_blank" rel="noopener noreferrer" data-repo-card><span>001 · Archive</span><b>EchoVault</b><small>Memory interface</small></a>
+          <a class="repo-card" href="https://github.com/nmethylpyrrolinium/asnaneedle.studio" target="_blank" rel="noopener noreferrer" data-repo-card><span>002 · Commerce</span><b>Asna Needle</b><small>Tailoring studio</small></a>
+          <a class="repo-card" href="https://github.com/nmethylpyrrolinium/inkofarabia" target="_blank" rel="noopener noreferrer" data-repo-card><span>003 · Editorial</span><b>Ink of Arabia</b><small>Calligraphic microsite</small></a>
+          <a class="repo-card" href="https://github.com/nmethylpyrrolinium/zyphoria.com" target="_blank" rel="noopener noreferrer" data-repo-card><span>004 · Experiment</span><b>Zyphoria</b><small>Surreal interface</small></a>
+          <a class="repo-card repo-card--hot" href="https://github.com/nmethylpyrrolinium/Catene.pk" target="_blank" rel="noopener noreferrer" data-repo-card><span>005 · Fashion</span><b>catene.pk</b><small>Commerce signal</small></a>
+          <a class="repo-card repo-card--hot" href="https://github.com/nmethylpyrrolinium/alam-s-dump" target="_blank" rel="noopener noreferrer" data-repo-card><span>006 · Personal</span><b>Alam's Dump</b><small>JavaScript experiments</small></a>
+        </div>
+      </aside>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 03 — PROCESS
+    ═══════════════════════════════════════ -->
+    <section id="process" aria-labelledby="process-heading">
+      <div class="section-head">
+        <div class="section-meta">
+          <span class="section-index" aria-hidden="true">03</span>
+          <span class="section-rule" aria-hidden="true"></span>
+          <span class="section-label">Process</span>
+        </div>
+        <h2 id="process-heading" class="section-title" data-cinematic>
+          <span>Fragments</span>
+          <em>from the edit</em>
+        </h2>
+      </div>
+
+      <div class="process-grid">
+        <article class="fragment fragment--wide" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·01</div>
+          <h3>Motion studies</h3>
+          <p>Every transition is choreographed before it's coded. Ease curves are tested against reduced-motion fallbacks. Motion must clarify intent — never perform for its own sake.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+        <article class="fragment" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·02</div>
+          <h3>Type rhythm</h3>
+          <p>Balancing serif drama with sans readability for long-form case study storytelling. Whitespace is designed — not defaulted.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+        <article class="fragment" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·03</div>
+          <h3>Atmosphere controls</h3>
+          <p>Grain and light leaks tuned as subtle texture, never as blockers. Atmosphere should whisper. It should never shout.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+        <article class="fragment fragment--accent" data-cinematic>
+          <div class="fragment-index" aria-hidden="true">F·04</div>
+          <h3>Interface as choreography</h3>
+          <p>Each interaction must clarify intent. Scroll pacing, reveal timing, hover evolution — all designed as a sequence, not a list of features.</p>
+          <div class="fragment-rule" aria-hidden="true"></div>
+        </article>
+      </div>
+    </section>
+
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 04 — ABOUT
+    ═══════════════════════════════════════ -->
+    <section id="about" aria-labelledby="about-heading">
+      <div class="about-composition">
+        <div class="about-number" aria-hidden="true">04</div>
+        <div class="about-main">
+          <div class="section-meta" data-cinematic>
+            <span class="section-index" aria-hidden="true">04</span>
+            <span class="section-rule" aria-hidden="true"></span>
+            <span class="section-label">About</span>
+          </div>
+          <h2 id="about-heading" class="about-headline" data-cinematic>
+            A creative technologist<br>
+            <em>building beyond the expected</em>
+          </h2>
+          <div class="about-body" data-cinematic>
+            <p>Focused on emotionally resonant interfaces that remain fast, clear, and accessible. I build portfolio platforms, interactive brand websites, product storytelling systems, and experimental frontend prototypes.</p>
+          </div>
+        </div>
+        <div class="about-sidebar">
+          <dl class="about-dl" data-cinematic>
+            <div class="about-item">
+              <dt>Philosophy</dt>
+              <dd>Interface as choreography — every transition must clarify intent, not distract from it.</dd>
+            </div>
+            <div class="about-item">
+              <dt>Tools</dt>
+              <dd>HTML · CSS · JavaScript · React patterns · Design systems · Motion direction · Accessibility · Performance</dd>
+            </div>
+            <div class="about-item">
+              <dt>Currently exploring</dt>
+              <dd>Narrative UI, tactile web textures, AI-assisted visual prototyping.</dd>
             </div>
           </dl>
         </div>
-
-        <div class="hero-stage" id="wall" aria-label="A living wall of swirling finished photographs">
-          <div class="wall-hanging" aria-hidden="true">
-            <span class="hanging-pin"></span>
-            <span class="hanging-thread thread-left"></span>
-            <span class="hanging-thread thread-right"></span>
-            <div class="hanging-banner"><small>OPEN WALL</small><strong>HANG<br />YOUR PHOTO</strong><i></i></div>
-            <span class="hanging-tassel tassel-one"></span>
-            <span class="hanging-tassel tassel-two"></span>
-            <span class="hanging-tassel tassel-three"></span>
-          </div>
-          <div class="living-wall" id="featuredGallery" aria-live="polite" tabindex="0" aria-label="User photo wall. Scroll or drag to move along the rope.">
-            <div class="wall-rope" aria-hidden="true"></div>
-            <div class="wall-track" id="wallTrack"></div>
-            <div class="wall-empty" id="wallEmpty">
-              <strong>The rope is waiting.</strong>
-              <span>Hang the first user photo from the editor below.</span>
-            </div>
-            <div class="wall-guide" aria-hidden="true"><span>SCROLL / DRAG</span><i></i><span>CLICK TO OPEN</span></div>
-            <button class="wall-pause" id="wallPause" type="button" aria-pressed="false">Pause wall</button>
-          </div>
-          <dialog class="wall-lightbox" id="wallLightbox" aria-label="Selected wall photo">
-            <button type="button" class="wall-lightbox-close" aria-label="Close photo">×</button>
-            <img alt="Selected user wall photo" />
-            <p></p>
-          </dialog>
-        </div>
-      </section>
-
-      <section class="lab lab--v2 section-shell reveal-on-scroll" id="lab">
-        <div class="lab-copy">
-          <p class="eyebrow">Live browser implementation</p>
-          <h2>Pick a photo. Restore it locally. Keep the evidence.</h2>
-          <p>
-            Processing uses Canvas ImageData, deterministic grain, HSL hue
-            remapping, a shaped tone LUT, ordered dither, bloom, and a
-            timestamp compositor — all on-device.
-          </p>
-          <div class="file-drop" id="dropZone">
-            <input id="imageInput" type="file" accept="image/*" />
-            <input id="cameraInput" type="file" accept="image/*" capture="environment" />
-            <span class="drop-kicker">DROP ZONE / PRIVATE BY DEFAULT</span>
-            <strong>Drag a photo here or choose how to add one.</strong>
-            <small>Images are processed in your browser and never uploaded.</small>
-            <div class="upload-actions">
-              <label class="upload-button primary-upload" for="imageInput">Choose from library</label>
-              <label class="upload-button" for="cameraInput">Take a photo</label>
-            </div>
-            <p id="uploadStatus" class="upload-status" role="status" aria-live="polite">Ready for JPG, PNG, WebP, GIF, or browser-supported image files.</p>
-          </div>
-        </div>
-
-        <div class="lab-panel">
-          <div class="preview-toolbar">
-            <strong>02 / EDIT</strong>
-            <div class="output-actions">
-              <button id="remixButton" type="button" title="Generate a fresh deterministic grain pattern">New grain</button>
-              <button id="shareButton" type="button">Share</button>
-              <button id="downloadButton" type="button">Download JPEG</button>
-            </div>
-          </div>
-
-          <div class="lab-topbar">
-            <div class="lab-search">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="11" cy="11" r="7"></circle><line x1="21" y1="21" x2="16.65" y2="16.65"></line></svg>
-              <input id="labSearchInput" type="search" placeholder="Search controls…" aria-label="Search editor controls" />
-            </div>
-            <span class="lab-topbar-hint">Type to jump to a control</span>
-          </div>
-
-          <div class="lab-shell">
-            <nav class="lab-sidebar" aria-label="Effect categories">
-              <button class="category-nav-item" type="button" data-category-nav="essentials">Essentials</button>
-              <button class="category-nav-item" type="button" data-category-nav="film">Film Cameras</button>
-              <button class="category-nav-item" type="button" data-category-nav="pixel">Pixel &amp; Digital</button>
-              <button class="category-nav-item" type="button" data-category-nav="print">Print &amp; Analog</button>
-              <button class="category-nav-item" type="button" data-category-nav="retro">Retro &amp; CRT</button>
-              <button class="category-nav-item" type="button" data-category-nav="artistic">Artistic</button>
-              <button class="category-nav-item" type="button" data-category-nav="color">Color &amp; Tone</button>
-              <button class="category-nav-item" type="button" data-category-nav="export">Export</button>
-            </nav>
-
-            <div class="lab-center">
-              <div class="preview-stage-controls">
-                <div class="stage-group">
-                  <button type="button" class="active" data-zoom="fit">Fit</button>
-                  <button type="button" data-zoom="100">100%</button>
-                  <button id="resetViewButton" type="button">Reset view</button>
-                </div>
-                <div class="stage-group">
-                  <button id="compareToggleButton" type="button">Before / after</button>
-                </div>
-              </div>
-              <div class="preview-viewport">
-                <div class="canvas-compare" aria-label="Source image and filtered photon output comparison">
-                  <figure data-role="before">
-                    <canvas id="sourceCanvas" width="410" height="547"></canvas>
-                    <figcaption>before</figcaption>
-                  </figure>
-                  <figure data-role="after">
-                    <canvas id="outputCanvas" width="410" height="547"></canvas>
-                    <figcaption>after</figcaption>
-                  </figure>
-                </div>
-              </div>
-            </div>
-
-            <div class="lab-context" id="labContext">
-              <div class="effects-stack-panel" id="effectsStackPanel">
-                <div class="effects-stack-header">
-                  <span class="tool-label">Active effects <small id="stackCount">(0/5)</small></span>
-                  <button type="button" id="randomizeStackButton">Randomize</button>
-                </div>
-                <p class="effects-stack-empty" id="effectsStackEmpty">Enable an effect card below to build your stack.</p>
-                <ol class="effects-stack-list" id="effectsStackList"></ol>
-                <div class="effects-quick-row" id="favoritesRow" hidden>
-                  <span class="tool-label">★ Favorites</span>
-                  <div class="effects-chip-row" id="favoritesChips"></div>
-                </div>
-                <div class="effects-quick-row" id="recentRow" hidden>
-                  <span class="tool-label">Recent</span>
-                  <div class="effects-chip-row" id="recentChips"></div>
-                </div>
-              </div>
-
-              <div data-category="essentials" hidden>
-                <p class="category-panel-title">Essentials</p>
-                <div class="tool-section">
-                  <span class="tool-label" data-search-label="Crop">Crop</span>
-                  <div class="choice-rail" id="cropRail" aria-label="Crop ratio">
-                    <button class="active" type="button" data-crop="0.75">3:4</button>
-                    <button type="button" data-crop="1">Square</button>
-                    <button type="button" data-crop="0.5625">Story</button>
-                    <button type="button" data-crop="1.333333">4:3</button>
-                    <button type="button" data-crop="original">Original</button>
-                  </div>
-                  <label class="inline-range">Position <input id="cropPositionControl" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-                </div>
-                <div class="control-grid">
-                  <label data-search-label="Noise cancellation">Noise cancellation<input id="noiseCancelControl" type="range" min="0" max="1" step="0.01" value="0.48" /></label>
-                  <label data-search-label="Sharpness">Sharpness<input id="sharpnessControl" type="range" min="0" max="1.6" step="0.01" value="0.78" /></label>
-                  <label data-search-label="Contrast">Contrast<input id="contrastControl" type="range" min="1" max="1.8" step="0.01" value="1.38" /></label>
-                </div>
-                <details class="tool-section timestamp-tool">
-                  <summary><span><span class="tool-label" data-search-label="Timestamp">Timeline</span><strong>Alam’s Dump stamp</strong></span><small>Customize name &amp; date</small></summary>
-                  <div class="timeline-options">
-                    <label>Stamp name<input id="stampNameControl" type="text" maxlength="32" placeholder="Alam’s Dump" value="Alam’s Dump" /></label>
-                    <small>Keep Alam’s Dump as-is, or replace it with your own name.</small>
-                    <label class="toggle-line"><input id="timestampNow" type="checkbox" checked /> Use my current local time</label>
-                    <input id="customTimestamp" type="datetime-local" disabled aria-label="Custom timestamp" />
-                  </div>
-                </details>
-              </div>
-
-              <div data-category="film" hidden>
-                <p class="category-panel-title">Recipes</p>
-                <div class="preset-rail" aria-label="Effect recipes">
-                  <button class="active" type="button" data-preset="reference">Reference</button>
-                  <button type="button" data-preset="night">Night signal</button>
-                  <button type="button" data-preset="heat">Heat leak</button>
-                  <button type="button" data-preset="hardSensor">Hard sensor</button>
-                </div>
-                <div class="control-grid">
-                  <label data-search-label="Grain">Grain<input id="grainControl" type="range" min="0" max="32" step="1" value="17" /></label>
-                  <label data-search-label="Heat leak">Heat leak<input id="leakControl" type="range" min="0" max="0.5" step="0.01" value="0.08" /></label>
-                </div>
-                <p class="category-empty-state">Named film stocks (Portra, Ektar, Tri-X, Cinestill, and the rest) land with the next update — the recipes above are the current stand-ins.</p>
-
-                <p class="category-panel-title">Film &amp; Light</p>
-
-                <details class="tool-section effect-card" data-effect-key="halo">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="halo"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Halation">Halation / Bloom</strong>
-                      <small>Warm glow around bright edges</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="halo" aria-label="Favorite Halation / Bloom" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="haloEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Strength<input id="haloStrength" type="range" min="0" max="1" step="0.01" value="0.4" /></label>
-                    <label>Radius<input id="haloRadius" type="range" min="1" max="30" step="1" value="10" /></label>
-                    <label>Warmth<input id="haloWarmth" type="range" min="0" max="1" step="0.01" value="0.7" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="leak2">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="leak2"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Light Leak">Light Leak</strong>
-                      <small>Directional edge leak</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="leak2" aria-label="Favorite Light Leak" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="leak2Enable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Strength<input id="leak2Strength" type="range" min="0" max="1" step="0.01" value="0.4" /></label>
-                    <label>Angle<input id="leak2Angle" type="range" min="0" max="360" step="1" value="45" /></label>
-                    <label>Warmth<input id="leak2Warmth" type="range" min="0" max="1" step="0.01" value="0.7" /></label>
-                    <label>Fade<input id="leak2Fade" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="bleach">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="bleach"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Bleach Bypass">Overexposure / Bleach Bypass</strong>
-                      <small>Crushed highlights, punchy contrast</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="bleach" aria-label="Favorite Overexposure / Bleach Bypass" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="bleachEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Strength<input id="bleachStrength" type="range" min="0" max="1" step="0.01" value="0.4" /></label>
-                    <label>Recovery<input id="bleachRecovery" type="range" min="0" max="1" step="0.01" value="0.3" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="orton">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="orton"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Orton Glow">Dreamy Glow / Orton</strong>
-                      <small>Soft focus overlay</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="orton" aria-label="Favorite Dreamy Glow / Orton" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="ortonEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Amount<input id="ortonAmount" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
-                    <label>Blur radius<input id="ortonBlur" type="range" min="1" max="24" step="1" value="8" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="diffuse">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="diffuse"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Ethereal Diffusion">Ethereal Diffusion</strong>
-                      <small>"Not really here" softness</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="diffuse" aria-label="Favorite Ethereal Diffusion" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="diffuseEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Strength<input id="diffuseStrength" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
-                    <label>Blur radius<input id="diffuseBlur" type="range" min="1" max="20" step="1" value="6" /></label>
-                    <label>Highlight bias<input id="diffuseHighlight" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="godray">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="godray"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="God Rays">Window Light / God Rays</strong>
-                      <small>Directional flare pass</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="godray" aria-label="Favorite Window Light / God Rays" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="godrayEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Strength<input id="godrayStrength" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
-                    <label>Angle<input id="godrayAngle" type="range" min="0" max="360" step="1" value="200" /></label>
-                    <label>Length<input id="godrayLength" type="range" min="0.1" max="1.2" step="0.05" value="0.6" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="fog">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="fog"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Liminal Fog">Liminal Fog / Haze</strong>
-                      <small>Atmospheric color cast</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="fog" aria-label="Favorite Liminal Fog / Haze" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="fogEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Density<input id="fogDensity" type="range" min="0" max="1" step="0.01" value="0.3" /></label>
-                    <label>Tint<input id="fogTint" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-                    <label>Falloff<input id="fogFalloff" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-                  </div>
-                </details>
-              </div>
-
-              <div data-category="pixel" hidden>
-                <p class="category-panel-title">Pixel &amp; Digital</p>
-                <p class="category-empty-state">8-bit, pixel mosaic, LCD pixel, and nearest-neighbor upscale effects are landing in the next update.</p>
-              </div>
-
-              <div data-category="print" hidden>
-                <p class="category-panel-title">Print &amp; Analog</p>
-                <p class="category-empty-state">Halftone, risograph, newspaper print, and CMYK effects are landing in the next update.</p>
-              </div>
-
-              <div data-category="retro" hidden>
-                <p class="category-panel-title">Retro &amp; CRT</p>
-                <div class="tool-section">
-                  <span class="tool-label" data-search-label="Motion">Motion</span>
-                  <div class="choice-rail" id="motionRail" aria-label="Motion damage">
-                    <button class="active" type="button" data-motion="still">Still</button>
-                    <button type="button" data-motion="shake">Shake</button>
-                    <button type="button" data-motion="ghost">Ghost</button>
-                    <button type="button" data-motion="trails">Trails</button>
-                  </div>
-                  <label class="inline-range">Amount <input id="motionControl" type="range" min="0" max="1" step="0.01" value="0.45" /></label>
-                </div>
-                <div class="control-grid">
-                  <label data-search-label="Dither">Dither<input id="ditherControl" type="range" min="0" max="14" step="1" value="7" /></label>
-                  <label data-search-label="Scan field">Scan field<input id="scanlineControl" type="range" min="0" max="0.2" step="0.01" value="0.055" /></label>
-                </div>
-              </div>
-
-              <div data-category="artistic" hidden>
-                <p class="category-panel-title">Artistic &amp; Distortion</p>
-                <div class="tool-section effect-studio">
-                  <span class="tool-label" data-search-label="Creative mode">Creative mode</span>
-                  <div class="effect-grid" id="effectRail" aria-label="Creative effect mode">
-                    <button class="active" type="button" data-effect="classic"><strong>Classic detail</strong><small>Clean restoration base</small></button>
-                    <button type="button" data-effect="glitch"><strong>RGB glitch</strong><small>Channel split + signal tears</small></button>
-                    <button type="button" data-effect="dispersion"><strong>Pixel dispersion</strong><small>Directional sensor breakup</small></button>
-                    <button type="button" data-effect="neonNoir"><strong>Neon noir</strong><small>Cyan / magenta night grade</small></button>
-                  </div>
-                  <div class="control-grid effect-controls">
-                    <label>Effect intensity<input id="effectIntensityControl" type="range" min="0" max="1" step="0.01" value="0.68" /></label>
-                    <label>Direction / offset<input id="effectDirectionControl" type="range" min="-1" max="1" step="0.01" value="0.45" /></label>
-                  </div>
-                </div>
-                <div class="control-grid">
-                  <label data-search-label="Prism split">Prism split<input id="aberrationControl" type="range" min="0" max="5" step="0.25" value="1.25" /></label>
-                  <label data-search-label="Sensor dust">Sensor dust<input id="dustControl" type="range" min="0" max="0.12" step="0.005" value="0.018" /></label>
-                </div>
-
-                <p class="category-panel-title">Glitch &amp; Fracture</p>
-
-                <details class="tool-section effect-card" data-effect-key="fracture">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="fracture"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Prism Shatter">Digital Fracture / Prism Shatter</strong>
-                      <small>Channel split + displacement cracks</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="fracture" aria-label="Favorite Digital Fracture / Prism Shatter" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="fractureEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Intensity<input id="fractureIntensity" type="range" min="0" max="1" step="0.01" value="0.4" /></label>
-                    <label>Complexity<input id="fractureComplexity" type="range" min="0" max="1" step="0.01" value="0.5" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="chromaBoost">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="chromaBoost"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Chromatic Bloom">Chromatic Aberration (enhanced)</strong>
-                      <small>Extra radial color fringe</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="chromaBoost" aria-label="Favorite Chromatic Aberration (enhanced)" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="chromaBoostEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Strength<input id="chromaBoostStrength" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
-                  </div>
-                  <label class="toggle-line"><input id="chromaBoostFlicker" type="checkbox" /> Flicker on remix</label>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="tear">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="tear"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Signal Tear">Signal Tear / Datamosh</strong>
-                      <small>Blocky compression glitches</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="tear" aria-label="Favorite Signal Tear / Datamosh" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="tearEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Intensity<input id="tearIntensity" type="range" min="0" max="1" step="0.01" value="0.4" /></label>
-                    <label>Block size<input id="tearBlock" type="range" min="2" max="24" step="1" value="8" /></label>
-                  </div>
-                </details>
-
-                <details class="tool-section effect-card" data-effect-key="spectral">
-                  <summary>
-                    <span class="effect-card-thumb"><canvas width="56" height="56" data-thumb-for="spectral"></canvas></span>
-                    <span class="effect-card-copy">
-                      <strong data-search-label="Spectral Shift">Spectral Shift</strong>
-                      <small>RGB channel offset with bleed</small>
-                    </span>
-                    <button type="button" class="effect-card-star" data-favorite-key="spectral" aria-label="Favorite Spectral Shift" aria-pressed="false">★</button>
-                  </summary>
-                  <label class="toggle-line"><input id="spectralEnable" type="checkbox" class="effect-enable" /> Enable</label>
-                  <div class="control-grid">
-                    <label>Amount<input id="spectralAmount" type="range" min="0" max="1" step="0.01" value="0.35" /></label>
-                    <label>Bleed<input id="spectralBleed" type="range" min="0.5" max="8" step="0.5" value="2" /></label>
-                    <label>Angle<input id="spectralAngle" type="range" min="0" max="360" step="1" value="0" /></label>
-                  </div>
-                </details>
-              </div>
-
-              <div data-category="color" hidden>
-                <p class="category-panel-title">Color &amp; Tone</p>
-                <div class="control-grid">
-                  <label data-search-label="Cyan shadow">Cyan shadow<input id="cyanControl" type="range" min="0" max="0.16" step="0.005" value="0.075" /></label>
-                </div>
-                <p class="category-empty-state">Full HSL, curves, levels, and white balance land with the Color &amp; Tone update.</p>
-              </div>
-
-              <div data-category="export" hidden>
-                <p class="category-panel-title">Export</p>
-                <p class="category-empty-state">PNG/WEBP export, a quality slider, and a metadata toggle land with the Export update. JPEG export works today from the buttons above the canvas.</p>
-                <details class="export-optional">
-                  <summary>Compare four versions</summary>
-                  <div class="contact-sheet-tool">
-                    <div><strong>Compare four versions</strong><small>No sheet space is reserved until you make one.</small></div>
-                    <button id="contactSheetButton" type="button" aria-expanded="false" aria-controls="contactSheetCanvas">Make 4-sheet</button>
-                  </div>
-                  <canvas id="contactSheetCanvas" width="880" height="1200" hidden></canvas>
-                </details>
-                <details class="export-optional">
-                  <summary>Diagnostics</summary>
-                  <div class="signature-panel" aria-live="polite">
-                    <div>
-                      <span class="eyebrow">Automated image comparison</span>
-                      <strong id="signatureVerdict">Waiting for render…</strong>
-                    </div>
-                    <ul id="signatureReport"></ul>
-                  </div>
-                </details>
-              </div>
-            </div>
-          </div>
-
-          <div class="feature-ask" id="featureAsk" hidden>
-            <div><strong>Hang this on the public wall?</strong><small>Your edited image is checked first, then posted publicly. No sign-in needed.</small></div>
-            <div><button id="featureYes" type="button">Approve &amp; hang</button><button id="featureNo" type="button">Keep private</button></div>
-          </div>
-        </div>
-      </section>
-
-      <section class="rarities section-shell" aria-labelledby="raritiesTitle">
-        <p class="eyebrow">Labor-intensive effects, made immediate</p>
-        <h2 id="raritiesTitle">Artifacts that usually take hours to build by hand.</h2>
-        <div class="rarity-grid">
-          <article><span>01 / PRISM</span><h3>Radial channel separation</h3><p>Red and blue channels diverge progressively toward the lens edge instead of using a cheap global offset.</p></article>
-          <article><span>02 / FIELD</span><h3>Deterministic sensor scars</h3><p>Seeded dust, periodic scan fields, and high-frequency damage remain repeatable for real visual regression.</p></article>
-          <article><span>03 / HEAT</span><h3>Spatial light contamination</h3><p>A shaped orange-red leak reacts across the frame while keeping the reference pipeline underneath intact.</p></article>
-          <article><span>04 / SHEET</span><h3>Instant art-direction contact sheet</h3><p>Render four complete recipes from one source, then compare treatment families without rebuilding them manually.</p></article>
-        </div>
-      </section>
-
-      <section class="pipeline section-shell" id="pipeline">
-        <p class="eyebrow">Exact processing order</p>
-        <h2>The mechanism of the photon engine</h2>
-        <ol class="pipeline-list">
-          <li><span>Crop</span>Center crop to a 3:4 vertical frame.</li>
-          <li><span>Resolve</span>Downscale to a low internal canvas for cheap sensor detail.</li>
-          <li><span>Tone</span>Exposure, black point, white point, gamma, and S-curve.</li>
-          <li><span>Color</span>Cool matrix, cyan shadows, hue-selective remapping.</li>
-          <li><span>Optics</span>Subtle bloom, vignette, radial prism split, and spatial heat leak.</li>
-          <li><span>Damage</span>Noise cancellation, controllable unsharp mask, RGB/luma grain, Bayer dither, scan field, sensor dust, and JPEG export.</li>
-          <li><span>Metadata</span>Hard white two-line monospaced timestamp with black edge.</li>
-        </ol>
-      </section>
-    </main>
-
-    <footer class="site-footer">
-      <p>Alam’s Dump — locally restoring and styling photos since 2026.</p>
-      <a href="#top">Back to top</a>
-    </footer>
-
-    <dialog class="notice-dialog" id="noticeDialog" aria-labelledby="noticeTitle">
-      <div class="notice-dialog-card">
-        <p class="eyebrow">A gentle heads-up</p>
-        <h2 id="noticeTitle">Notice from Alam’s Dump</h2>
-        <p id="noticeMessage"></p>
-        <button id="noticeDismiss" type="button">I understand</button>
       </div>
-    </dialog>
+    </section>
 
-    <dialog class="notice-dialog" id="warningDialog" aria-labelledby="warningTitle">
-      <form class="notice-dialog-card warning-form" id="warningForm" method="dialog">
-        <p class="eyebrow">Moderation note</p>
-        <h2 id="warningTitle">Warn uploader or visitor</h2>
-        <label for="warningMessage">Message</label>
-        <textarea id="warningMessage" rows="5" maxlength="500" required>Your upload was removed because it may not follow the wall rules. Please keep Alam’s Dump safe and public-friendly.</textarea>
-        <p class="admin-feedback" id="warningFeedback" role="status"></p>
-        <div class="dialog-actions">
-          <button type="button" data-warning-cancel>Cancel</button>
-          <button type="submit">Send warning</button>
+    <!-- ═══════════════════════════════════════
+         SEQUENCE 05 — CONTACT
+    ═══════════════════════════════════════ -->
+    <section id="contact" aria-labelledby="contact-heading">
+      <div class="contact-stage">
+        <div class="contact-header" data-cinematic>
+          <div class="section-meta">
+            <span class="section-index" aria-hidden="true">05</span>
+            <span class="section-rule" aria-hidden="true"></span>
+            <span class="section-label">Contact</span>
+          </div>
+          <h2 id="contact-heading" class="contact-headline">
+            Open to<br><em>collaborations</em>
+          </h2>
+          <p class="contact-sub" data-cinematic>Frontend product experiences, visual systems, and experimental digital direction.</p>
         </div>
-      </form>
-    </dialog>
+        <nav class="contact-links" aria-label="Contact links" data-cinematic>
+          <a href="mailto:alfar4864@gmail.com" class="contact-link">
+            <span><small>Email</small><strong>alfar4864@gmail.com</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://instagram.com/nmethylpyrrolinium" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <span><small>Instagram · primary</small><strong>@nmethylpyrrolinium</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://instagram.com/nmethylblaugrana" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <span><small>Instagram · football</small><strong>@nmethylblaugrana</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
+          </a>
+          <a href="https://github.com/nmethylpyrrolinium" class="contact-link" rel="noopener noreferrer" target="_blank">
+            <span><small>Code</small><strong>GitHub / nmethylpyrrolinium</strong></span><span class="contact-link-arrow" aria-hidden="true">↗</span>
+          </a>
+        </nav>
+        <div class="archive-unlock" id="archive-unlock" aria-live="polite">
+          <span class="archive-unlock-dot" aria-hidden="true"></span>
+          <span class="archive-unlock-copy"><b>Direct transmission sealed</b><small>Recover 3 artifacts to stabilize the archive.</small></span>
+        </div>
+        <p class="contact-filed" aria-label="Location and update frequency">Filed in Archive / NM · Selected work only</p>
+      </div>
+    </section>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="app.js" defer></script>
-    <script src="layout.js" defer></script>
-    <script src="effects-v2.js" defer></script>
-    <script src="cards-v2.js" defer></script>
-  </body>
-</html>
+  </main>
+
+  <footer aria-label="Site footer">
+    <p class="footer-copy">© 2026 Archive / NM · nmethylpyrrolinium</p>
+    <p class="footer-note" aria-hidden="true">A selected-work archive where code behaves like cinema.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+  </html>
