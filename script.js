@@ -273,6 +273,79 @@ const lockLine = document.querySelector('.lock-line');
 const cursor = document.querySelector('.gravity-cursor');
 const rig = document.querySelector('.cinematic-rig');
 
+// ── PHASE 2 — LIVE SIGNAL ──────────────────────────────────
+// Polls the arpeggios-api backend and rotates results through a
+// single quiet line beside the clock. GitHub every 30 min (cheap,
+// free-tier friendly). Last.fm every 5 min — "currently listening"
+// only means something if it's actually current. Clash Royale
+// every 2 hours — trophy counts rarely need urgency.
+const API_BASE = 'https://arpeggios-api.vercel.app';
+const navSignal = document.getElementById('nav-signal');
+let signalQueue = [];
+let signalIndex = 0;
+
+function timeAgo(iso) {
+  const diffMin = Math.round((Date.now() - new Date(iso).getTime()) / 60000);
+  if (diffMin < 1) return 'just now';
+  if (diffMin < 60) return `${diffMin}m ago`;
+  const diffHr = Math.round(diffMin / 60);
+  if (diffHr < 24) return `${diffHr}h ago`;
+  return `${Math.round(diffHr / 24)}d ago`;
+}
+
+function setSignalSlot(key, text) {
+  signalQueue = signalQueue.filter(item => item.key !== key);
+  if (text) signalQueue.push({ key, text });
+}
+
+function showNextSignal() {
+  if (!navSignal || signalQueue.length === 0) {
+    navSignal?.classList.remove('visible');
+    return;
+  }
+  signalIndex = (signalIndex + 1) % signalQueue.length;
+  navSignal.classList.remove('visible');
+  setTimeout(() => {
+    navSignal.textContent = signalQueue[signalIndex].text;
+    navSignal.classList.add('visible');
+  }, 250);
+}
+
+async function fetchGithubSignal() {
+  try {
+    const res = await fetch(`${API_BASE}/api/github`);
+    const data = await res.json();
+    const latest = data.commits?.[0];
+    setSignalSlot('github', latest ? `${latest.repo} · ${timeAgo(latest.timestamp)}` : null);
+  } catch (_) { setSignalSlot('github', null); }
+}
+
+async function fetchLastfmSignal() {
+  try {
+    const res = await fetch(`${API_BASE}/api/lastfm`);
+    const data = await res.json();
+    setSignalSlot('lastfm', data.playing && data.track
+      ? `Listening — ${data.track.name} · ${data.track.artist}`
+      : null);
+  } catch (_) { setSignalSlot('lastfm', null); }
+}
+
+async function fetchClashSignal() {
+  try {
+    const res = await fetch(`${API_BASE}/api/clashroyale`);
+    const data = await res.json();
+    setSignalSlot('clash', data.player ? `${data.player.trophies} trophies · ${data.player.arena}` : null);
+  } catch (_) { setSignalSlot('clash', null); }
+}
+
+fetchGithubSignal();
+fetchLastfmSignal();
+fetchClashSignal();
+setInterval(fetchGithubSignal, 30 * 60 * 1000);
+setInterval(fetchLastfmSignal, 5 * 60 * 1000);
+setInterval(fetchClashSignal, 2 * 60 * 60 * 1000);
+setInterval(showNextSignal, 6000);
+
 // ── CROSS-PAGE MORPH TRANSITIONS (VIEW TRANSITIONS API) ───
 // Pairs each homepage project frame with its case-study hero image
 // so browsers that support the View Transitions API morph the
@@ -368,8 +441,8 @@ function orbit(ms = 0) {
   }
   if (rig && !reduce) {
     const idle = performance.now() - lastInputTime > 10000;
-    const camX = idle ? Math.sin(ms * .00012) * .4 : (mobile ? tiltX : (pointerX / innerWidth - .5) * 2);
-    const camY = idle ? Math.cos(ms * .00009) * .25 : (mobile ? tiltY : (pointerY / innerHeight - .5) * 2);
+    const camX = idle ? Math.sin(ms * .00012) * .75 : (mobile ? tiltX : (pointerX / innerWidth - .5) * 2);
+    const camY = idle ? Math.cos(ms * .00009) * .5 : (mobile ? tiltY : (pointerY / innerHeight - .5) * 2);
     rig.style.setProperty('--cam-x', camX.toFixed(3));
     rig.style.setProperty('--cam-y', camY.toFixed(3));
   }
