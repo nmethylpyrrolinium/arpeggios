@@ -1301,7 +1301,7 @@ body::after {
   padding: 1.1rem 0;
   background: none; border: none; cursor: pointer;
   text-align: left; font-family: var(--sans);
-  min-height: 44px;
+  min-height: 44px; min-width: 0;
 }
 .cat-thumb {
   flex: 0 0 44px; width: 44px; height: 44px; border-radius: 4px;
@@ -1319,11 +1319,11 @@ body::after {
 
 .cat-title {
   flex: 1 1 auto; min-width: 0;
-  font-size: var(--text-md); font-weight: 600; color: var(--ink-2);
+  font-size: var(--text-md); font-weight: 700; color: var(--ink);
   overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
 }
 .cat-year {
-  flex: 0 0 auto; font-size: var(--text-sm); color: var(--ink-4);
+  flex: 0 0 auto; font-size: var(--text-sm); color: var(--ink-3);
   font-variant-numeric: tabular-nums;
 }
 .cat-chevron {
@@ -1404,12 +1404,32 @@ body::after {
   margin-inline: auto;
 }
 
+.cat-subhead {
+  margin-top: 1.1rem; margin-bottom: .4rem;
+  font-size: var(--text-xs); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--ink-4);
+}
+.cat-top-artist { color: var(--ink); font-weight: 600; }
+
+.deck-grid {
+  display: grid; grid-template-columns: repeat(8, 1fr); gap: .5rem;
+  margin: .8rem 0;
+}
+.deck-card {
+  width: 100%; aspect-ratio: 3/3.6; border-radius: 4px;
+  background: var(--bg-warm); object-fit: cover;
+}
+@media (max-width: 640px) {
+  .deck-grid { grid-template-columns: repeat(4, 1fr); }
+}
+
+.battle-won .t-time { color: #4a9d6f; }
+.battle-lost { opacity: .75; }
+
 @media (prefers-reduced-motion: reduce) {
-  .now-playing.playing .now-playing-ring,
-  .clash-transmission.active .clash-crown,
-  .transmission-icon,
-  .transmission-log li,
-  .ping-alam.pinged .ping-alam-ripple {
+  .ping-alam.pinged .ping-alam-ripple,
+  .cat-detail {
     animation: none;
+    transition: none;
   }
 }
