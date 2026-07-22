@@ -310,8 +310,8 @@ document.querySelectorAll('.cat-row-head').forEach(btn => {
 
 // ── PHASE 4 — LIVE TRANSMISSIONS (CATALOGUE) ───────────────
 // Populates the three rows in the "transmissions" catalogue table,
-// directly below the hero. GitHub every 30 min, Last.fm every 5
-// min (only meaningful if current), Clash Royale every 2 hours.
+// directly below the hero. Last.fm polls every 15s (near-live).
+// GitHub every 30 min. Clash Royale every 2 hours.
 const API_BASE = 'https://arpeggios-api.vercel.app';
 
 function timeAgo(iso) {
@@ -336,27 +336,46 @@ async function fetchLastfmRow() {
   const art = document.getElementById('lastfm-art');
   const detailTrack = document.getElementById('lastfm-detail-track');
   const recentList = document.getElementById('lastfm-recent');
+  const topList = document.getElementById('lastfm-top');
   if (!title) return;
   try {
     const res = await fetch(`${API_BASE}/api/lastfm`);
     const data = await res.json();
+    if (!res.ok) {
+      console.error('[lastfm]', data.error, data.debug);
+      title.textContent = 'Signal unavailable';
+      meta.textContent = '—';
+      return;
+    }
     if (!data.playing || !data.track) {
       title.textContent = 'Nothing playing right now';
       meta.textContent = '—';
-      thumb.classList.remove('is-live');
-      return;
+      thumb?.classList.remove('is-live');
+    } else {
+      title.textContent = `${data.track.name} — ${data.track.artist}`;
+      meta.textContent = 'Now playing';
+      thumb?.classList.add('is-live');
+      if (art) art.style.backgroundImage = data.track.albumArt ? `url(${data.track.albumArt})` : 'none';
+      if (detailTrack) detailTrack.textContent = `${data.track.name} by ${data.track.artist}${data.track.album ? ' · ' + data.track.album : ''}`;
     }
-    title.textContent = `${data.track.name} — ${data.track.artist}`;
-    meta.textContent = 'Now playing';
-    thumb.classList.add('is-live');
-    if (art) art.style.backgroundImage = data.track.albumArt ? `url(${data.track.albumArt})` : 'none';
-    if (detailTrack) detailTrack.textContent = `${data.track.name} by ${data.track.artist}${data.track.album ? ' · ' + data.track.album : ''}`;
     if (recentList) {
-      recentList.innerHTML = (data.recent || []).slice(0, 4).map(track =>
+      recentList.innerHTML = (data.recent || []).slice(0, 5).map(track =>
         `<li>${escapeHtml(track.name)} — ${escapeHtml(track.artist)}</li>`
-      ).join('');
+      ).join('') || '<li>No recent scrobbles yet</li>';
     }
-  } catch (_) { title.textContent = 'Signal unavailable'; meta.textContent = '—'; }
+    if (topList) {
+      const artistLine = data.topArtist
+        ? `<li class="cat-top-artist"><span class="t-repo">Top artist</span> ${escapeHtml(data.topArtist.name)} · ${data.topArtist.playcount} plays this week</li>`
+        : '';
+      const trackLines = (data.topTracks || []).map(track =>
+        `<li>${escapeHtml(track.name)} — ${escapeHtml(track.artist)} <span class="t-time">${track.playcount}×</span></li>`
+      ).join('');
+      topList.innerHTML = artistLine + trackLines || '<li>No weekly data yet</li>';
+    }
+  } catch (error) {
+    console.error('[lastfm] fetch failed', error);
+    title.textContent = 'Signal unavailable'; meta.textContent = '—';
+  }
 }
 
 async function fetchGithubRow() {
@@ -367,10 +386,18 @@ async function fetchGithubRow() {
   try {
     const res = await fetch(`${API_BASE}/api/github`);
     const data = await res.json();
-    const commits = (data.commits || []).slice(0, 4);
-    if (commits.length === 0) {
-      title.textContent = 'No recent commits';
+    if (!res.ok) {
+      console.error('[github]', data.error, data.debug);
+      title.textContent = 'Signal unavailable';
       meta.textContent = '—';
+      return;
+    }
+    const commits = (data.commits || []).slice(0, 5);
+    if (commits.length === 0) {
+      console.warn('[github] no commits found —', data.debug?.note);
+      title.textContent = 'No recent public commits';
+      meta.textContent = '—';
+      if (recentList) recentList.innerHTML = '<li>Nothing in the last 90 days on public repos</li>';
       return;
     }
     const latest = commits[0];
@@ -381,7 +408,10 @@ async function fetchGithubRow() {
         `<li><span class="t-repo">${escapeHtml(commit.repo)}</span> ${escapeHtml(commit.message.split('\n')[0].slice(0, 48))} <span class="t-time">${timeAgo(commit.timestamp)}</span></li>`
       ).join('');
     }
-  } catch (_) { title.textContent = 'Signal unavailable'; meta.textContent = '—'; }
+  } catch (error) {
+    console.error('[github] fetch failed', error);
+    title.textContent = 'Signal unavailable'; meta.textContent = '—';
+  }
 }
 
 async function fetchClashRow() {
@@ -389,12 +419,14 @@ async function fetchClashRow() {
   const meta = document.getElementById('clash-meta');
   const detailStats = document.getElementById('clash-detail-stats');
   const recentList = document.getElementById('clash-recent');
+  const deckGrid = document.getElementById('clash-deck');
   const rowEl = document.getElementById('live-clash');
   if (!title) return;
   try {
     const res = await fetch(`${API_BASE}/api/clashroyale`);
     const data = await res.json();
-    if (!data.player) {
+    if (!res.ok) {
+      console.error('[clashroyale]', data.error, data.debug);
       title.textContent = 'Arena signal unavailable';
       meta.textContent = '—';
       return;
@@ -403,20 +435,31 @@ async function fetchClashRow() {
     meta.textContent = `Level ${data.player.level}`;
     rowEl?.classList.add('is-live');
     if (detailStats) detailStats.textContent = `${data.player.wins} wins · ${data.player.losses} losses · Best: ${data.player.bestTrophies} trophies`;
-    if (recentList) {
-      recentList.innerHTML = (data.recentBattles || []).slice(0, 4).map(battle =>
-        `<li>vs ${escapeHtml(battle.opponent)} — ${battle.crownsFor}:${battle.crownsAgainst} <span class="t-time">${timeAgo(battle.timestamp)}</span></li>`
+    if (deckGrid) {
+      deckGrid.innerHTML = (data.player.deck || []).map(card =>
+        card.iconUrl
+          ? `<img class="deck-card" src="${card.iconUrl}" alt="${escapeHtml(card.name)} (level ${card.level})" loading="lazy">`
+          : ''
       ).join('');
     }
-  } catch (_) { title.textContent = 'Arena signal unavailable'; meta.textContent = '—'; }
+    if (recentList) {
+      recentList.innerHTML = (data.recentBattles || []).slice(0, 4).map(battle =>
+        `<li class="${battle.won ? 'battle-won' : 'battle-lost'}">vs ${escapeHtml(battle.opponent)} — ${battle.crownsFor}:${battle.crownsAgainst} <span class="t-time">${timeAgo(battle.timestamp)}</span></li>`
+      ).join('');
+    }
+  } catch (error) {
+    console.error('[clashroyale] fetch failed', error);
+    title.textContent = 'Arena signal unavailable'; meta.textContent = '—';
+  }
 }
 
 fetchLastfmRow();
 fetchGithubRow();
 fetchClashRow();
 setInterval(fetchGithubRow, 30 * 60 * 1000);
-setInterval(fetchLastfmRow, 5 * 60 * 1000);
+setInterval(fetchLastfmRow, 15 * 1000);
 setInterval(fetchClashRow, 2 * 60 * 60 * 1000);
+
 
 // Ping Alam — a small, honest gesture: no backend inbox exists, so
 // this plays a satisfying ripple/confirmation, then opens your mail
