@@ -1433,3 +1433,19 @@ body::after {
     transition: none;
   }
 }
+
+/* ── HOMEPAGE WORKS ROWS: project mockup images ───────────────
+   Layered over each row's tone gradient. If an image is missing,
+   the gradient and frame label show as before. */
+.cat-detail-preview[class*="tone-"]::before {
+  content: ""; position: absolute; inset: 0; z-index: 2;
+  background-position: center; background-size: cover; background-repeat: no-repeat;
+}
+.cat-detail-preview.tone-echovault::before  { background-image: url("assets/projects/echovault-hero.webp"); }
+.cat-detail-preview.tone-asna::before       { background-image: url("assets/projects/asna-needle-hero.webp"); }
+.cat-detail-preview.tone-ink::before        { background-image: url("assets/projects/ink-of-arabia-hero.webp"); }
+.cat-detail-preview.tone-zyphoria::before   { background-image: url("assets/projects/zyphoria-hero.webp"); }
+.cat-detail-preview.tone-catene::before     { background-image: url("assets/projects/catene-hero.webp"); }
+.cat-detail-preview.tone-archive::before    { background-image: url("assets/projects/archive-hero.webp"); }
+.cat-detail-preview.tone-catene::after      { display: none; }
+.cat-detail-preview[class*="tone-"] .frame-inner { visibility: hidden; }
